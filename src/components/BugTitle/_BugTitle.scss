@@ -1,0 +1,18 @@
+@import '../../styles/variables.scss';
+
+.BugTitle {
+    > input {
+        border-radius: 6px;
+        border: 1px solid $black;
+        width: 850px;
+        height: 32px;
+        font-size: 1rem;
+        padding: 0px 1rem;
+        background-color: $bgGrey;
+
+        &:focus-visible {
+            outline: none;
+            border: 1px solid $black;
+        }    
+    }
+}

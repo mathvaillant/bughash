@@ -1,0 +1,33 @@
+@import '../../styles/variables.scss';
+
+.BugId {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: auto;
+
+    span {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 6px;
+        border: 1px solid $black;
+        height: 32px;
+        font-size: 1rem;
+        background-color: $bgGrey;
+        font-family: 'Secular One', sans-serif;
+        padding-right: 0.5rem;
+
+        > svg {
+            background-color: $black;
+            fill: $white;
+            height: inherit;
+            width: 30px;
+            border-bottom-left-radius: 6px;
+            border-top-left-radius: 6px;
+            padding: 0.4rem;
+            margin-right: .4rem;
+        }
+    }
+}
