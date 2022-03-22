@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes } from "react-router";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Dashboard from "../Dashboard/Dashboard";
 import NewBug from "../NewBug/NewBug";
@@ -10,7 +10,7 @@ import './_App.scss';
 const App: React.FC = () => {
   return (
     <>
-      <Router>
+      <BrowserRouter>
         <Header/>
         <main>
           <Routes>
@@ -18,7 +18,7 @@ const App: React.FC = () => {
             <Route path='/new/:id' element={<NewBug />} />  
           </Routes>
         </main>
-      </Router>
+      </BrowserRouter>
     </>
   );
 }

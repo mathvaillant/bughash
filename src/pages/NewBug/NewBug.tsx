@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from "react-router";
 import BugId from "../../components/BugId/BugId";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Code from "../../components/Code/Code";
@@ -8,11 +9,13 @@ import Upload from "../../components/Upload/Upload";
 import './_NewBug.scss';
 
 const NewBug: React.FC = () => {
+  const params = useParams();
+
   return (
     <div className='NewBug'>
         <div className='NewBug__header'>
           <BugTitle/>
-          <BugId id={'9AHDQW8DQ8F102942'}/>
+            <BugId id={`${params.id}`}/>
           <button type='button'>Save</button>
         </div>
 

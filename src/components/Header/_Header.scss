@@ -2,6 +2,9 @@
 @import '../../styles/variables.scss';
 
 .Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-family: 'Secular One', sans-serif;
     color: $white;
     background-color: $black;
@@ -15,5 +18,20 @@
         text-decoration: none;
         color: inherit;
         font-size: inherit;
+    }
+
+    button {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+        background-color: $greenNewBtn;
+        padding: 0.1rem 0.5rem 0.1rem 0.3rem;
+        border-radius: 4px;
+        color: $white;
+
+        svg {
+            padding: 0.1rem;
+            cursor: pointer;
+        }
     }
 }
