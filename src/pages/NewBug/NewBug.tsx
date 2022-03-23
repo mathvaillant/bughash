@@ -20,19 +20,10 @@ const NewBug: React.FC = () => {
         </div>
 
         <div className='NewBug__content'>
-
-          <div className='NewBug__content__Desc'>
-            <Description />
-          </div>
-          <div className='NewBug__content__Upload'>
-            <Upload /></div>
-          <div className='NewBug__content__Code'>
-            <Code />
-          </div>
-          <div className='NewBug__content__Solution'>
-            <Solution />
-          </div>
-
+          <div><Upload /></div>
+          <div><Description /></div>
+          <div><Code /></div>
+          <div><Solution /></div>
         </div>
     </div>
   )

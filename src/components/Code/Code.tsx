@@ -2,7 +2,9 @@ import React from 'react'
 
 const Code: React.FC = () => {
   return (
-    <div>Code</div>
+    <div className='Code'>
+      Some code package
+    </div>
   )
 }
 

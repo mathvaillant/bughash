@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+@import '../../styles/fonts.scss';
+
+.Upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    > div {
+        > svg {
+            fill: $grey;
+            height: 8rem;
+            width: 8rem;
+        }
+
+        h2 {
+            font-family: 'Fira Sans', sans-serif;
+            font-weight: normal;
+            color: $grey;
+        }
+    }
+}
