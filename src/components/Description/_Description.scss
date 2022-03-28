@@ -3,4 +3,28 @@
 .Description {
     width: 100%;
     height: 100%;
+    overflow: scroll;
+
+    > div:first-child {
+        padding-left: 2rem;
+
+        > .codex-editor {
+
+            .ce-toolbar {
+
+                .ce-toolbar__content {
+
+                    .ce-toolbar__actions, .ce-toolbar__actions--opened {
+                        right: 90%;
+
+                        .ce-settings--opened {
+                            left: 10px;
+                            right: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

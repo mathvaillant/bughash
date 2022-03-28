@@ -1,0 +1,17 @@
+@import '../../styles/variables.scss';
+
+.ZoomSectionButton {
+    position: absolute !important;
+    right: 0px !important;
+    min-width: 0px !important;
+    padding-left: 5px !important;
+    cursor: pointer !important;
+    top: 0px !important;
+
+    > span {
+        margin: 0px !important;
+        > svg {
+            fill: $black;
+        }
+    }
+}

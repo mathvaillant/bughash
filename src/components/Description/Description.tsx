@@ -1,6 +1,7 @@
 import React from 'react'
 import { createReactEditorJS } from "react-editor-js";
 import { EDITOR_JS_TOOLS } from "../../utils/constants.js";
+import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import './_Description.scss';
 
 const ReactEditorJS = createReactEditorJS();
@@ -15,6 +16,7 @@ const Description: React.FC = () => {
           blocks: []
         }}
       />
+      <ZoomSectionButton />
     </div>
   );
 }

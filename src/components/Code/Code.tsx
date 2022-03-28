@@ -1,9 +1,10 @@
 import React from 'react'
+import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 
 const Code: React.FC = () => {
   return (
     <div className='Code'>
-      Some code package
+      <ZoomSectionButton />
     </div>
   )
 }
