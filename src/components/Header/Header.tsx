@@ -17,7 +17,7 @@ const Header: React.FC = () => {
   return (
     <header className='Header'>
       <a href='/'>BugHash</a>
-      <Button type='button' onClick={handleNewDoc}>
+      <Button type='button' onClick={handleNewDoc} id={'new-bug'}>
         <AddBox />
         New
       </Button>
