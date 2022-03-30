@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React from 'react'
 import { useParams } from "react-router";
 import BugId from "../../components/BugId/BugId";
@@ -16,7 +17,7 @@ const NewBug: React.FC = () => {
         <div className='NewBug__header'>
           <BugTitle/>
             <BugId id={`${params.id}`}/>
-          <button type='button'>Save</button>
+          <Button variant='contained' type='button' className='saveButton'>Save</Button>
         </div>
 
         <div className='NewBug__content'>

@@ -1,4 +1,5 @@
-describe("describe", () => {
+/* eslint-disable no-undef */
+describe("App Initialization", () => {
     beforeEach(() => {
         cy.visit('/');
     })
@@ -8,7 +9,7 @@ describe("describe", () => {
     })
 
     it('Allow the button NEW to be clicked and redirects the page', () => {
-        cy.get('#new-bug').click();
+        cy.get("[data-test='new-bug']").click();
         cy.url().should('include', '/new');
         cy.get('.Header').should('exist');
         cy.get('.Upload').should('exist');

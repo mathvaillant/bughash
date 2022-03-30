@@ -4,6 +4,12 @@
     .NewBug__header {
         display: flex;
         padding: 20px;
+
+        .saveButton {
+            margin-left: 20px;
+            padding: 0px;
+            background-color: $black;
+        }
     }
 
     .NewBug__content {
@@ -11,6 +17,7 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        position: relative;
 
         > * {
             display: flex;
@@ -33,6 +40,28 @@
                 border-radius: 10px;
                 box-shadow: 0px 0px 20px 6px rgba(0,0,0,0.06);
                 position: relative;
+                transition: ease 500ms;
+
+                &.zoomSection {
+                    top: 0px;
+                    left: 20px;
+                    position: absolute;
+                    width: calc(100% - 40px);
+                    height: 100%;
+                    z-index: 1;
+                    transition: ease 500ms;
+                    z-index: 2;
+
+                    &.Upload {
+                        background-color: azure;
+                    }
+
+                    &.Description,
+                    &.Code,
+                    &.Solution {
+                        background-color: $white;
+                    }
+                }
             }
         }
     }
