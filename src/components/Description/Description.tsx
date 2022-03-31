@@ -1,19 +1,29 @@
 import classNames from "classnames";
-import React, { useState } from 'react'
+import React, { useCallback } from 'react'
 import { createReactEditorJS } from "react-editor-js";
 import { EDITOR_JS_TOOLS } from "../../utils/constants.js";
+import useEventListener from "../../utils/hooks/useEventListener.js";
+import useToggle from "../../utils/hooks/useToggle";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import './_Description.scss';
 
 const ReactEditorJS = createReactEditorJS();
 
 const Description: React.FC = () => {
-  const [zoomSection, setZoomSection] = useState(false);
+  const [zoomSection, setZoomSection] = useToggle();
 
-  const handleZoomSection = React.useCallback((): void => {setZoomSection(!zoomSection)}, [zoomSection]);
+  const handleClickAway = useCallback((e) => {
+    const shouldUndoZoom = !e.target.closest("[data-zoom-section]");
+
+    if(shouldUndoZoom && zoomSection) {
+      setZoomSection();
+    }
+  }, [setZoomSection, zoomSection]);
+
+  useEventListener('click', handleClickAway);
 
   return (
-    <div className={classNames('Description', {zoomSection: zoomSection})}>
+    <div className={classNames('Description', {zoomSection: zoomSection})} data-zoom-section='toggleClose'>
       <ReactEditorJS
         tools={EDITOR_JS_TOOLS}
         defaultValue={{
@@ -21,7 +31,7 @@ const Description: React.FC = () => {
           blocks: []
         }}
       />
-      <ZoomSectionButton handleZoomSection={handleZoomSection}/>
+      <ZoomSectionButton handleZoomSection={setZoomSection}/>
     </div>
   );
 }

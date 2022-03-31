@@ -5,6 +5,19 @@ $bgGrey: rgba(196, 196, 196, 0.18);
 $green1: #1fea00;
 $green: #27a102;
 $greenNewBtn: #1fea00c2;
+$red: #f84f31;
+
+// Absolute IconButtons 
+.absoluteButton {
+    position: absolute !important;
+    min-width: 0px !important;
+    cursor: pointer !important;
+    z-index: 1 !important;
+
+    > svg {
+        fill: $black;
+    }
+}
 
 
 /// https://www.color-hex.com/color-palette/10080

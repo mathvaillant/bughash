@@ -9,6 +9,16 @@
     cursor: pointer;
     transition: ease-in-out 80ms;
 
+    .Upload__deleteFiles {
+        @extend .absoluteButton;
+        top: 35px;
+        right: 0px;
+        
+        > svg {
+            fill: $black;
+        }
+    }
+
     img {
         border-radius: 10px;
     }

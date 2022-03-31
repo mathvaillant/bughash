@@ -56,7 +56,10 @@
                         background-color: azure;
                     }
 
-                    &.Description,
+                    &.Description {
+                        background-color: floralwhite;
+                    }
+
                     &.Code,
                     &.Solution {
                         background-color: $white;
