@@ -1,0 +1,51 @@
+@import '../../styles/fonts.scss';
+@import '../../styles/variables.scss';
+
+$sidebarBgColor: #ececec;
+
+.SideMenu {
+    z-index: 99;
+    background-color: $sidebarBgColor;
+    border-top: 1px solid $borderColor;
+    border-right: 1px solid $borderColor;
+    position: absolute;
+    height: calc(100vh - 45px);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    transition: linear 100ms;
+
+    &.open {
+        width: 50px;
+    }
+
+    &.closed {
+        width: 20vw;
+    }
+
+    .MuiButtonBase-root {
+        
+        &.Sidebar__expandButton {
+            margin: 1rem -35px 2rem 0rem;
+            background-color: $purple;
+
+            .MuiSvgIcon-root {
+                fill: $white;
+            }
+
+            &:hover {
+                background-color: lighten($purple, 5%);
+            }
+        }
+
+
+        margin: 0.2rem 0px;
+        &:hover {
+            background-color: #e4e4e421;
+        }
+        .MuiSvgIcon-root {
+            fill: $black;
+        }
+    }
+}
