@@ -4,7 +4,11 @@ import useEventListener from "../../utils/hooks/useEventListener.js";
 import useToggle from "../../utils/hooks/useToggle";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 
-const Solution: React.FC = () => {
+interface SolutionProps {
+  bugId: string | undefined
+}
+
+const Solution: React.FC<SolutionProps> = ({ bugId }) => {
   const [zoomSection, setZoomSection] = useToggle();
 
   const handleClickAway = useCallback((e) => {

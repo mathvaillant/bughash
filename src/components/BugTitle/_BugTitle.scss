@@ -3,16 +3,17 @@
 .BugTitle {
     > input {
         border-radius: 6px;
-        border: 1px solid $black;
+        border: 1px solid transparent;
         width: 550px;
         height: 32px;
         font-size: 1rem;
         padding: 0px 1rem;
         background-color: $bgGrey;
 
-        &:focus-visible {
+        &:focus-visible,
+        &:hover {
             outline: none;
-            border: 1px solid $black;
+            border: 1px solid $grey;
         }    
     }
 }

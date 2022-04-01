@@ -21,16 +21,16 @@
     }
 
     button {
+        @extend .ButtonDefault;
         display: flex;
         align-items: center;
-        font-size: 15px;
+        border: 1px solid $white;
         background-color: $greenNewBtn;
         padding: 0.1rem 0.5rem 0.1rem 0.3rem;
-        border-radius: 4px;
         color: $white;
 
         svg {
-            padding: 0.1rem;
+            padding: 0.25rem;
             cursor: pointer;
         }
     }

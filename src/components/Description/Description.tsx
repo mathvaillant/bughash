@@ -7,9 +7,13 @@ import useToggle from "../../utils/hooks/useToggle";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import './_Description.scss';
 
+interface DescritionProps  {
+  bugId: string | undefined
+}
+
 const ReactEditorJS = createReactEditorJS();
 
-const Description: React.FC = () => {
+const Description: React.FC<DescritionProps> = ({ bugId }) => {
   const [zoomSection, setZoomSection] = useToggle();
 
   const handleClickAway = useCallback((e) => {
@@ -23,7 +27,7 @@ const Description: React.FC = () => {
   useEventListener('click', handleClickAway);
 
   return (
-    <div className={classNames('Description', {zoomSection: zoomSection})} data-zoom-section='toggleClose'>
+    <div className={classNames('Description', {zoomSection: zoomSection})} data-zoom-section='toggleClose' data-test='Description-section'>
       <ReactEditorJS
         tools={EDITOR_JS_TOOLS}
         defaultValue={{

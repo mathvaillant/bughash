@@ -6,9 +6,12 @@
         padding: 20px;
 
         .saveButton {
+            @extend .ButtonDefault;
             margin-left: 20px;
-            padding: 0px;
-            background-color: $black;
+
+            &:hover {
+                background-color:$greenBg;
+            }
         }
     }
 

@@ -8,7 +8,11 @@ import useToggle from '../../utils/hooks/useToggle';
 import { CircularProgress, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
-const Upload: React.FC = () => {
+interface UploadProps {
+  bugId: string | undefined
+}
+
+const Upload: React.FC<UploadProps> = ({ bugId }) => {
   const [content, setContent] = useState<{datablob: string, type: string} | null | undefined>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomSection, setZoomSection] = useToggle();

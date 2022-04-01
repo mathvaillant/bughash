@@ -1,10 +1,14 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import classNames from "classnames";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import useToggle from "../../utils/hooks/useToggle";
 import useEventListener from "../../utils/hooks/useEventListener.js";
 
-const Code: React.FC = () => {
+interface CodeProps {
+  bugId: string | undefined
+}
+
+const Code: React.FC<CodeProps> = ({ bugId }) => {
   const [zoomSection, setZoomSection] = useToggle();
 
   const handleClickAway = useCallback((e) => {
