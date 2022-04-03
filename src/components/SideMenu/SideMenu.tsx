@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { IconButton } from "@mui/material";
 import classNames from "classnames";
-import PermMediaIcon from '@mui/icons-material/PermMedia';
+import VideoFileIcon from '@mui/icons-material/VideoFile';
 import Open from '@mui/icons-material/KeyboardArrowRight';
 import Close from '@mui/icons-material/KeyboardArrowLeft';
 import useEventListener from "../../utils/hooks/useEventListener.js";
@@ -29,7 +29,7 @@ const SideMenu: React.FC = () => {
         !expanded ? <Open /> : <Close />
       }
       </IconButton>
-      <IconButton><PermMediaIcon /></IconButton>
+      <IconButton><VideoFileIcon /></IconButton>
       <IconButton><CodeIcon /></IconButton>
     </div>
   )
