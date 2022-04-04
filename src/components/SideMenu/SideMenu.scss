@@ -5,7 +5,7 @@ $sidebarBgColor: #ececec;
 
 .SideMenu {
     z-index: 99;
-    background-color: $sidebarBgColor;
+    background-color: $white;
     border-top: 1px solid $borderColor;
     border-right: 1px solid $borderColor;
     position: absolute;
@@ -15,6 +15,7 @@ $sidebarBgColor: #ececec;
     justify-content: start;
     align-items: center;
     transition: linear 100ms;
+    box-shadow: $lightBoxShadow;
 
     &.open {
         width: 50px;
@@ -25,17 +26,24 @@ $sidebarBgColor: #ececec;
     }
 
     .MuiButtonBase-root {
+
+        &:nth-child(2) {
+            margin-top: 5rem;
+        }
         
         &.Sidebar__expandButton {
-            margin: 1rem -35px 2rem 0rem;
-            background-color: $purple;
+            position: absolute;
+            top: 1rem;
+            right: -15px;
+            background-color: $black;
+            box-shadow: $defaultBoxShadow;
 
             .MuiSvgIcon-root {
                 fill: $white;
             }
 
             &:hover {
-                background-color: lighten($purple, 5%);
+                background-color: lighten($black, 5%);
             }
         }
 

@@ -29,7 +29,6 @@ const SideMenu: React.FC = () => {
         !expanded ? <Open /> : <Close />
       }
       </IconButton>
-      <IconButton><VideoFileIcon /></IconButton>
       <IconButton><CodeIcon /></IconButton>
     </div>
   )

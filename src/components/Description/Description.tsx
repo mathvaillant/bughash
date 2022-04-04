@@ -31,8 +31,15 @@ const Description: React.FC<DescritionProps> = ({ bugId }) => {
       <ReactEditorJS
         tools={EDITOR_JS_TOOLS}
         defaultValue={{
-          time: 1635603431943,
-          blocks: []
+          time: 90284093820,
+          blocks: [{
+            "id" : "As8hJkBOPa",
+            "type" : "header",
+            "data" : {
+                "text" : "Describe here the bug...",
+                "level" : 3
+            }
+        }]
         }}
       />
       <ZoomSectionButton handleZoomSection={setZoomSection}/>

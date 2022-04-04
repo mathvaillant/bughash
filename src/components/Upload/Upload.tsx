@@ -5,15 +5,16 @@ import useEventListener from "../../utils/hooks/useEventListener.js";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import useToggle from '../../utils/hooks/useToggle';
-import { CircularProgress, IconButton } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { CircularProgress } from "@mui/material";
+import { BugFile } from "../../shared/types";
+import FileUploaded from "../FileUploaded/FileUploaded";
 
 interface UploadProps {
   bugId: string | undefined
 }
 
 const Upload: React.FC<UploadProps> = ({ bugId }) => {
-  const [content, setContent] = useState<{datablob: string, type: string} | null | undefined>(null);
+  const [bugFiles, setBugFiles] = useState<BugFile[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomSection, setZoomSection] = useToggle();
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -28,9 +29,7 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
 
   useEventListener('click', handleClickAway);
 
-  const handleRemoveFile = (): void => setContent(null);
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleInsertNewFile = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e?.target?.files?.[0];
 
     if(!file) return;
@@ -45,10 +44,14 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
 
         console.log(file);
 
-        setContent({
-          datablob: result as string,
-          type: file.type as string
-        });
+        setBugFiles([
+          ...bugFiles,
+            {
+            datablob: result as string,
+            type: file.type as string,
+            dateAdded: performance.now() as number
+          }
+        ]);
       })
 
       reader.readAsDataURL(file);
@@ -56,7 +59,7 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
       setIsLoading(false);
     }, 500)
 
-  }, []);
+  }, [bugFiles]);
   
   if(isLoading) {
     return <div className={'Upload'}>
@@ -66,42 +69,33 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
 
   return (
     <div className={classNames('Upload', {zoomSection: zoomSection})} data-zoom-section='toggleClose' aria-label="Click to add file inserted">
+
       <ZoomSectionButton handleZoomSection={setZoomSection}/>
-      {content && (
-          <IconButton onClick={handleRemoveFile} className={'Upload__deleteFiles'} color="primary" aria-label="remove file inserted">
-          <Delete />
-        </IconButton>
-      )}
-      <>
-        {!content && (
-          <>
-            <div>
-            <FileUploadIcon />
-            <h2>Upload a video</h2>
-            </div>
-            <input 
-              type="file" 
-              id="uploadFile" 
-              data-test='uploadFile'
-              name="filename" 
-              onChange={handleChange} 
-              ref={inputRef} 
-              data-attr='inputRef' 
-              multiple
-            />
-          </>
+
+        <div className={classNames('Upload__inputDiv', {hasFiles: bugFiles.length})}>
+          <FileUploadIcon />
+          <h2>Upload or Drag and Drop a file</h2>
+
+          <input 
+            type="file" 
+            id="uploadFile" 
+            data-test='uploadFile'
+            name="filename" 
+            onChange={handleInsertNewFile} 
+            ref={inputRef} 
+            data-attr='inputRef' 
+            multiple
+          />
+        </div>
+
+        {!!(bugFiles.length) && (
+          <div className={classNames('Upload__files', {})}>
+            {bugFiles.map(({type, datablob, dateAdded}, index) => {
+              return <FileUploaded key={`${dateAdded}-${index}`} type={type} datablob={datablob} dateAdded={dateAdded}/>
+            })}
+          </div>
         )}
 
-        {content?.type.includes('image') && <img src={content.datablob} width='auto' height='100%'/>}
-
-        {content?.type.includes('video') && (
-          <>
-            <video width="100%" height="100%" controls>
-            <source src={content.datablob} type={content.type} />
-          </video>
-          </>
-        )}
-      </>
     </div>
   )
 }

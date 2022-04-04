@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes } from "react-router";
 import { BrowserRouter, Route } from "react-router-dom";
 import Header from "../../components/Header/Header";
@@ -9,6 +9,12 @@ import './_App.scss';
 
 
 const App: React.FC = () => {
+  useEffect(() => {
+    if(window.location.pathname === '/') {
+      window.location.replace('/dashboard');
+    }
+  }, [])
+
   return (
     <div className='App'>
       <BrowserRouter>
