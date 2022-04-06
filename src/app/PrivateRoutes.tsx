@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from "react-router";
 
 const PrivateRoutes: React.FC = () => {
   const location = useLocation();
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   return isAuthenticated 
   ? <Outlet />
