@@ -47,6 +47,10 @@
         justify-content: center;
         box-shadow: $lightBoxShadow;
 
+        &.dragginOver {
+            background: ghostwhite;
+        }
+
         &.hasFiles {
             height: 40%;
 

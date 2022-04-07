@@ -1,4 +1,4 @@
-import React, { MouseEvent, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import './_Upload.scss';
 import classNames from "classnames";
 import useEventListener from "../../utils/hooks/useEventListener.js";
@@ -15,6 +15,7 @@ interface UploadProps {
 
 const Upload: React.FC<UploadProps> = ({ bugId }) => {
   const [bugFiles, setBugFiles] = useState<BugFile[]>([]);
+  const [dragginOver, setDraggingOver] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomSection, setZoomSection] = useToggle();
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -29,15 +30,12 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
 
   useEventListener('click', handleClickAway);
 
-  const handleOnDrop = (e: any): void => {
-    e.preventDefault();
-
-    const data = e.dataTransfer.getData('text');
-    console.log(data);
+  const handleDragOver = (): void => {
+    setDraggingOver(true);
   };
 
-  const handleDragOver = (e: MouseEvent<HTMLInputElement>): void => {
-    e.preventDefault();
+  const handleDragLeave = (): void => {
+    setDraggingOver(false);
   };
 
   const handleInsertNewFile = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -71,6 +69,11 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
     }, 500)
 
   }, [bugFiles]);
+
+  const handleOnDrop = useCallback((e: any): void => {
+    handleInsertNewFile(e);
+    setDraggingOver(false);
+  }, [handleInsertNewFile]);
   
   if(isLoading) {
     return <div className={'Upload'}>
@@ -83,12 +86,13 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
 
       <ZoomSectionButton handleZoomSection={setZoomSection}/>
 
-        <div className={classNames('Upload__inputDiv', {hasFiles: bugFiles.length})}>
+        <div className={classNames('Upload__inputDiv', {hasFiles: bugFiles.length, dragginOver: dragginOver})}>
           <FileUploadIcon />
           <h2>Upload or Drag and Drop a file</h2>
 
           <input 
             onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
             onDrop={handleOnDrop}
             type="file" 
             id="uploadFile" 

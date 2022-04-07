@@ -12,7 +12,7 @@ $sidebarBgColor: #ececec;
     height: calc(100vh - 45px);
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     transition: linear 100ms;
     box-shadow: $lightBoxShadow;
