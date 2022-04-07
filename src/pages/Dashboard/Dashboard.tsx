@@ -17,17 +17,19 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className='Dashboard'>
-      {!CONTENT && (
-        <img src={emptyState}/>
-      )}
-        
-      <h1>You have no bugs opened at the moment 🥳 </h1>
-      <Button type='button' className='' onClick={handleNewDoc} data-test={'new-bug'}>
-          <AddBox /> New
+    <>
+      <div className='Dashboard'>
+        {!CONTENT && (
+          <img src={emptyState}/>
+        )}
+          
+        <h1>You have no bugs opened at the moment 🥳 </h1>
+        <Button type='button' className='' onClick={handleNewDoc} data-test={'new-bug'}>
+            <AddBox /> New
         </Button>
-    </div>
+      </div>
+    </>
   )
 }
 
-export default Dashboard
+export default Dashboard;

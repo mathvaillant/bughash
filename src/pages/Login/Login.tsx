@@ -4,8 +4,10 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
 import './Login.scss';
+import { useNavigate } from "react-router";
 
 const Login: React.FC = () => {
+  const navigator = useNavigate();
   const [showPassword, setShowPassword] = useToggle();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -13,6 +15,8 @@ const Login: React.FC = () => {
   const onChangeEmail = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => setEmail(value);
 
   const onChangePassword = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => setPassword(value);
+
+  const handleLoginAsGuest = (): void => navigator('/dashboard');
 
   return (
     <div className='Login'>
@@ -59,6 +63,7 @@ const Login: React.FC = () => {
             </FormControl>
 
             <Button type='submit' variant='contained'>Login</Button>
+            <Button type='button' variant='outlined' onClick={handleLoginAsGuest}>Enter as a guest</Button>
           </form>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { MouseEvent, useCallback, useState } from 'react'
 import './_Upload.scss';
 import classNames from "classnames";
 import useEventListener from "../../utils/hooks/useEventListener.js";
@@ -28,6 +28,17 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
   }, [setZoomSection, zoomSection]);
 
   useEventListener('click', handleClickAway);
+
+  const handleOnDrop = (e: any): void => {
+    e.preventDefault();
+
+    const data = e.dataTransfer.getData('text');
+    console.log(data);
+  };
+
+  const handleDragOver = (e: MouseEvent<HTMLInputElement>): void => {
+    e.preventDefault();
+  };
 
   const handleInsertNewFile = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e?.target?.files?.[0];
@@ -77,6 +88,8 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
           <h2>Upload or Drag and Drop a file</h2>
 
           <input 
+            onDragOver={handleDragOver}
+            onDrop={handleOnDrop}
             type="file" 
             id="uploadFile" 
             data-test='uploadFile'

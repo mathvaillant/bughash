@@ -3,10 +3,10 @@ import { Navigate, Outlet, useLocation } from "react-router";
 
 const PrivateRoutes: React.FC = () => {
   const location = useLocation();
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   return isAuthenticated 
-  ? <Outlet />
+  ? <Outlet/>
   : <Navigate to={'/login'} replace state={{ from: location }} />
 }
 
