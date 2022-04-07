@@ -46,6 +46,7 @@
         align-items: center;
         justify-content: center;
         box-shadow: $lightBoxShadow;
+        transition: all 100ms;
 
         &.dragginOver {
             background: ghostwhite;

@@ -25,7 +25,44 @@ $sidebarBgColor: #ececec;
         width: 20vw;
     }
 
+    .UserAvatar {
+        position: absolute;
+        bottom: 1.5rem;
+        cursor: pointer;
+
+        img {
+            border-radius: 50%;
+        }
+
+        &:hover {
+            img {
+                border: 1px solid $black;
+            }
+        }
+    }
+
     .MuiButtonBase-root {
+        margin: 0.2rem 0px;
+        color: $black;
+        font-family: 'Fira Sans', sans-serif;
+        gap: .4rem;
+        display: flex;
+        align-items: center;
+        transition: all 200ms;
+
+        .MuiButton-startIcon{
+            margin: 0rem;
+        }
+
+        &:hover {
+            background-color: $black;
+            color: $white;
+
+            > .MuiSvgIcon-root,
+            .MuiButton-startIcon > .MuiSvgIcon-root {
+                fill: $white;
+            }
+        }
 
         &:nth-child(2) {
             margin-top: 5rem;
@@ -46,12 +83,7 @@ $sidebarBgColor: #ececec;
                 background-color: lighten($black, 5%);
             }
         }
-
-
-        margin: 0.2rem 0px;
-        &:hover {
-            background-color: #e4e4e421;
-        }
+        
         .MuiSvgIcon-root {
             fill: $black;
         }
