@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './_BugTitle.scss';
 
 const BugTitle: React.FC = () => {
-    const [title, setTitle] = useState('New Bug');
+    const [title, setTitle] = useState('Bug Title');
 
     const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const value = e.target.value;

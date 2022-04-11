@@ -16,7 +16,7 @@ const App: React.FC = () => {
         <Header/>
         <SideMenu/>
         <Routes>
-          <Route path='/' element={<PrivateRoutes />}> 
+          <Route path='/' element={<PrivateRoutes />}>
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/new/:id' element={<NewBug />} />  
           </Route>

@@ -13,7 +13,7 @@ const reducer = combineReducers({
 });
 
 const initialState: initialStateProps = {
-    userLogin: {}
+    userLogin: {},
 };
 
 const middleware = [thunk];

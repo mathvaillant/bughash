@@ -1,10 +1,13 @@
 @import '../../styles/variables.scss';
 
 .BugTitle {
+    width: 100%;
+    padding-right: 20px;
+
     > input {
         border-radius: 6px;
         border: 1px solid transparent;
-        width: 550px;
+        width: inherit;
         height: 32px;
         font-size: 1rem;
         padding: 0px 1rem;
