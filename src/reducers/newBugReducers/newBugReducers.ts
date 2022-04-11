@@ -1,17 +1,35 @@
-import { LISTEN_BUG_DESCRIPTION, LISTEN_BUG_DESCRIPTION_FAIL } from "../../actions/newBugActions/types";
+import { OutputData } from "@editorjs/editorjs";
+import { Action, ActionType } from "../../actions/newBugActions/actionTypes";
 
+interface State {
+    bugDescription?: null | {
+        content: OutputData
+        bugId: string
+    }
+    error?: null | string
+}
 
-export const listenBugDescriptionReducer = (state = {}, action: any): any  => {
+const InitialState = {
+    bugDescription: null,
+    error: null,
+}
+
+export const listenBugDescriptionReducer = (state: State = InitialState, action: Action): State  => {
     switch(action.type) {
-        case LISTEN_BUG_DESCRIPTION: 
+        case ActionType.LISTEN_BUG_DESCRIPTION: 
             return {
-                bugDescription: action.payload.content,
-                bugId: action.payload.bugId
+                bugDescription: {
+                    content: action.payload.content,
+                    bugId: action.payload.bugId
+                },
             }
-        case LISTEN_BUG_DESCRIPTION_FAIL: 
+            
+        case ActionType.UNLISTEN_BUG_DESCRIPTION: 
+            return InitialState
+
+        case ActionType.LISTEN_BUG_DESCRIPTION_FAIL: 
             return {
-                bugDescription: null,
-                error: action.payload
+                error: action.error
             }
         default:
             return state;

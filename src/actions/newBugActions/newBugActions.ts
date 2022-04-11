@@ -1,27 +1,30 @@
 import { OutputData } from "@editorjs/editorjs";
 import { Dispatch } from "react";
-import { LISTEN_BUG_DESCRIPTION, LISTEN_BUG_DESCRIPTION_FAIL } from "./types";
+import { Action, ActionType } from "./actionTypes";
 
-export interface IListenBugDescription {
-    type: 'LISTEN_BUG_DESCRIPTION'
-    payload: OutputData
-}
-
-export interface IListenBugDescriptionFail {
-    type: 'LISTEN_BUG_DESCRIPTION_FAIL'
-    error: string
-}
-
-export const listenBugDescription = (data: OutputData) => async (dispatch: Dispatch<IListenBugDescription | IListenBugDescriptionFail>) => {
+export const listenBugDescription = (content: OutputData, bugId: string) => async (dispatch: Dispatch<Action>) => {
     try {
         dispatch({
-            type: LISTEN_BUG_DESCRIPTION,
-            payload: data
+            type: ActionType.LISTEN_BUG_DESCRIPTION,
+            payload: {
+                content,
+                bugId
+            }
         })
     } catch(error) {
         dispatch({
-            type: LISTEN_BUG_DESCRIPTION_FAIL,
+            type: ActionType.LISTEN_BUG_DESCRIPTION_FAIL,
             error: 'Could not initialize the text editor'
         })
     }
+}
+
+export const unlistenBugDescription = () => async (dispatch: Dispatch<Action>) => {
+    dispatch({
+        type: ActionType.UNLISTEN_BUG_DESCRIPTION,
+        payload: {
+            content: null, 
+            bugId: null
+        }
+    });
 }

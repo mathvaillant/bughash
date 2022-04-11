@@ -1,5 +1,5 @@
 import { userLoginReducerTypes } from "../reducers/userReducers/types";
 
-export interface initialStateProps {
+export interface IInitialState {
     userLogin: userLoginReducerTypes,
 }
