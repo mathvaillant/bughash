@@ -8,6 +8,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import NewBug from "../pages/NewBug/NewBug";
 import './App.scss';
 import PrivateRoutes from "./PrivateRoutes";
+import BugList from "../pages/BugList/BugList";
 
 const App: React.FC = () => {
   return (
@@ -18,7 +19,8 @@ const App: React.FC = () => {
         <Routes>
           <Route path='/' element={<PrivateRoutes />}>
             <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/new/:id' element={<NewBug />} />  
+            <Route path='/new/:id' element={<NewBug />} />
+            <Route path='/list' element={<BugList />} />  
           </Route>
           <Route path='/login' element={<Login/>}/>
         </Routes>

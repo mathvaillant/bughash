@@ -1,0 +1,56 @@
+@import '../../styles/variables.scss';
+
+.BugList {
+    margin: 1rem auto 0px;
+    max-width: 900px;
+    max-height: 100%;
+
+    .BugList__filters {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > div {
+            padding: 1rem;
+
+            span {
+                margin: 10px;
+            }   
+        }
+    }
+
+    .BugList__cards {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-height: 85vh;
+        overflow: scroll;
+        padding: 2rem;
+
+        .BugList__inner__card {
+            box-shadow: $lightBoxShadow !important;
+            padding: 1rem;
+        }
+
+        .MuiCardHeader-root {
+        }
+
+        .MuiCardContent-root {
+            padding: 4px 16px;
+
+            > p {
+                padding: 5px 3px;
+                align-items: center;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-height: fit-content;
+                line-height: normal;
+            }
+        }
+
+        .MuiCardActions-root {
+            padding: 4px 16px;
+        }
+    }
+}
