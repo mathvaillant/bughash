@@ -1,0 +1,13 @@
+@import '../styles/variables.scss';
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Secular One', sans-serif;
+}
+
+.App {
+    background-color: $white;
+    height: calc(100vh - 120px);
+}
