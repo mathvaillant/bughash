@@ -1,0 +1,32 @@
+{
+  "name": "bughash",
+  "version": "1.0.0",
+  "description": "This project was developed by [Matheus Vaillant](https://github.com/mathvaillant).",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js -L"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathvaillant/bughash.git"
+  },
+  "author": "Matt Vaillant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mathvaillant/bughash/issues"
+  },
+  "homepage": "https://github.com/mathvaillant/bughash#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^6.3.0",
+    "yarn": "^1.22.18"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
