@@ -14,14 +14,14 @@ const getBugs = asyncHandler(async (req, res) => {
 // @route   POST /bugs
 // @access  Private 
 const createBug = asyncHandler(async (req, res) => {
-    if(!req.body.bugId) {
+    if(!req.body.title) {
         res.status(400);
         throw new Error('Please send the bug with a title')
     }
 
-    const { bugId, title, status } = req.body;
+    const { title, status } = req.body;
 
-    const bug = await Bug.create({ title, status, bugId });
+    const bug = await Bug.create({ title, status });
     
     res.status(200).json(bug) 
 })
@@ -37,9 +37,9 @@ const updateBug = asyncHandler(async (req, res) => {
         throw new Error('Bug not found');
     }
 
-    const updatedGoal = await Bug.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedBug = await Bug.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-    res.status(200).json(updatedGoal);
+    res.status(200).json(updatedBug);
 })
     
 // @desc    Delete bug

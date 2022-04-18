@@ -5,10 +5,6 @@ const bugSchema = mongoose.Schema({
         type: Object,
         required: false /* [true, 'Please add a description.'] */
     },
-    bugId: {
-        type: String,
-        required: true
-    },
     title: {
         type: String,
         required: true,
