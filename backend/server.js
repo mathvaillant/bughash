@@ -14,7 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/bugs', require('./routes/bugsRoutes'))
+app.use('/users', require('./routes/userRoutes'))
 
-app.use(errorHandler); 
+app.use(errorHandler); // to prevent sending 400 raw html pages on errors
 
 app.listen(port, () => console.log(`Server started on PORT:${port}`))

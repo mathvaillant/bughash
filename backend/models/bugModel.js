@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const bugSchema = mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     bugDescription: {
         type: Object,
         required: false /* [true, 'Please add a description.'] */
