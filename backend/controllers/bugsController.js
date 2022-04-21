@@ -5,8 +5,7 @@ const Bug = require('../models/bugModel');
 // @route   GET /bugs
 // @access  Private
 const getBugs = asyncHandler(async (req, res) => {
-    const bugs = await Bug.find(); 
-    
+    const bugs = await Bug.find({ createdBy: req.user.id }); 
     res.status(200).json(bugs)
 })
 
@@ -21,7 +20,11 @@ const createBug = asyncHandler(async (req, res) => {
 
     const { title, status } = req.body;
 
-    const bug = await Bug.create({ title, status });
+    const bug = await Bug.create({ 
+        title,
+        status,
+        createdBy: req.user.id
+    });
     
     res.status(200).json(bug) 
 })
@@ -30,11 +33,25 @@ const createBug = asyncHandler(async (req, res) => {
 // @route   PUT /bugs/:id
 // @access  Private
 const updateBug = asyncHandler(async (req, res) => {
-    const goal = await Bug.findById(req.params.id);
+    const bug = await Bug.findById(req.params.id);
 
-    if(!goal) {
+    if(!bug) {
         res.status(400);
         throw new Error('Bug not found');
+    }
+
+    const user = await User.findById(req.user.id);
+
+    // Check for user
+    if(!user) {
+        res.status(401);
+        throw new Error('User not found');
+    }
+
+    // Check if token gives permissions to the action
+    if(bug.createdBy.toString() !== user.id) {
+        res.status(401);
+        throw new Error('You do not have permissions for this action');
     }
 
     const updatedBug = await Bug.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -52,6 +69,20 @@ const deleteBug = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error('Could not find bug');
     };
+
+    const user = await User.findById(req.user.id);
+
+    // Check for user
+    if(!user) {
+        res.status(401);
+        throw new Error('User not found');
+    }
+
+    // Check if token gives permissions to the action
+    if(bug.createdBy.toString() !== user.id) {
+        res.status(401);
+        throw new Error('You do not have permissions for this action');
+    }
 
     await bugToDelete.remove();
 

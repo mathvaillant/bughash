@@ -8,8 +8,10 @@ const {
     deleteBug 
 } = require('../controllers/bugsController');
 
-router.route('/').get(getBugs).post(createBug);
-router.route('/:id').delete(deleteBug).put(updateBug);
+const { protect } = require('../middleware/authMiddleware');
+
+router.route('/').get(protect, getBugs).post(protect, createBug);
+router.route('/:id').delete(protect, deleteBug).put(protect, updateBug);
 
 /* 
 router.get('/', getBugs)
