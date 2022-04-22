@@ -1,11 +1,11 @@
 import React from 'react'
-import { BugFile } from "../../shared/types";
+import { IBugFile } from "../../shared/types";
 import { Delete, Visibility } from "@mui/icons-material";
 import './FileUploaded.scss';
 import { Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
 
-export const FileUploaded: React.FC<BugFile> = ({ datablob, type, dateAdded }) => {
+export const FileUploaded: React.FC<IBugFile> = ({ datablob, type, dateAdded }) => {
   const [expand, setExpand] = useToggle();
 
   const handleDeleteFile = (): void => {

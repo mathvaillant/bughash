@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useState } from 'react'
-import LoginImg from '../../assets/images/login.jpeg';
+import RegisterImg from '../../assets/images/login.jpeg';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
+import './Register.scss';
 import { useNavigate } from "react-router";
-import './Login.scss';
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const navigator = useNavigate();
   const [showPassword, setShowPassword] = useToggle();
   const [password, setPassword] = useState('');
@@ -16,23 +16,23 @@ const Login: React.FC = () => {
 
   const onChangePassword = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => setPassword(value);
 
-  const handleLoginAsGuest = (): void => navigator('/dashboard');
+  const handleRegisterAsGuest = (): void => navigator('/dashboard');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
   }
 
   return (
-    <div className='Login'>
-        <div className="Login__left">
+    <div className='Register'>
+        <div className="Register__left">
             <div>
               <h2>{'Never forget about crazy bugs anymore.'}</h2>
               <h1>{'Never.'}</h1>
               <h1>{'Anymore.'}</h1>
             </div>
-            <img src={LoginImg} alt="" />
+            <img src={RegisterImg} alt="" />
         </div>
-        <div className="Login__right">
+        <div className="Register__right">
           <form onSubmit={handleSubmit}>
             <h1>BugHash</h1>
 
@@ -66,12 +66,12 @@ const Login: React.FC = () => {
             />
             </FormControl>
 
-            <Button type='submit' variant='contained'>Login</Button>
-            <Button type='button' variant='outlined' onClick={handleLoginAsGuest}>Enter as a guest</Button>
+            <Button type='submit' variant='contained'>Register</Button>
+            <Button type='button' variant='outlined' onClick={handleRegisterAsGuest}>Enter as a guest</Button>
           </form>
         </div>
     </div>
   )
 }
 
-export default Login
+export default Register

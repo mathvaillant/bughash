@@ -5,14 +5,14 @@ import BugId from "../../components/BugId/BugId";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
 import Upload from "../../components/Upload/Upload";
-import { BugFile } from "../../shared/types";
+import { IBugFile } from "../../shared/types";
 import { useTypedSelector } from "../../utils/hooks/useTypeSelector";
 import './_NewBug.scss';
 
 const NewBug: React.FC = () => {
   const params = useParams();
   const [title, setTitle] = useState<string>('Bug Title');
-  const [bugFiles, setBugFiles] = useState<BugFile[]>([]);
+  const [bugFiles, setBugFiles] = useState<IBugFile[]>([]);
   
   const bugDescription = useTypedSelector(state => state.bugDescription);
 
@@ -30,7 +30,7 @@ const NewBug: React.FC = () => {
     console.log(bugData);
   }, [bugDescription, params.id, title, bugFiles]);
 
-  const handleUploadFile = useCallback((data: BugFile[]): void => setBugFiles(data), []);
+  const handleUploadFile = useCallback((data: IBugFile[]): void => setBugFiles(data), []);
 
   return (
     <>

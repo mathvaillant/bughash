@@ -6,13 +6,13 @@ import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import useToggle from '../../utils/hooks/useToggle';
 import { CircularProgress } from "@mui/material";
-import { BugFile } from "../../shared/types";
+import { IBugFile } from "../../shared/types";
 import FileUploaded from "../FileUploaded/FileUploaded";
 
 interface UploadProps {
   bugId: string | undefined
-  currentFiles: BugFile[]
-  handleUploadFile: (data: BugFile[]) => void,
+  currentFiles: IBugFile[]
+  handleUploadFile: (data: IBugFile[]) => void,
 }
 
 const Upload: React.FC<UploadProps> = ({ bugId, currentFiles, handleUploadFile}) => {

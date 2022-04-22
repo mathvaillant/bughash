@@ -1,5 +1,3 @@
-import { userLoginReducerTypes } from "../reducers/userReducers/types";
 
-export interface IInitialState {
-    userLogin: userLoginReducerTypes,
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IInitialState {}

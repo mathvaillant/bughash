@@ -5,12 +5,12 @@ import { IInitialState } from '../app/types';
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import {
-    userLoginReducer
-} from '../reducers/userReducers/userReducers';
+    authReducer
+} from '../reducers/authReducers/authReducers';
 import { listenBugDescriptionReducer } from "../reducers/newBugReducers/newBugReducers";
 
 const reducers = combineReducers({
-    userLogin: userLoginReducer,
+    auth: authReducer,
     bugDescription: listenBugDescriptionReducer,
 });
 
