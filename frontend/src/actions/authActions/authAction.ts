@@ -2,8 +2,8 @@ import { Dispatch } from 'react';
 import authServices from "../../utils/services/authService";
 import { Action, ActionType } from "./actionTypes";
 
-export const auth = (name: string, email: string, password: string) => async (dispatch: Dispatch<Action>) => {
-    try {
+export const register = (name: string | null, email: string, password: string) => async (dispatch: Dispatch<Action>) => {
+    try { 
         dispatch({
             type: ActionType.AUTH_REQUEST,
             payload: {

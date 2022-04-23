@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes } from "react-router";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Header from "./components/Header/Header";
@@ -27,6 +28,8 @@ const App: React.FC = () => {
           <Route path='/register' element={<Register/>}/>
         </Routes>
       </Router>
+
+      <ToastContainer />
     </div>
   );
 }

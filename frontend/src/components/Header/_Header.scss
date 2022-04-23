@@ -4,7 +4,6 @@
 .Header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     font-family: 'Secular One', sans-serif;
     color: $white;
     height: 45px;
@@ -26,10 +25,12 @@
         background-color: $black;
     }
 
-    button {
+    .NewBug {
         @extend .ButtonDefault;
         display: flex;
         align-items: center;
+        max-height: 2rem;
+        margin: 0rem 1rem 0rem auto;
         border: 1px solid $white;
         background-color: $greenNewBtn;
         padding: 0.1rem 0.5rem 0.1rem 0.3rem;

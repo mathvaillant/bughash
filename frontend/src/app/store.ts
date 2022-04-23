@@ -1,6 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { IInitialState } from '../app/types';
 
 import { composeWithDevTools } from "redux-devtools-extension";
 
@@ -14,15 +13,10 @@ const reducers = combineReducers({
     bugDescription: listenBugDescriptionReducer,
 });
 
-const initialState: IInitialState = {
-    userLogin: {},
-};
-
 const middleware = [thunk];
 
 const store = createStore(
     reducers,
-    initialState,
     composeWithDevTools(applyMiddleware(...middleware))
 );
 

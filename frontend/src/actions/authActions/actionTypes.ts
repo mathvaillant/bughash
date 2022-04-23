@@ -12,7 +12,6 @@ export interface IAuthRequest {
     payload: {
         loading: boolean
     }
-
 }
 
 export interface IAuthSuccess {
