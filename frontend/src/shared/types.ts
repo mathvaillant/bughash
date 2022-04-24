@@ -7,13 +7,13 @@ export interface ReduxState {
 export interface AuthState {
     userData: IUser
     loading: boolean
-    error: string | object | null | undefined
+    error: string | null
 }
 
 export interface BugDescription {
     content: OutputData | null
     bugId: string
-    error: string | null
+    error: string
 }
 
 export interface BugIdProps {
@@ -32,7 +32,8 @@ export interface IBugFile {
 
 export interface IUser {
     email: string | null
-    name: string | null
-    password?: string | null | undefined
-    role?: string | null | undefined
+    password?: string | null
+    name?: string | null
+    role?: string | null
+    token?: string | null
 }

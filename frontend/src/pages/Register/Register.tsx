@@ -3,13 +3,12 @@ import RegisterImg from '../../assets/images/login.jpeg';
 import useToggle from "../../utils/hooks/useToggle";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../actions/authActions/authAction";
-import { getAuth, getAuthUserDataEmail, getAuthUserDataName, getAuthUserDataRole } from "../../utils/selectors/auth";
-import { IUser } from "../../shared/types";
+import { getAuth, getAuthUserDataToken } from "../../utils/selectors/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
+import 'react-toastify/dist/ReactToastify.css';
 import './Register.scss';
 
 const Register: React.FC = () => {
@@ -22,9 +21,7 @@ const Register: React.FC = () => {
   const [name, setName] = useState('');
 
   const authState = useSelector(getAuth);
-  const userName = useSelector(getAuthUserDataName);
-  const userEmail = useSelector(getAuthUserDataEmail);
-  const role = useSelector(getAuthUserDataRole);
+  const token = useSelector(getAuthUserDataToken);
 
   const error = authState?.error;
   const loading = authState?.loading;
@@ -34,10 +31,10 @@ const Register: React.FC = () => {
       toast.error(error);
     }
 
-    if(userName && userEmail) {
+    if(token) {
       navigator('/dashboard');
     }
-  }, [error, userName, userEmail, navigator])
+  }, [error, token, navigator])
 
   const onChangeEmail = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => setEmail(value);
 

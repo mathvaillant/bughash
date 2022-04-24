@@ -39,6 +39,10 @@
             box-shadow: $lightBoxShadow;
             padding: 5rem;
 
+            > .MuiCircularProgress-root {
+                margin: auto;
+            }
+
             h1 {
                 margin: auto;
                 font-size: 30px;

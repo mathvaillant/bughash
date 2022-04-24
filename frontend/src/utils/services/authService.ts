@@ -5,18 +5,40 @@ const USERS_API_URL = '/users';
 
 // Register user
 const register = async (userData: IUser): Promise<IUser> => {
-    const response = await axios.post(USERS_API_URL, userData);
+    const { data } = await axios.post(USERS_API_URL, userData);
 
-    if(response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data));
+    if(data) {
+        localStorage.setItem('user', JSON.stringify(data));
     }
 
-    return response.data as IUser;
+    return data as IUser;
 }
+
+// Login User 
+const login = async (userData: IUser): Promise<IUser> => {
+    const { data } = await axios.post(`${USERS_API_URL}/login`, userData);
+
+    if(data) {
+        localStorage.setItem('user', JSON.stringify(data));
+    }
+
+    return data as IUser
+}
+
+// Logout user
+const logout =  async (): Promise<void> => {
+    localStorage.clear();
+
+    return new Promise((resolve) => {
+        resolve();
+    })
+};
 
 // Export all services related to auth
 export const authServices = {
-    register
+    register,
+    logout,
+    login
 }
 
 export default authServices

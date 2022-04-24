@@ -1,45 +1,61 @@
-import { Action, ActionType } from "../../actions/authActions/actionTypes";
+import { ActionLogin, ActionLogout, ActionRegister, ActionType } from "../../actions/authActions/actionTypes";
 import { IUser } from "../../shared/types";
 
 interface State {
     loading?: boolean
     userData?: IUser
-    error?: string | null | undefined | object
+    error?: string | null
 }
 
 const InitialState = {
     userData: {
         name: null,
         email: null,
-        role: null
+        role: null,
+        token: null
     },
     loading: false,
     error: null
 }
 
-export const authReducer = (state: State = InitialState, action: Action): State => {
+export const authReducer = (state: State = InitialState, action: ActionRegister | ActionLogout | ActionLogin): State => {
     switch(action.type) {
-        case ActionType.AUTH_REQUEST: 
+        case ActionType.AUTH_REGISTER_REQUEST: 
             return {
                 loading: true,
             }
 
-        case ActionType.AUTH_SUCCESS: 
+        case ActionType.AUTH_REGISTER_SUCCESS: 
             return {
                 loading: false,
                 userData: action.payload.userData
             }
         
-        case ActionType.AUTH_FAIL: 
+        case ActionType.AUTH_REGISTER_FAIL: 
             return {
                 loading: false,
-                error: action.payload,
+                error: action.payload.error,
             }
         
-        /* case lOGOUT:
+        case ActionType.AUTH_LOGIN_REQUEST:
             return {
-                userInfo: null
-            } */
+                loading: true,
+            }
+
+        case ActionType.AUTH_LOGIN_SUCCESS:
+            return {
+                loading: false,
+                userData: action.payload.userData
+            }
+        
+        case ActionType.AUTH_LOGIN_FAIL:
+            return {
+                loading: false,
+                error: action.payload.error
+            }
+        
+        case ActionType.AUTH_LOGOUT:
+            return InitialState
         default:
             return state;
     }
