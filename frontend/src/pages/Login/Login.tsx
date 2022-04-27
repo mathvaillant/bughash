@@ -39,8 +39,6 @@ const Login: React.FC = () => {
 
   const onChangePassword = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => setPassword(value);
 
-  const handleLoginAsGuest = (): void => navigator('/dashboard');
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(login(email, password));
@@ -95,7 +93,6 @@ const Login: React.FC = () => {
                 </FormControl>
 
                 <Button type='submit' variant='contained'>Login</Button>
-                <Button type='button' variant='outlined' onClick={handleLoginAsGuest}>Enter as a guest</Button>
               </>
             )}
           </form>

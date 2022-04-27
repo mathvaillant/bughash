@@ -10,17 +10,29 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import NewBug from "./pages/NewBug/NewBug";
 import BugList from "./pages/BugList/BugList";
 import './App.scss';
+import ProtectedRoute from "./app/ProtectedRoute";
+import { useSelector } from "react-redux";
+import { getAuthUserDataToken } from "./utils/selectors/auth";
 
 const App: React.FC = () => {
+
+  const token = useSelector(getAuthUserDataToken);
+
   return (
     <div className='App'>
       <Router>
-        <Header/>
-        <SideMenu/>
+        {!!token && 
+          <>
+            <Header/>
+            <SideMenu/>
+          </>
+        }
         <Routes>
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/new/:id' element={<NewBug />} />
-          <Route path='/list' element={<BugList />} />  
+          <Route element={<ProtectedRoute isAuthenticated={!!token}/>}>
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/new/:id' element={<NewBug />} />
+            <Route path='/list' element={<BugList />} />  
+          </Route>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
         </Routes>
