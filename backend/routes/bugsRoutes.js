@@ -10,17 +10,13 @@ const {
 
 const { protect } = require('../middleware/authMiddleware');
 
-router.route('/').get(protect, getBugs).post(protect, createBug);
-router.route('/:id').delete(protect, deleteBug).put(protect, updateBug);
+router.get('/', protect, getBugs)
 
-/* 
-router.get('/', getBugs)
+router.post('/', protect, createBug);
 
-router.post('/', createBug);
+router.put('/:id', protect, updateBug);
 
-router.put('/:id', updateBug);
+router.delete('/:id', protect, deleteBug) 
 
-router.delete('/:id', deleteBug) 
-*/
 
 module.exports = router;

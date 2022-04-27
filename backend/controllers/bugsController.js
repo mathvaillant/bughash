@@ -40,16 +40,14 @@ const updateBug = asyncHandler(async (req, res) => {
         throw new Error('Bug not found');
     }
 
-    const user = await User.findById(req.user.id);
-
     // Check for user
-    if(!user) {
+    if(!req.user) {
         res.status(401);
         throw new Error('User not found');
     }
 
     // Check if token gives permissions to the action
-    if(bug.createdBy.toString() !== user.id) {
+    if(bug.createdBy.toString() !== req.user.id) {
         res.status(401);
         throw new Error('You do not have permissions for this action');
     }
@@ -70,16 +68,14 @@ const deleteBug = asyncHandler(async (req, res) => {
         throw new Error('Could not find bug');
     };
 
-    const user = await User.findById(req.user.id);
-
     // Check for user
-    if(!user) {
+    if(!req.user) {
         res.status(401);
         throw new Error('User not found');
     }
 
     // Check if token gives permissions to the action
-    if(bug.createdBy.toString() !== user.id) {
+    if(bug.createdBy.toString() !== req.user.id) {
         res.status(401);
         throw new Error('You do not have permissions for this action');
     }
