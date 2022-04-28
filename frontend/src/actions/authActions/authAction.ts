@@ -79,4 +79,6 @@ export const logout = () => async (dispatch: Dispatch<ActionLogout>) => {
     })
 
     await authServices.logout();
+
+    window.location.replace('/login');
 }

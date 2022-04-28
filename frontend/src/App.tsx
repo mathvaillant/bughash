@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes } from "react-router";
+import React, { useEffect } from 'react';
+import { Outlet, Routes } from "react-router";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Login from './pages/Login/Login';
@@ -16,7 +16,7 @@ import { getAuthUserDataToken } from "./utils/selectors/auth";
 
 const App: React.FC = () => {
 
-  const token = useSelector(getAuthUserDataToken);
+  const token = useSelector(getAuthUserDataToken) || localStorage.getItem('token');
 
   return (
     <div className='App'>
@@ -29,9 +29,11 @@ const App: React.FC = () => {
         }
         <Routes>
           <Route element={<ProtectedRoute isAuthenticated={!!token}/>}>
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/new/:id' element={<NewBug />} />
-            <Route path='/list' element={<BugList />} />  
+            <Route path='/' element={<Outlet />}>
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/new/:id' element={<NewBug />} />
+              <Route path='/list' element={<BugList />} />  
+            </Route>
           </Route>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>

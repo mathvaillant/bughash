@@ -31,7 +31,9 @@ const Register: React.FC = () => {
       toast.error(error);
     }
 
-    if(token) {
+    const tokenStorage = localStorage.getItem('token');
+    
+    if(token || tokenStorage) {
       navigator('/dashboard');
     }
   }, [error, token, navigator])

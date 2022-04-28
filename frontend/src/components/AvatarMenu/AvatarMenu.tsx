@@ -10,11 +10,9 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { logout } from "../../actions/authActions/authAction";
-import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 
 const AvatarMenu: React.FC = () => {
-  const navigator = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -29,8 +27,6 @@ const AvatarMenu: React.FC = () => {
     handleClose();
 
     dispatch(logout());
-
-    navigator('/login');
   }
 
   return (

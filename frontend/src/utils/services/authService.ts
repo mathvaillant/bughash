@@ -8,7 +8,7 @@ const register = async (userData: IUser): Promise<IUser> => {
     const { data } = await axios.post(USERS_API_URL, userData);
 
     if(data) {
-        localStorage.setItem('user', JSON.stringify(data));
+        localStorage.setItem('token', JSON.stringify(data?.token));
     }
 
     return data as IUser;
@@ -19,7 +19,7 @@ const login = async (userData: IUser): Promise<IUser> => {
     const { data } = await axios.post(`${USERS_API_URL}/login`, userData);
 
     if(data) {
-        localStorage.setItem('user', JSON.stringify(data));
+        localStorage.setItem('token', JSON.stringify(data?.token));
     }
 
     return data as IUser
