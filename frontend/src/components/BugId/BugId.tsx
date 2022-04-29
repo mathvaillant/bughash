@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { BugIdProps } from "../../shared/types";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import './_BugId.scss';
 import { Tooltip } from "@mui/material";
+import './_BugId.scss';
 
-const BugId: React.FC<BugIdProps> = ({ id }) => {
+interface Props {
+  id: string
+}
+
+const BugId: React.FC<Props> = ({ id }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyToClipBoard = (): void => {

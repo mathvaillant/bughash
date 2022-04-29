@@ -1,35 +1,48 @@
 import { Button } from "@mui/material";
 import React, { useCallback, useState } from 'react'
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { IBug, IBugFile } from "../../shared/types";
+import { getBugDescription } from "../../utils/selectors/bug";
+import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import BugId from "../../components/BugId/BugId";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
 import Upload from "../../components/Upload/Upload";
-import { IBugFile } from "../../shared/types";
-import { getBugDescription } from "../../utils/selectors/bug";
+import BugServices from "../../utils/services/bugServices";
 import './_NewBug.scss';
 
 const NewBug: React.FC = () => {
   const params = useParams();
-  const [title, setTitle] = useState<string>('Bug Title');
+  const navigator = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [title, setTitle] = useState<string>('');
   const [bugFiles, setBugFiles] = useState<IBugFile[]>([]);
   
   const bugDescription = useSelector(getBugDescription);
+  const token = useSelector(getAuthUserDataToken);
 
   const handleChangeTitle = (value: string): void => setTitle(value);
 
-  const handleSaveNewBug = useCallback((): void => {
-    const bugData = {
-      bugDescription,
-      bugId: params.id as string,
-      title,
-      status: 'todo' as string,
-      files: bugFiles
+  const handleSaveNewBug = useCallback(async (): Promise<void> => {
+    try {
+      setIsLoading(true);
+      const bugData = {
+        description: bugDescription,
+        title,
+        status: 'todo',
+        files: bugFiles
+      } as IBug
+        
+      await BugServices.openNew(bugData, token);  
+    } catch (error) {
+      // implement toastr lib
+    } finally {
+      setIsLoading(false);
+      navigator('/list');
     }
-    // await dispatch(saveNewBug(description, bugFiles, title, bugId));
-    console.log(bugData);
-  }, [bugDescription, params.id, title, bugFiles]);
+
+  }, [bugDescription, title, bugFiles, token, navigator]);
 
   const handleUploadFile = useCallback((data: IBugFile[]): void => setBugFiles(data), []);
 
@@ -40,21 +53,20 @@ const NewBug: React.FC = () => {
             <div></div>
             <div>
               <BugTitle handleChangeTitle={handleChangeTitle} title={title}/>
-              <BugId id={`${params.id}`}/>
-              <Button variant='contained' type='button' className='saveButton' onClick={handleSaveNewBug}>Save</Button>
+              {params.id && <BugId id={`${params.id}`}/>}
+              {!params.id && <Button variant='contained' type='button' className='saveButton' onClick={handleSaveNewBug}>Save</Button>}
             </div>
           </div>
 
           <div className='NewBug__content'>
             <div>
               <Upload 
-                bugId={params.id} 
                 currentFiles={bugFiles}
                 handleUploadFile={handleUploadFile}
               />
             </div>
             <div>
-              <Description bugId={params.id} />
+              <Description />
             </div>
           </div>
       </div>

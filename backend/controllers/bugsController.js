@@ -18,11 +18,12 @@ const createBug = asyncHandler(async (req, res) => {
         throw new Error('Please send the bug with a title')
     }
 
-    const { title, status } = req.body;
+    const { title, status, description } = req.body;
 
     const bug = await Bug.create({ 
         title,
         status,
+        description: JSON.stringify(description),
         createdBy: req.user.id
     });
     

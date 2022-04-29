@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Outlet, Routes } from "react-router";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -31,7 +31,7 @@ const App: React.FC = () => {
           <Route element={<ProtectedRoute isAuthenticated={!!token}/>}>
             <Route path='/' element={<Outlet />}>
               <Route path='/dashboard' element={<Dashboard />} />
-              <Route path='/new/:id' element={<NewBug />} />
+              <Route path='/new' element={<NewBug />} />
               <Route path='/list' element={<BugList />} />  
             </Route>
           </Route>

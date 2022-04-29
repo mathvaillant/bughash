@@ -2,20 +2,16 @@ import React, { useCallback, useEffect, memo } from 'react'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import classNames from "classnames";
 import { useDispatch } from "react-redux";
-import { listenBugDescription, unlistenBugDescription } from "../../actions/newBugActions/newBugActions";
+import { listenBugDescription, unlistenBugDescription } from "../../actions/bugActions/bugActions";
 import { EDITOR_JS_TOOLS } from "../../utils/constants.js";
 import useEventListener from "../../utils/hooks/useEventListener.js";
 import useToggle from "../../utils/hooks/useToggle";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import './_Description.scss';
 
-interface DescritionProps  {
-  bugId: string | undefined
-}
-
 const EDITOR_HOLDER_ID = 'editorjs';
 
-const Description: React.FC<DescritionProps> = ({ bugId = '' }) => {
+const Description: React.FC = () => {
   const dispatch = useDispatch();
   const [zoomSection, setZoomSection] = useToggle();
   const [editorData, setEditorData] = React.useState<OutputData | undefined>();
@@ -42,7 +38,7 @@ const Description: React.FC<DescritionProps> = ({ bugId = '' }) => {
       onChange: async () => {
         const content = await editor.saver.save();
         setEditorData(content);
-        dispatch(listenBugDescription(content, bugId));
+        dispatch(listenBugDescription(content));
       },
       autofocus: true,
       tools: EDITOR_JS_TOOLS, 

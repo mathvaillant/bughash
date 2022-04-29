@@ -6,9 +6,9 @@ const bugSchema = mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    bugDescription: {
-        type: Object,
-        required: false /* [true, 'Please add a description.'] */
+    description: {
+        type: String,
+        required: [true, 'Please add a description.']
     },
     title: {
         type: String,
@@ -16,7 +16,7 @@ const bugSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        required: [true, 'Please add a status'],
+        required: true,
     },
     files: {
         type: Object,

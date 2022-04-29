@@ -10,12 +10,11 @@ import { IBugFile } from "../../shared/types";
 import FileUploaded from "../FileUploaded/FileUploaded";
 
 interface UploadProps {
-  bugId: string | undefined
   currentFiles: IBugFile[]
   handleUploadFile: (data: IBugFile[]) => void,
 }
 
-const Upload: React.FC<UploadProps> = ({ bugId, currentFiles, handleUploadFile}) => {
+const Upload: React.FC<UploadProps> = ({ currentFiles, handleUploadFile}) => {
   const [dragginOver, setDraggingOver] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomSection, setZoomSection] = useToggle();

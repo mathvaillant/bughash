@@ -1,15 +1,13 @@
 import { OutputData } from "@editorjs/editorjs";
-import { Action, ActionType } from "../../actions/newBugActions/actionTypes";
+import { Action, ActionType } from "../../actions/bugActions/actionTypes";
 
 interface State {
     content: OutputData | null
-    bugId: string | null
     error?: string | null | undefined
 }
 
 const InitialState = {
     content: null,
-    bugId: null,
     error: null,
 }
 
@@ -18,7 +16,6 @@ export const listenBugDescriptionReducer = (state: State = InitialState, action:
         case ActionType.LISTEN_BUG_DESCRIPTION: 
             return {
                 content: action.payload.content,
-                bugId: action.payload.bugId
             }
             
         case ActionType.UNLISTEN_BUG_DESCRIPTION: 
@@ -28,7 +25,6 @@ export const listenBugDescriptionReducer = (state: State = InitialState, action:
             return {
                 error: action.error,
                 content: null,
-                bugId: null
             }
         default:
             return state;

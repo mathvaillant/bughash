@@ -10,7 +10,6 @@ export interface IListenBugDescription {
     type: ActionType.LISTEN_BUG_DESCRIPTION
     payload: {
         content: OutputData,
-        bugId: string
     }
 }
 
@@ -23,7 +22,6 @@ export interface IUnlistenBugDescription {
     type: ActionType.UNLISTEN_BUG_DESCRIPTION,
     payload: {
         content: null,
-        bugId: null
     }
 }
 

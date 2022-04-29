@@ -2,13 +2,12 @@ import { OutputData } from "@editorjs/editorjs";
 import { Dispatch } from "react";
 import { Action, ActionType } from "./actionTypes";
 
-export const listenBugDescription = (content: OutputData, bugId: string) => async (dispatch: Dispatch<Action>) => {
+export const listenBugDescription = (content: OutputData) => async (dispatch: Dispatch<Action>) => {
     try {
         dispatch({
             type: ActionType.LISTEN_BUG_DESCRIPTION,
             payload: {
                 content,
-                bugId
             }
         })
     } catch(error) {
@@ -24,7 +23,14 @@ export const unlistenBugDescription = () => async (dispatch: Dispatch<Action>) =
         type: ActionType.UNLISTEN_BUG_DESCRIPTION,
         payload: {
             content: null, 
-            bugId: null
         }
     });
+}
+
+export const getBugs = () => async (dispatch: any) => {
+    //
+}
+
+export const clearBugs = () => async (dispatch: any) => {
+    //
 }
