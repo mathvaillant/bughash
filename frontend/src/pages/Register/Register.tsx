@@ -1,14 +1,13 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import RegisterImg from '../../assets/images/login.jpeg';
 import useToggle from "../../utils/hooks/useToggle";
+import { toastr } from "react-redux-toastr";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../actions/authActions/authAction";
 import { getAuth, getAuthUserDataToken } from "../../utils/selectors/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { toast } from 'react-toastify';
 import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
-import 'react-toastify/dist/ReactToastify.css';
 import './Register.scss';
 
 const Register: React.FC = () => {
@@ -28,7 +27,7 @@ const Register: React.FC = () => {
 
   useEffect(() => {
     if(error) {
-      toast.error(error);
+      toastr.error(error, error);
     }
 
     const tokenStorage = localStorage.getItem('token');

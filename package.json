@@ -8,7 +8,7 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js -L",
     "client": "npm start --prefix frontend",
-    "dev":"concurrently \"yarn run server\" \"yarn run client\""
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.0",
+    "react-redux-toastr": "^7.6.8",
     "yarn": "^1.22.18"
   },
   "devDependencies": {

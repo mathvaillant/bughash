@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { IBug, IBugFile } from "../../shared/types";
 import { getBugDescription } from "../../utils/selectors/bug";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
+import { toastr } from "react-redux-toastr";
 import BugId from "../../components/BugId/BugId";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
@@ -35,11 +36,12 @@ const NewBug: React.FC = () => {
       } as IBug
         
       await BugServices.openNew(bugData, token);  
-    } catch (error) {
-      // implement toastr lib
+      toastr.success('New Bug Open', 'Successfully opened a new bug');
+      navigator('/list');
+    } catch (error: any) {
+      toastr.error('Could not open the new bug', 'Please check if bath a title and a description were provided.');
     } finally {
       setIsLoading(false);
-      navigator('/list');
     }
 
   }, [bugDescription, title, bugFiles, token, navigator]);

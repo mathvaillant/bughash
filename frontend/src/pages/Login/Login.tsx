@@ -6,9 +6,8 @@ import { login } from "../../actions/authActions/authAction";
 import { getAuth, getAuthUserDataToken } from "../../utils/selectors/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { toast } from 'react-toastify';
+import { toastr } from "react-redux-toastr";
 import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
-import 'react-toastify/dist/ReactToastify.css';
 import './Login.scss';
 
 const Login: React.FC = () => {
@@ -27,7 +26,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if(error) {
-      toast.error(error);
+      toastr.error('Could not login', error);
     }
 
     const tokenStorage = localStorage.getItem('token');

@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { reducer as toastrReducer} from 'react-redux-toastr';
 import thunk from 'redux-thunk';
 
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -11,6 +12,7 @@ import { listenBugDescriptionReducer } from "../reducers/newBugReducers/newBugRe
 const reducers = combineReducers({
     auth: authReducer,
     bugDescription: listenBugDescriptionReducer,
+    toastr: toastrReducer
 });
 
 const middleware = [thunk];
