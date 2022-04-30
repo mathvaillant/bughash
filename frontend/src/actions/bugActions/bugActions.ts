@@ -1,8 +1,9 @@
 import { OutputData } from "@editorjs/editorjs";
 import { Dispatch } from "react";
-import { Action, ActionType } from "./actionTypes";
+import BugServices from "../../utils/services/bugServices";
+import { BugDescriptionAction, ActionType, BugListAction } from "./actionTypes";
 
-export const listenBugDescription = (content: OutputData) => async (dispatch: Dispatch<Action>) => {
+export const listenBugDescription = (content: OutputData) => async (dispatch: Dispatch<BugDescriptionAction>) => {
     try {
         dispatch({
             type: ActionType.LISTEN_BUG_DESCRIPTION,
@@ -18,7 +19,7 @@ export const listenBugDescription = (content: OutputData) => async (dispatch: Di
     }
 }
 
-export const unlistenBugDescription = () => async (dispatch: Dispatch<Action>) => {
+export const unlistenBugDescription = () => async (dispatch: Dispatch<BugDescriptionAction>) => {
     dispatch({
         type: ActionType.UNLISTEN_BUG_DESCRIPTION,
         payload: {
@@ -27,10 +28,31 @@ export const unlistenBugDescription = () => async (dispatch: Dispatch<Action>) =
     });
 }
 
-export const getBugs = () => async (dispatch: any) => {
-    //
-}
+export const getBugsList = (token: string) => async (dispatch: Dispatch<BugListAction>) => {
+    try {
+        dispatch({
+            type: ActionType.GET_BUGLIST_REQUEST,
+            payload: {
+                loading: true
+            }
+        });
 
-export const clearBugs = () => async (dispatch: any) => {
-    //
+        const data = await BugServices.getBugs(token);
+
+        dispatch({
+            type: ActionType.GET_BUGLIST_SUCCESS,
+            payload: {
+                loading: false,
+                bugList: data
+            }
+        });
+    } catch (error: any) {
+        dispatch({
+            type: ActionType.GET_BUGLIST_FAIL,
+            payload: {
+                loading: false,
+                error: error
+            }
+        })
+    }
 }

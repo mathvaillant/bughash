@@ -1,11 +1,12 @@
 import { Button } from "@mui/material";
 import React, { useCallback, useState } from 'react'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { IBug, IBugFile } from "../../shared/types";
 import { getBugDescription } from "../../utils/selectors/bug";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { toastr } from "react-redux-toastr";
+import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
 import BugId from "../../components/BugId/BugId";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
@@ -16,7 +17,7 @@ import './_NewBug.scss';
 const NewBug: React.FC = () => {
   const params = useParams();
   const navigator = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const [title, setTitle] = useState<string>('');
   const [bugFiles, setBugFiles] = useState<IBugFile[]>([]);
   
@@ -27,7 +28,7 @@ const NewBug: React.FC = () => {
 
   const handleSaveNewBug = useCallback(async (): Promise<void> => {
     try {
-      setIsLoading(true);
+      dispatch(showLoader());
       const bugData = {
         description: bugDescription,
         title,
@@ -41,10 +42,10 @@ const NewBug: React.FC = () => {
     } catch (error: any) {
       toastr.error('Could not open the new bug', 'Please check if bath a title and a description were provided.');
     } finally {
-      setIsLoading(false);
+      dispatch(hideLoader());
     }
 
-  }, [bugDescription, title, bugFiles, token, navigator]);
+  }, [bugDescription, title, bugFiles, token, navigator, dispatch]);
 
   const handleUploadFile = useCallback((data: IBugFile[]): void => setBugFiles(data), []);
 

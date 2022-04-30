@@ -1,5 +1,5 @@
 import { OutputData } from "@editorjs/editorjs";
-import { Action, ActionType } from "../../actions/bugActions/actionTypes";
+import { BugDescriptionAction, ActionType } from "../../actions/bugActions/actionTypes";
 
 interface State {
     content: OutputData | null
@@ -11,7 +11,7 @@ const InitialState = {
     error: null,
 }
 
-export const listenBugDescriptionReducer = (state: State = InitialState, action: Action): State  => {
+export const bugDescriptionReducer = (state: State = InitialState, action: BugDescriptionAction): State  => {
     switch(action.type) {
         case ActionType.LISTEN_BUG_DESCRIPTION: 
             return {

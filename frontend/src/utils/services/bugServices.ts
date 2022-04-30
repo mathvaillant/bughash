@@ -14,8 +14,14 @@ const openNew = async (bugData: IBug, token: string | null): Promise<void> => {
     return data;
 }
 
-const getBugs = async (): Promise<IBug[]> => {
-    const { data } = await axios.get(BUG_API_URL);
+const getBugs = async (token: string): Promise<IBug[]> => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const { data } = await axios.get(BUG_API_URL, config);
 
     return data as IBug[];
 }

@@ -1,0 +1,87 @@
+@import '../../styles/variables.scss';
+
+@keyframes loader {
+	0%, 10%, 100% {
+		width: 80px;
+		height: 80px;
+	}
+	65% {
+		width: 150px;
+		height: 150px;
+	}
+}
+@keyframes loaderBlock {
+	0%, 30% { 
+		transform: rotate(0);
+	}
+	55% {
+		background-color: $black;
+	}
+	100% {
+		transform: rotate(90deg);
+
+	}
+}
+@keyframes loaderBlockInverse {
+	0%, 20% { 
+		transform: rotate(0);
+	}
+	55% {
+		background-color: $purple2;
+	}
+	100% {
+		transform: rotate(-90deg);
+	}
+}
+
+.Loader__container {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0px;
+	left: 0px;
+	background-color: #ffffffed;
+	z-index: 9999;
+
+	.Loader {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 80px;
+		height: 80px;
+		transform: translate(-50%, -50%) rotate(45deg) translate3d(0,0,0);
+		animation: loader 800ms infinite ease-in-out;
+
+		span {
+			position: absolute;
+			display: block;
+			width: 40px;
+			height: 40px;
+			background-color: $purple2;
+			animation: loaderBlock 800ms infinite ease-in-out both;
+
+			&:nth-child(1) {
+				top: 0;
+				left: 0;
+			}
+			&:nth-child(2) {
+				top: 0;
+				right: 0;
+				animation: loaderBlockInverse 800ms infinite ease-in-out both;
+			}
+			&:nth-child(3) {
+				bottom: 0;
+				left: 0;
+				animation: loaderBlockInverse 800ms infinite ease-in-out both;
+			}
+			&:nth-child(4) {
+				bottom: 0;
+				right: 0;
+			}
+		}
+	}
+}
+
+body {
+  background-color: $white;
+}

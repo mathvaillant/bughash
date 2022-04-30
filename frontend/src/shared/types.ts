@@ -3,11 +3,19 @@ import { OutputData } from "@editorjs/editorjs";
 export interface ReduxState {
     auth: AuthState
     bugDescription: IBugDescription
+    bugs: BugsState
+    loader: boolean
 }
 export interface AuthState {
     userData: IUser
     loading: boolean
     error: string | null
+}
+
+export interface BugsState {
+    bugList: IBug[]
+    loading: boolean
+    error: string | null | object
 }
 
 export interface IBugDescription {
@@ -22,11 +30,13 @@ export interface IBugFile {
 }
 
 export interface IBug {
-    createdBy?: string
     description: IBugDescription | null
     files: IBugFile[] | null
     title: string | null
     status: string
+    _id?: string
+    createdBy?: string
+    createdAt?: string
 }
 
 export interface IUser {
