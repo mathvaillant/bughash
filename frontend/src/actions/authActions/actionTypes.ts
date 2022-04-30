@@ -7,6 +7,7 @@ export enum ActionType {
     AUTH_LOGIN_REQUEST = 'AUTH_LOGIN_REQUEST',
     AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS',
     AUTH_LOGIN_FAIL = 'AUTH_LOGIN_FAIL',
+    SET_USER_DATA = 'SET_USER_DATA',
     AUTH_LOGOUT = 'AUTH_LOGOUT',
 }
 
@@ -48,6 +49,14 @@ export interface IAuthLoginSuccess {
     }
 }
 
+export interface ISetUserData {
+    type: ActionType.SET_USER_DATA
+    payload: {
+        userData: IUser
+        loading: boolean
+    }
+}
+
 export interface IAuthLoginFail {
     type: ActionType.AUTH_LOGIN_FAIL
     payload: {
@@ -61,5 +70,5 @@ export interface IAuthLogout {
 }
 
 export type ActionRegister = IAuthRegisterRequest | IAuthRegisterSuccess | IAuthRegisterFail;
-export type ActionLogin = IAuthLoginRequest | IAuthLoginSuccess | IAuthLoginFail
+export type ActionLogin = IAuthLoginRequest | IAuthLoginSuccess | IAuthLoginFail | ISetUserData
 export type ActionLogout = IAuthLogout

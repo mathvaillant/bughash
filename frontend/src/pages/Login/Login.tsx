@@ -28,10 +28,8 @@ const Login: React.FC = () => {
     if(error) {
       toastr.error('Could not login', error);
     }
-
-    const tokenStorage = localStorage.getItem('token');
     
-    if(token || tokenStorage) {
+    if(token) {
       navigator('/dashboard');
     }
   }, [error, token, navigator])

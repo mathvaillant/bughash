@@ -1,4 +1,5 @@
 import { Dispatch } from 'react';
+import { IUser } from "../../shared/types";
 import authServices from "../../utils/services/authService";
 import { ActionRegister, ActionLogout, ActionType, ActionLogin } from "./actionTypes";
 
@@ -71,6 +72,16 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
             }
         })
     }
+}
+
+export const setUserData = (userLoggedIn: IUser) => async (dispatch: Dispatch<ActionLogin>) => {
+    dispatch({
+        type: ActionType.SET_USER_DATA,
+        payload: {
+            userData: userLoggedIn,
+            loading: false
+        }
+    });
 }
 
 export const logout = () => async (dispatch: Dispatch<ActionLogout>) => {

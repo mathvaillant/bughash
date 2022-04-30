@@ -30,7 +30,7 @@ const Register: React.FC = () => {
       toastr.error(error, error);
     }
 
-    const tokenStorage = localStorage.getItem('token');
+    const tokenStorage: string | null = JSON.parse(localStorage.getItem('ls_db_user_info') || '')?.token || null;
     
     if(token || tokenStorage) {
       navigator('/dashboard');

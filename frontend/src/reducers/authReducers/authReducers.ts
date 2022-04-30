@@ -47,6 +47,12 @@ export const authReducer = (state: State = InitialState, action: ActionRegister 
                 loading: false,
                 userData: action.payload.userData
             }
+
+        case ActionType.SET_USER_DATA:
+            return {
+                loading: false,
+                userData: action.payload.userData
+            }
         
         case ActionType.AUTH_LOGIN_FAIL:
             return {
