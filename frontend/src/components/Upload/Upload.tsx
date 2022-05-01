@@ -14,7 +14,7 @@ interface UploadProps {
   handleUploadFile: (data: IBugFile[]) => void,
 }
 
-const Upload: React.FC<UploadProps> = ({ currentFiles, handleUploadFile}) => {
+const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile}) => {
   const [dragginOver, setDraggingOver] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomSection, setZoomSection] = useToggle();

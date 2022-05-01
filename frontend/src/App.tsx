@@ -14,7 +14,7 @@ import Register from './pages/Register/Register';
 import Header from "./components/Header/Header";
 import SideMenu from "./components/SideMenu/SideMenu";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import NewBug from "./pages/NewBug/NewBug";
+import BugPage from "./pages/BugPage/BugPage";
 import BugList from "./pages/BugList/BugList";
 import ProtectedRoute from "./app/ProtectedRoute";
 import Loader from "./components/Loader/Loader";
@@ -42,7 +42,7 @@ const App: React.FC = () => {
         dispatch(getBugsList(userData?.token));
 
       } catch (error: any) {
-        toastr.error('Permission denied!', 'Please login or register');
+        console.log(error);
       } finally {
         dispatch(hideLoader());
       }
@@ -62,7 +62,8 @@ const App: React.FC = () => {
           <Route element={<ProtectedRoute isAuthenticated={!!token}/>}>
             <Route path='/' element={<Outlet />}>
               <Route path='/dashboard' element={<Dashboard />} />
-              <Route path='/new' element={<NewBug />} />
+              <Route path='/new' element={<BugPage />} />
+              <Route path='/edit/:id' element={<BugPage />} />
               <Route path='/list' element={<BugList />} />  
             </Route>
           </Route>

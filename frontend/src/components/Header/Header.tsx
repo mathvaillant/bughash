@@ -14,7 +14,7 @@ const Header: React.FC = () => {
     <header className='Header'>
       <a onClick={() => navigate('/dashboard')}>BugHash</a>
       <Tooltip title={'Open a new bug'} placement={'bottom'}>
-        <Button className={'NewBug'} type='button' onClick={handleNewDoc} data-test={'new-bug'}>
+        <Button className={'BugPage'} type='button' onClick={handleNewDoc} data-test={'new-bug'}>
           <AddBox /> New
         </Button>
       </Tooltip>

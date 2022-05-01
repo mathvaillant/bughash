@@ -9,6 +9,15 @@ const getBugs = asyncHandler(async (req, res) => {
     res.status(200).json(bugs)
 })
 
+// @desc    Get single bug by id
+// @route   GET /bugs/:id
+// @access  Private
+const getSingleBug = asyncHandler(async (req, res) => {
+    const bug = await Bug.findById(req.params.id);
+
+    res.status(200).json(bug)
+});
+
 // @desc    Create new bug
 // @route   POST /bugs
 // @access  Private 
@@ -76,14 +85,14 @@ const deleteBug = asyncHandler(async (req, res) => {
     }
 
     // Check if token gives permissions to the action
-    if(bug.createdBy.toString() !== req.user.id) {
+    if(bugToDelete.createdBy.toString() !== req.user.id) {
         res.status(401);
         throw new Error('You do not have permissions for this action');
     }
 
     await bugToDelete.remove();
 
-    res.status(200).json({message: `Delete bug with ${req.params.id} ID`});
+    res.status(200).json({message: 'Successfully deleted!'});
 })  
 
-module.exports = { getBugs, createBug, updateBug, deleteBug };
+module.exports = { getBugs, createBug, updateBug, deleteBug, getSingleBug};

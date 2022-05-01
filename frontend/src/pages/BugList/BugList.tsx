@@ -1,17 +1,22 @@
-/* eslint-disable max-len */
 import React, { useEffect } from 'react'
-import { Launch, Save } from "@mui/icons-material";
-import { Avatar, CardActions, CardContent, CardHeader, IconButton, Tooltip, Typography } from "@mui/material";
-import ProfileMe from '../../assets/images/profile.png';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import _ from "underscore";
+import { getBugsList } from "../../actions/bugActions/bugActions";
+import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { getBugList } from "../../utils/selectors/bug";
+import BugItem from "./BugItem";
 import './BugList.scss';
 
 const BugList: React.FC = () => {
+  const dispatch = useDispatch();
+
   const bugList = useSelector(getBugList);
+  const token = useSelector(getAuthUserDataToken);
 
   useEffect(() => {
-    // get the bug list from here
+    if(token && (!bugList || _.isEmpty(bugList))) {
+      dispatch(getBugsList(token));
+    }
   }, []);
 
   return (
@@ -19,37 +24,17 @@ const BugList: React.FC = () => {
 
         <div className="BugList__cards">
             {
-              bugList && bugList.map(({ description, _id, title, status, createdAt }) => {
-                const blocks = description?.content?.blocks;
-                
-                return (
-                  <div key={_id} className='BugList__inner__card'>
-                    
-                    <Tooltip placement='top' title={status}>
-                      <span className={`card__status__badge ${status}`}></span>
-                    </Tooltip>
-
-                    <CardHeader title={title} subheader={createdAt} />
-
-                    <CardContent>
-                      <p>{blocks?.at(0)?.data.text}</p>
-                    </CardContent>
-
-                    <CardActions>
-                      <IconButton>
-                        <Tooltip placement={'bottom'} title={'Profile'}>
-                          <Avatar className={'UserAvatar'} alt="Matheus Vaillant" src={ProfileMe} sx={{ width: 30, height: 30 }}/>
-                        </Tooltip>
-                      </IconButton>
-                      <IconButton>
-                        <Save/>
-                      </IconButton>
-                      <IconButton>
-                        <Launch/>
-                      </IconButton>
-                    </CardActions>
-                  </div>
-                )
+              bugList && bugList.map(({ description, _id, title, status, createdAt, files, createdBy }, index) => {
+                return <BugItem 
+                  key={`${_id}-${index}`} 
+                  title={title} 
+                  status={status} 
+                  createdAt={createdAt}
+                  _id={_id}
+                  description={description}
+                  files={files}
+                  createdBy={createdBy}
+                />
               })
             }
         </div>
@@ -57,4 +42,4 @@ const BugList: React.FC = () => {
   )
 }
 
-export default BugList
+export default BugList;

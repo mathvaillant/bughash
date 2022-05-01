@@ -1,6 +1,6 @@
 @import '../../styles/variables.scss';
 
-.NewBug {
+.BugPage {
     margin-left: 50px;
     height: 100%;
 
@@ -15,7 +15,7 @@
         z-index: 2;
     }
 
-    .NewBug__header {
+    .BugPage__header {
         display: flex;
         padding: 20px;
 
@@ -39,7 +39,7 @@
         }
     }
 
-    .NewBug__content {
+    .BugPage__content {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;

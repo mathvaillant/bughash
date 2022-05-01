@@ -30,9 +30,9 @@ export interface IBugFile {
 }
 
 export interface IBug {
-    description: IBugDescription | null
-    files: IBugFile[] | null
-    title: string | null
+    description: OutputData
+    files: IBugFile[]
+    title: string
     status: string
     _id?: string
     createdBy?: string
