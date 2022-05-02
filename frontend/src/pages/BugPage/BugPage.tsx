@@ -1,13 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import _ from "underscore";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { IBug, IBugFile } from "../../shared/types";
-import { getBugDescriptionContent } from "../../utils/selectors/bug";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { toastr } from "react-redux-toastr";
 import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
-import { listenBugDescription } from "../../actions/bugActions/bugActions";
 import BugServices from "../../utils/services/bugServices";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
@@ -15,6 +13,7 @@ import Upload from "../../components/Upload/Upload";
 import BugId from "../../components/BugId/BugId";
 import { Button } from "@mui/material";
 import './BugPage.scss';
+import { OutputData } from "@editorjs/editorjs";
 
 const BugPage: React.FC = () => {
   const params = useParams();
@@ -22,17 +21,17 @@ const BugPage: React.FC = () => {
   const dispatch = useDispatch();
   const [bugTitle, setbugTitle] = useState<string>('');
   const [bugFiles, setBugFiles] = useState<IBugFile[]>([]);
+  const [editorContent, setEditorContent] = useState<OutputData | undefined | any>();
   
-  const bugDescription = useSelector(getBugDescriptionContent);
   const token = useSelector(getAuthUserDataToken);
 
-  const handleChangeTitle = (value: string): void => setbugTitle(value);
+  const handleChangeTitle = useCallback((value: string): void => setbugTitle(value), []);
 
   const handleSave = useCallback(async (): Promise<void> => {
     try {
       dispatch(showLoader());
 
-      if(!bugTitle || _.isEmpty(bugDescription?.blocks)) {
+      if(!bugTitle || _.isEmpty(editorContent?.blocks)) {
         throw new Error('Please check if both a title and a description were provided.');
       }
 
@@ -41,7 +40,7 @@ const BugPage: React.FC = () => {
       }
 
       const bugData = {
-        description: bugDescription,
+        description: editorContent,
         title: bugTitle,
         status: 'todo',
         files: bugFiles
@@ -63,7 +62,7 @@ const BugPage: React.FC = () => {
       dispatch(hideLoader());
     }
 
-  }, [bugDescription, bugTitle, bugFiles, token, navigator, params.id]);
+  }, [dispatch, bugTitle, editorContent, token, bugFiles, params.id, navigator]);
 
   const handleUploadFile = useCallback((data: IBugFile[]): void => setBugFiles(data), []);
 
@@ -88,16 +87,17 @@ const BugPage: React.FC = () => {
 
           setbugTitle(title);
           setBugFiles(files || []);
-          dispatch(listenBugDescription(description));
+          setEditorContent(description || []);
 
       } catch (error: any) {
         toastr.error(error.message, '');
       } finally {
         dispatch(hideLoader());
       }
-
     })()
-  }, [params.id, token]);
+  }, [params.id, token, dispatch]);
+
+  const handleUpdateEditorContent = useCallback((content: OutputData) => setEditorContent(content), []);
 
   return (
     <>
@@ -128,7 +128,12 @@ const BugPage: React.FC = () => {
               />
             </div>
             <div>
-              <Description />
+              {editorContent && (
+                <Description 
+                  editorContent={editorContent} 
+                  handleUpdateEditorContent={handleUpdateEditorContent}
+                />
+              )}
             </div>
           </div>
       </div>
@@ -136,4 +141,4 @@ const BugPage: React.FC = () => {
   )
 }
 
-export default BugPage
+export default memo(BugPage);

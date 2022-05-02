@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, memo } from 'react'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import classNames from "classnames";
-import { useDispatch } from "react-redux";
-import { listenBugDescription, unlistenBugDescription } from "../../actions/bugActions/bugActions";
 import { EDITOR_JS_TOOLS } from "../../utils/constants.js";
 import useEventListener from "../../utils/hooks/useEventListener.js";
 import useToggle from "../../utils/hooks/useToggle";
@@ -11,10 +9,13 @@ import './_Description.scss';
 
 const EDITOR_HOLDER_ID = 'editorjs';
 
-const Description: React.FC = () => {
-  const dispatch = useDispatch();
+interface DescriptionProps {
+  editorContent: OutputData | undefined
+  handleUpdateEditorContent: (content: OutputData)=> void
+}
+
+const Description: React.FC<DescriptionProps> = ({ editorContent, handleUpdateEditorContent }) => {
   const [zoomSection, setZoomSection] = useToggle();
-  const [editorData, setEditorData] = React.useState<OutputData | undefined>();
   const editorInstance = React.useRef<EditorJS | null>(null);
 
   const handleClickAway = useCallback((e) => {
@@ -27,18 +28,19 @@ const Description: React.FC = () => {
 
   useEventListener('click', handleClickAway);
 
+  const handleChangeEditorContent = (content: OutputData): void => handleUpdateEditorContent(content)
+
   const initEditor = useCallback((): void => {
     const editor = new EditorJS({
       holder: EDITOR_HOLDER_ID,
       logLevel: undefined,
-      data: editorData,
+      data: editorContent,
       onReady: () => {
         editorInstance.current = editor;
       },
       onChange: async () => {
         const content = await editor.saver.save();
-        setEditorData(content);
-        dispatch(listenBugDescription(content));
+        handleChangeEditorContent(content);
       },
       autofocus: true,
       tools: EDITOR_JS_TOOLS, 
@@ -46,15 +48,13 @@ const Description: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if(!editorInstance.current) {
-      initEditor();
-    }
+    initEditor();
+
     return () => {
       editorInstance?.current?.destroy();
       editorInstance.current = null;
-      dispatch(unlistenBugDescription())
     }
-  }, [dispatch, initEditor]);
+  }, [initEditor]);
 
   return (
     <div 
