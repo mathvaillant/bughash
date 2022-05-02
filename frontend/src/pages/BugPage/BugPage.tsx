@@ -21,7 +21,7 @@ const BugPage: React.FC = () => {
   const dispatch = useDispatch();
   const [bugTitle, setbugTitle] = useState<string>('');
   const [bugFiles, setBugFiles] = useState<IBugFile[]>([]);
-  const [editorContent, setEditorContent] = useState<OutputData | undefined | any>();
+  const [editorContent, setEditorContent] = useState<OutputData | undefined>();
   
   const token = useSelector(getAuthUserDataToken);
 
@@ -31,7 +31,7 @@ const BugPage: React.FC = () => {
     try {
       dispatch(showLoader());
 
-      if(!bugTitle || _.isEmpty(editorContent?.blocks)) {
+      if(!bugTitle) {
         throw new Error('Please check if both a title and a description were provided.');
       }
 
@@ -62,7 +62,7 @@ const BugPage: React.FC = () => {
       dispatch(hideLoader());
     }
 
-  }, [dispatch, bugTitle, editorContent, token, bugFiles, params.id, navigator]);
+  }, [bugTitle, editorContent, token, bugFiles, params.id, navigator]);
 
   const handleUploadFile = useCallback((data: IBugFile[]): void => setBugFiles(data), []);
 
@@ -87,7 +87,7 @@ const BugPage: React.FC = () => {
 
           setbugTitle(title);
           setBugFiles(files || []);
-          setEditorContent(description || []);
+          setEditorContent(description);
 
       } catch (error: any) {
         toastr.error(error.message, '');
@@ -95,9 +95,9 @@ const BugPage: React.FC = () => {
         dispatch(hideLoader());
       }
     })()
-  }, [params.id, token, dispatch]);
+  }, [params.id, token]);
 
-  const handleUpdateEditorContent = useCallback((content: OutputData) => setEditorContent(content), []);
+  const handleUpdateEditorContent = useCallback((content: OutputData): void => setEditorContent(content), []);
 
   return (
     <>
@@ -128,12 +128,10 @@ const BugPage: React.FC = () => {
               />
             </div>
             <div>
-              {editorContent && (
-                <Description 
-                  editorContent={editorContent} 
-                  handleUpdateEditorContent={handleUpdateEditorContent}
-                />
-              )}
+              <Description 
+                editorContent={editorContent} 
+                handleUpdateEditorContent={handleUpdateEditorContent}
+              />
             </div>
           </div>
       </div>

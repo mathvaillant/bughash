@@ -7,13 +7,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
     authReducer
 } from '../reducers/authReducers/authReducers';
-import { bugDescriptionReducer } from "../reducers/bugReducers/bugDescriptionReducer";
 import { bugsReducer } from "../reducers/bugReducers/bugsReducer";
 import { loaderReducer } from "../reducers/bugReducers/loaderReducer";
 
 const reducers = combineReducers({
     auth: authReducer,
-    bugDescription: bugDescriptionReducer,
     toastr: toastrReducer,
     bugs: bugsReducer,
     loader: loaderReducer

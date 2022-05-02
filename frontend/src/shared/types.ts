@@ -2,7 +2,6 @@ import { OutputData } from "@editorjs/editorjs";
 
 export interface ReduxState {
     auth: AuthState
-    bugDescription: IBugDescription
     bugs: BugsState
     loader: boolean
 }
@@ -16,11 +15,6 @@ export interface BugsState {
     bugList: IBug[]
     loading: boolean
     error: string | null | object
-}
-
-export interface IBugDescription {
-    content: OutputData | null
-    error: string
 }
 
 export interface IBugFile {

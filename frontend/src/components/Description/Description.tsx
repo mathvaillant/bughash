@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, memo } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import classNames from "classnames";
 import { EDITOR_JS_TOOLS } from "../../utils/constants.js";
@@ -6,6 +6,7 @@ import useEventListener from "../../utils/hooks/useEventListener.js";
 import useToggle from "../../utils/hooks/useToggle";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import './_Description.scss';
+import _ from "underscore";
 
 const EDITOR_HOLDER_ID = 'editorjs';
 
@@ -28,7 +29,10 @@ const Description: React.FC<DescriptionProps> = ({ editorContent, handleUpdateEd
 
   useEventListener('click', handleClickAway);
 
-  const handleChangeEditorContent = (content: OutputData): void => handleUpdateEditorContent(content)
+  const destroyEditor = useCallback(() => {
+    editorInstance?.current?.destroy();
+    editorInstance.current = null;
+  }, []); 
 
   const initEditor = useCallback((): void => {
     const editor = new EditorJS({
@@ -36,25 +40,33 @@ const Description: React.FC<DescriptionProps> = ({ editorContent, handleUpdateEd
       logLevel: undefined,
       data: editorContent,
       onReady: () => {
-        editorInstance.current = editor;
+        if(!editorInstance.current) {
+          editorInstance.current = editor;
+        } else {
+          destroyEditor();
+          initEditor();
+        }
       },
       onChange: async () => {
         const content = await editor.saver.save();
-        handleChangeEditorContent(content);
+        if(!_.isEqual(content.blocks, editorContent?.blocks)) {
+          handleUpdateEditorContent(content); 
+        }
       },
       autofocus: true,
       tools: EDITOR_JS_TOOLS, 
     });
-  }, []);
+  }, [editorContent, destroyEditor]);
 
   useEffect(() => {
-    initEditor();
+    if(!editorInstance.current) {
+      initEditor();
+    }
 
     return () => {
-      editorInstance?.current?.destroy();
-      editorInstance.current = null;
+      destroyEditor
     }
-  }, [initEditor]);
+  }, [initEditor, destroyEditor]);
 
   return (
     <div 
