@@ -75,7 +75,7 @@ const Description: React.FC<DescriptionProps> = ({ editorContent, handleUpdateEd
       data-test='Description-section'
     >
       <div id={EDITOR_HOLDER_ID}> </div>
-      <ZoomSectionButton handleZoomSection={setZoomSection}/>
+      <ZoomSectionButton handleZoomSection={setZoomSection} />
     </div>
   );
 }

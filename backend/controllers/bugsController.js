@@ -5,7 +5,7 @@ const Bug = require('../models/bugModel');
 // @route   GET /bugs
 // @access  Private
 const getBugs = asyncHandler(async (req, res) => {
-    const bugs = await Bug.find({ createdBy: req.user.id }); 
+    const bugs = await Bug.find(); 
     res.status(200).json(bugs)
 })
 
@@ -43,28 +43,38 @@ const createBug = asyncHandler(async (req, res) => {
 // @route   PUT /bugs/:id
 // @access  Private
 const updateBug = asyncHandler(async (req, res) => {
-    const bug = await Bug.findById(req.params.id);
+    try {
+        const bug = await Bug.findById(req.params.id);
 
-    if(!bug) {
-        res.status(400);
-        throw new Error('Bug not found');
+        if(!bug) {
+            res.status(400);
+            throw new Error('Bug not found');
+        }
+
+        // Check for user
+        if(!req.user) {
+            res.status(401);
+            throw new Error('User not found');
+        }
+
+        // Check if token gives permissions to the action
+        if(bug.createdBy.toString() !== req.user.id) {
+            res.status(401);
+            throw new Error('You do not have permissions for this action');
+        }
+
+        const bugUpdated = {
+            ...req.body,
+            description: JSON.stringify(req.body.description)
+        }
+
+        const updatedBug = await Bug.findByIdAndUpdate(req.params.id, bugUpdated, { new: true });
+
+        res.status(200).json(updatedBug);
+    } catch (error) {   
+        res.status(401).json(error.message);
     }
 
-    // Check for user
-    if(!req.user) {
-        res.status(401);
-        throw new Error('User not found');
-    }
-
-    // Check if token gives permissions to the action
-    if(bug.createdBy.toString() !== req.user.id) {
-        res.status(401);
-        throw new Error('You do not have permissions for this action');
-    }
-
-    const updatedBug = await Bug.findByIdAndUpdate(req.params.id, req.body, { new: true });
-
-    res.status(200).json(updatedBug);
 })
     
 // @desc    Delete bug

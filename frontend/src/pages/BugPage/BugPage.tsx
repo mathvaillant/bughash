@@ -1,11 +1,11 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import _ from "underscore";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { IBug, IBugFile } from "../../shared/types";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { toastr } from "react-redux-toastr";
 import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
+import { OutputData } from "@editorjs/editorjs";
 import BugServices from "../../utils/services/bugServices";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
@@ -13,7 +13,6 @@ import Upload from "../../components/Upload/Upload";
 import BugId from "../../components/BugId/BugId";
 import { Button } from "@mui/material";
 import './BugPage.scss';
-import { OutputData } from "@editorjs/editorjs";
 
 const BugPage: React.FC = () => {
   const params = useParams();
@@ -32,11 +31,13 @@ const BugPage: React.FC = () => {
       dispatch(showLoader());
 
       if(!bugTitle) {
-        throw new Error('Please check if both a title and a description were provided.');
+        toastr.error('Please check if both a title and a description were provided.', '');
+        throw new Error();
       }
 
       if(!token) {
-        throw new Error('You do not have permissions to update the content');
+        toastr.error('You do not have permissions to update the content', '');
+        throw new Error();
       }
 
       const bugData = {
@@ -54,15 +55,15 @@ const BugPage: React.FC = () => {
       }
       
       await BugServices.updateBug({...bugData, _id: params.id}, token);  
-      toastr.success('New Bug Open', 'Successfully opened a new bug');
+      toastr.success('Successfully updated!', '');
     
     } catch (error: any) {
-      toastr.error(error.message, '');
+      toastr.error('An error occured white trying to update the data', '');
     } finally {
       dispatch(hideLoader());
     }
 
-  }, [bugTitle, editorContent, token, bugFiles, params.id, navigator]);
+  }, [dispatch, bugTitle, token, editorContent, bugFiles, params.id, navigator]);
 
   const handleUploadFile = useCallback((data: IBugFile[]): void => setBugFiles(data), []);
 
@@ -95,7 +96,7 @@ const BugPage: React.FC = () => {
         dispatch(hideLoader());
       }
     })()
-  }, [params.id, token]);
+  }, [dispatch, params.id, token]);
 
   const handleUpdateEditorContent = useCallback((content: OutputData): void => setEditorContent(content), []);
 

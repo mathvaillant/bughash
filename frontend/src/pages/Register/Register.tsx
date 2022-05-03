@@ -29,10 +29,8 @@ const Register: React.FC = () => {
     if(error) {
       toastr.error(error, error);
     }
-
-    const tokenStorage: string | null = JSON.parse(localStorage.getItem('ls_db_user_info') || '')?.token || null;
     
-    if(token || tokenStorage) {
+    if(token) {
       navigator('/dashboard');
     }
   }, [error, token, navigator])

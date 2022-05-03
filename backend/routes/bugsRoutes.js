@@ -11,7 +11,7 @@ const {
 
 const { protect } = require('../middleware/authMiddleware');
 
-router.get('/', protect, getBugs)
+router.get('/', getBugs);
 
 router.get('/:id', protect, getSingleBug);
 
