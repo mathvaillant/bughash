@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { 
-    getBugs, 
-    getSingleBug,
-    createBug,
-    updateBug, 
-    deleteBug
-} = require('../controllers/bugsController');
+const getBugs = require('../controllers/bugs/getBugs');
+const getSingleBug = require('../controllers/bugs/getSingleBug');
+const createBug = require('../controllers/bugs/createBug');
+const updateBug = require('../controllers/bugs/updateBug');
+const deleteBug = require('../controllers/bugs/deleteBug');
 
 const { protect } = require('../middleware/authMiddleware');
 
