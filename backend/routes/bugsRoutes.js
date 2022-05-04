@@ -19,8 +19,6 @@ router.post('/', protect, createBug);
 
 router.put('/:id', protect, updateBug);
 
-router.delete('/:id', protect, deleteBug)
-
-
+router.delete('/:id', protect, deleteBug);
 
 module.exports = router;

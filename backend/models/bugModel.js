@@ -19,7 +19,7 @@ const bugSchema = mongoose.Schema({
         required: true,
     },
     files: {
-        type: Object,
+        type: [String],
         required: false
     },
 }, {
