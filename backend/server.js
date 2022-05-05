@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const path = require('path');
 const dotenv = require('dotenv').config();
 const colors = require('colors')
@@ -16,6 +17,9 @@ if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
+app.use(cors({
+    origin: '*'
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
