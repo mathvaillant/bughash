@@ -25,7 +25,7 @@ const SideMenu: React.FC = () => {
 
   useEventListener('click', handleClickAway);
 
-  const navigateToPath = (e: React.MouseEvent<HTMLButtonElement>, path: string): void => navigate(path);
+  const navigateToPath = (e: React.MouseEvent<HTMLElement>, path: string): void => navigate(path);
   
   const getHomeButton = (): JSX.Element => {
     if(!expanded) {
@@ -48,12 +48,18 @@ const SideMenu: React.FC = () => {
   const getUserAvatar = (): JSX.Element => {
     if(!expanded) {
       return <Tooltip placement={'right'} title={'Profile'}>
-        <Avatar className={'UserAvatar'} alt="Matheus Vaillant" src={ProfileMe} sx={{ width: 30, height: 30 }}/>
+        <Avatar 
+          className={'UserAvatar'} 
+          alt="Matheus Vaillant" 
+          src={ProfileMe} 
+          sx={{ width: 30, height: 30 }}
+          onClick={(e) => navigateToPath(e, '/profile')}
+        />
       </Tooltip>
     }
     return <Button 
       className={'UserAvatar'}
-      onClick={() => console.log('a')} 
+      onClick={(e) => navigateToPath(e, '/profile')}
       startIcon={
         <Avatar alt="Remy Sharp" src={ProfileMe} sx={{ width: 34, height: 34 }}/>
       }

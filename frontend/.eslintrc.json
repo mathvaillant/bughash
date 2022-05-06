@@ -28,7 +28,7 @@
         "no-shadow": "off",
         "max-len": ["warn", { "code": 200 }],
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/exhaustive-deps": "off",
         "import/prefer-default-export": "off",
         "react/prop-types": "off",
         "@typescript-eslint/explicit-function-return-type": [

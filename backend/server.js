@@ -29,6 +29,6 @@ app.use('/uploads', require('./routes/uploadRoutes'));
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-app.use(errorHandler); // Error middleware is meant to prevent sending 400 raw html pages on errors
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on PORT:${port}`));

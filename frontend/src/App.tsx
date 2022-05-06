@@ -19,6 +19,7 @@ import BugList from "./pages/BugList/BugList";
 import ProtectedRoute from "./app/ProtectedRoute";
 import Loader from "./components/Loader/Loader";
 import './App.scss';
+import Profile from "./pages/Profile/Profile";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,8 @@ const App: React.FC = () => {
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/new' element={<BugPage />} />
               <Route path='/edit/:id' element={<BugPage />} />
-              <Route path='/list' element={<BugList />} />  
+              <Route path='/list' element={<BugList />} />
+              <Route path='/profile' element={<Profile />} /> 
             </Route>
           </Route>
           <Route path='/login' element={<Login/>}/>
