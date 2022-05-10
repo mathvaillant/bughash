@@ -1,4 +1,4 @@
-# BugHash.so
+# BugHash App
 
 This project was developed by [Matheus Vaillant](https://github.com/mathvaillant).
 
