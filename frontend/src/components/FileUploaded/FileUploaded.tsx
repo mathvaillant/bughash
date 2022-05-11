@@ -1,67 +1,86 @@
 import React from 'react'
-import { IBugFile } from "../../shared/types";
 import { Delete, Visibility } from "@mui/icons-material";
 import './FileUploaded.scss';
 import { Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
 
-export const FileUploaded: React.FC<IBugFile> = ({ datablob, type, dateAdded }) => {
+interface IFileUploaded {
+  file: File,
+  onDelete: (file: File) => void
+}
+
+export const FileUploaded: React.FC<IFileUploaded> = ({ file, onDelete }) => {
   const [expand, setExpand] = useToggle();
 
-  const handleDeleteFile = (): void => {
-    // delete file...
-  };
+  const handleDeleteFile = React.useCallback((): void => {
+    onDelete(file);
+  }, [onDelete]);
 
   const handleVisualizeFile = (): void => {
     setExpand();
   };
 
-  return <div className={'FileUploaded'}>
-    <div className='FileUploaded__options'>
-      <IconButton onClick={handleDeleteFile} className={'FileUploaded__deleteBtn'}>
-        <Delete />
-      </IconButton>
-      <IconButton onClick={handleVisualizeFile} className={'FileUploaded__visualizeBtn'}>
-        <Visibility />
-      </IconButton>
+  const fileData = React.useMemo(() => {
+    const { name, size, type } = file;
+    const fileToBlob = new Blob([file]);
+
+    return {
+      name,
+      size: size/1000,
+      type,
+      previewUrl: URL.createObjectURL(fileToBlob),
+    }
+  }, [file]);
+
+  return (
+    <div className='FileUploaded'>
+      <div className='FileUploaded__options'>
+        <IconButton onClick={handleDeleteFile} className={'FileUploaded__deleteBtn'}>
+          <Delete />
+        </IconButton>
+        <IconButton onClick={handleVisualizeFile} className={'FileUploaded__visualizeBtn'}>
+          <Visibility />
+        </IconButton>
+      </div>
+
+      {fileData.type.includes('image') && (
+        <img src={fileData.previewUrl} />
+      )}
+
+      {fileData.type.includes('video') && (
+        <>
+          <video width="100%" height="100%" controls>
+            <source src={fileData.previewUrl} type={fileData.type} />
+          </video>
+        </>
+      )}
+
+      <Dialog
+        open={expand}
+        maxWidth={'lg'}
+        onClose={setExpand}
+      >
+        <DialogTitle>
+          <Typography>{fileData.name}</Typography>
+          <small>{fileData.size.toFixed(2)}KB</small>
+        </DialogTitle>
+
+        <DialogContent>
+          {fileData.type.includes('image') && (
+            <img src={fileData.previewUrl} />
+          )}
+
+          {fileData.type.includes('video') && (
+            <>
+              <video width="100%" height="100%" controls>
+                <source src={fileData.previewUrl} type={fileData.type} />
+              </video>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
-
-    {type.includes('image') && (
-      <img src={datablob} />
-    )}
-
-    {type.includes('video') && (
-      <>
-        <video width="100%" height="100%" controls>
-          <source src={datablob} type={type} />
-        </video>
-      </>
-    )}
-
-    <Dialog
-      open={expand}
-      maxWidth={'lg'}
-      onClose={setExpand}
-    >
-      <DialogTitle>
-        <Typography>name of the file here</Typography>
-      </DialogTitle>
-
-      <DialogContent>
-        {type.includes('image') && (
-          <img src={datablob} />
-        )}
-
-        {type.includes('video') && (
-          <>
-            <video width="100%" height="100%" controls>
-              <source src={datablob} type={type} />
-            </video>
-          </>
-        )}
-      </DialogContent>
-    </Dialog>
-  </div>
+  )
 };
 
 export default FileUploaded

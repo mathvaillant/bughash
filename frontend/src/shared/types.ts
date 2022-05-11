@@ -17,15 +17,9 @@ export interface BugsState {
     error: string | null | object
 }
 
-export interface IBugFile {
-    datablob: string
-    type: string
-    dateAdded: number
-}
-
 export interface IBug {
     description: OutputData
-    files: IBugFile[]
+    files: File[]
     title: string
     status: string
     _id?: string

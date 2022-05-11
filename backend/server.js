@@ -17,14 +17,12 @@ if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
-app.use(cors({
-    origin: '*'
-}))
+app.use(cors({ origin: '*' }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 
-app.use('/bugs', require('./routes/bugsRoutes'))
-app.use('/users', require('./routes/userRoutes'))
+app.use('/bugs', require('./routes/bugsRoutes'));
+app.use('/users', require('./routes/userRoutes'));
 app.use('/uploads', require('./routes/uploadRoutes'));
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

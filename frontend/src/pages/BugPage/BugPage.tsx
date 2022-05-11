@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { IBug, IBugFile } from "../../shared/types";
+import { IBug } from "../../shared/types";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { toastr } from "react-redux-toastr";
 import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
@@ -13,18 +13,24 @@ import Upload from "../../components/Upload/Upload";
 import BugId from "../../components/BugId/BugId";
 import { Button } from "@mui/material";
 import './BugPage.scss';
+import _ from "underscore";
 
 const BugPage: React.FC = () => {
   const params = useParams();
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const [bugTitle, setbugTitle] = useState<string>('');
-  const [bugFiles, setBugFiles] = useState<IBugFile[]>([]);
+  const [bugFiles, setBugFiles] = useState<File[]>([]);
   const [editorContent, setEditorContent] = useState<OutputData | undefined>();
   
   const token = useSelector(getAuthUserDataToken);
 
   const handleChangeTitle = useCallback((value: string): void => setbugTitle(value), []);
+
+  const handleDeleteFile = useCallback((file: File) => {
+    const filesUpdated = _.without(bugFiles, file);
+    setBugFiles(filesUpdated);
+  }, [bugFiles]);
 
   const handleSave = useCallback(async (): Promise<void> => {
     try {
@@ -65,7 +71,7 @@ const BugPage: React.FC = () => {
 
   }, [dispatch, bugTitle, token, editorContent, bugFiles, params.id, navigator]);
 
-  const handleUploadFile = useCallback((data: IBugFile[]): void => setBugFiles(data), []);
+  const handleUploadFile = useCallback((data: File[]): void => setBugFiles(data), []);
 
   useEffect(() => {
     if(!params.id) return;
@@ -101,42 +107,41 @@ const BugPage: React.FC = () => {
   const handleUpdateEditorContent = useCallback((content: OutputData): void => setEditorContent(content), []);
 
   return (
-    <>
-      <div className='BugPage'>
-          <div className='BugPage__header'>
-            <div></div>
-            <div>
-              <BugTitle handleChangeTitle={handleChangeTitle} title={bugTitle}/>
-              {params.id && <BugId id={`${params.id}`}/>}
-              {
-                <Button 
-                  variant='contained' 
-                  type='button' 
-                  className='saveButton' 
-                  onClick={handleSave}
-                >
-                  {!params.id ? 'Save' : 'Update'}
-                </Button>
-              }
-            </div>
+    <div className='BugPage'>
+        <div className='BugPage__header'>
+          <div></div>
+          <div>
+            <BugTitle handleChangeTitle={handleChangeTitle} title={bugTitle}/>
+            {params.id && <BugId id={`${params.id}`}/>}
+            {
+              <Button 
+                variant='contained' 
+                type='button' 
+                className='saveButton' 
+                onClick={handleSave}
+              >
+                {!params.id ? 'Save' : 'Update'}
+              </Button>
+            }
           </div>
+        </div>
 
-          <div className='BugPage__content'>
-            <div>
-              <Upload 
-                currentFiles={bugFiles}
-                handleUploadFile={handleUploadFile}
-              />
-            </div>
-            <div>
-              <Description 
-                editorContent={editorContent} 
-                handleUpdateEditorContent={handleUpdateEditorContent}
-              />
-            </div>
+        <div className='BugPage__content'>
+          <div>
+            <Upload 
+              currentFiles={bugFiles}
+              handleUploadFile={handleUploadFile}
+              handleDeleteFile={handleDeleteFile}
+            />
           </div>
-      </div>
-    </>
+          <div>
+            <Description 
+              editorContent={editorContent} 
+              handleUpdateEditorContent={handleUpdateEditorContent}
+            />
+          </div>
+        </div>
+    </div>
   )
 }
 

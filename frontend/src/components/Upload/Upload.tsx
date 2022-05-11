@@ -6,15 +6,15 @@ import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import useToggle from '../../utils/hooks/useToggle';
 import { CircularProgress } from "@mui/material";
-import { IBugFile } from "../../shared/types";
 import FileUploaded from "../FileUploaded/FileUploaded";
 
 interface UploadProps {
-  currentFiles: IBugFile[]
-  handleUploadFile: (data: IBugFile[]) => void,
+  currentFiles: File[]
+  handleUploadFile: (data: File[]) => void,
+  handleDeleteFile: (file: File) => void
 }
 
-const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile}) => {
+const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, handleDeleteFile}) => {
   const [dragginOver, setDraggingOver] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomSection, setZoomSection] = useToggle();
@@ -30,6 +30,10 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile}) =
 
   useEventListener('click', handleClickAway);
 
+  const handleDelete = useCallback((file) => {
+    handleDeleteFile(file);
+  }, [handleDeleteFile]);
+
   const handleDragOver = useCallback((): void => {
     setDraggingOver(true);
   }, []);
@@ -43,28 +47,15 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile}) =
 
     if(!file) return;
 
-    const reader = new FileReader();
+    setIsLoading(true);
 
-    setIsLoading(true)
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
     setTimeout(() => {
-      reader.addEventListener('load', () => {
-        const result = reader.result as string;
-
-        handleUploadFile([
-          ...currentFiles,
-          {
-            datablob: result as string,
-            type: file.type as string,
-            dateAdded: Date.now()
-          }
-        ]);
-      })
-
-      reader.readAsDataURL(file);
-
       setIsLoading(false);
-    }, 500)
+      handleUploadFile([...currentFiles, file]);
+    }, 200)
 
   }, [currentFiles, handleUploadFile]);
 
@@ -105,13 +96,12 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile}) =
 
         {!!(currentFiles.length) && (
           <div className={classNames('Upload__files', {})}>
-            {currentFiles.map(({type, datablob, dateAdded}, index) => {
+            {currentFiles.map((file, index) => {
               return (
                 <FileUploaded 
-                  key={`${dateAdded}-${index}`} 
-                  type={type} 
-                  datablob={datablob} 
-                  dateAdded={dateAdded}
+                  key={index} 
+                  file={file}
+                  onDelete={handleDelete}
                 />
               )
             })}

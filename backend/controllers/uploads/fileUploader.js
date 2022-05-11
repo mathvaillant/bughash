@@ -15,7 +15,7 @@ const fileUploader = asyncHandler(async (req, res) => {
 
     res.status(200).json({
         message: "File uploaded successfully!",
-        upload: {
+        file: {
             _id: restult._id,
             sourceUrl: restult.sourceUrl
         }
