@@ -14,11 +14,8 @@ const fileUploader = asyncHandler(async (req, res) => {
     const restult = await upload.save();
 
     res.status(200).json({
-        message: "File uploaded successfully!",
-        file: {
-            _id: restult._id,
-            sourceUrl: restult.sourceUrl
-        }
+        _id: restult._id,
+        sourceUrl: restult.sourceUrl
     });
 });
 

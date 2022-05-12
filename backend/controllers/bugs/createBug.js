@@ -17,9 +17,10 @@ const createBug = asyncHandler(async (req, res) => {
         status,
         description: JSON.stringify(description),
         createdBy: req.user.id,
+        files
     });
     
-    res.status(200).json(bug) 
+    res.status(200).json(bug);
 })
 
 module.exports = createBug;
