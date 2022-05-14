@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthUserDataToken } from "./utils/selectors/auth";
 import { getBugsList } from "./actions/bugActions/bugActions";
-import { toastr } from "react-redux-toastr";
 import { hideLoader, showLoader } from "./actions/loaderActions/loaderActions";
 import { getLoader } from "./utils/selectors/loader";
 import { IUser } from "./shared/types";
@@ -20,6 +19,7 @@ import ProtectedRoute from "./app/ProtectedRoute";
 import Loader from "./components/Loader/Loader";
 import './App.scss';
 import Profile from "./pages/Profile/Profile";
+import Settings from "./pages/Settings/Settings";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -66,7 +66,9 @@ const App: React.FC = () => {
               <Route path='/new' element={<BugPage />} />
               <Route path='/edit/:id' element={<BugPage />} />
               <Route path='/list' element={<BugList />} />
-              <Route path='/profile' element={<Profile />} /> 
+              <Route path="/settings" element={<Settings />}>
+                <Route path='/settings/profile' element={<Profile />} /> 
+              </Route>
             </Route>
           </Route>
           <Route path='/login' element={<Login/>}/>

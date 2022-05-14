@@ -1,0 +1,30 @@
+@import '../../styles/variables.scss';
+
+.Settings {
+    height: 100%;
+    display: flex;
+    margin: 0rem 5rem;
+
+    .Settings__left {
+        border-radius: 8px;
+        background-color: $bgGrey;
+        padding: 1rem;
+        flex: 1;
+
+        > h1 {
+            margin-bottom: 2rem;
+        }
+
+        .Settings__left__div {
+            width: 100%;
+            height: 50px;
+        }
+    }
+
+
+    .Settings__right {
+        border-radius: 8px;
+        padding: 1rem;
+        flex: 4;
+    }
+}

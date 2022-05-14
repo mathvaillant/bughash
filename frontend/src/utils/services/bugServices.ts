@@ -36,7 +36,7 @@ const getSingleBug = async (id: string, token: string): Promise<IBug> => {
 const openNew = async (bugData: IBug, token: string | null): Promise<void> => {
     const config = {
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
         }
     }
     
@@ -51,7 +51,6 @@ const openNew = async (bugData: IBug, token: string | null): Promise<void> => {
             paths.push(sourceUrl);
         })
 
-        console.log(paths);
     }
 
     const { data } = await axios.post(BUG_API_URL, bugData, config);

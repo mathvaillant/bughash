@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import _ from "underscore";
 import { getBugsList } from "../../actions/bugActions/bugActions";
+import EmptyState from "../../components/EmptyState/EmptyState";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { getBugList } from "../../utils/selectors/bug";
 import BugItem from "./BugItem";
@@ -19,12 +20,20 @@ const BugList: React.FC = () => {
     }
   }, []);
 
+  if(_.isEmpty(bugList)) {
+    return (
+      <div className={'BugList empty'}>
+        <EmptyState emptyStateFor="bugList"/>
+      </div>      
+    ) 
+  }
+
   return (
     <div className={'BugList'}>
-
-        <div className="BugList__cards">
+        {bugList && (
+          <div className="BugList__cards">
             {
-              bugList && bugList.map(({ description, _id, title, status, createdAt, files, createdBy }, index) => {
+              bugList.map(({ description, _id, title, status, createdAt, files, createdBy }, index) => {
                 return <BugItem 
                   key={`${_id}-${index}`} 
                   title={title} 
@@ -38,6 +47,7 @@ const BugList: React.FC = () => {
               })
             }
         </div>
+        )}
     </div>
   )
 }

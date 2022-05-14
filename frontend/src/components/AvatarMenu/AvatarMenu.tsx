@@ -11,9 +11,11 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { logout } from "../../actions/authActions/authAction";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AvatarMenu: React.FC = () => {
   const dispatch = useDispatch();
+  const navigator = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -28,6 +30,10 @@ const AvatarMenu: React.FC = () => {
 
     dispatch(logout());
   }
+
+  const handleGoTo = (e: React.MouseEvent<HTMLElement>, path: string): void => {
+    navigator(path);
+  };
 
   return (
     <>
@@ -54,14 +60,14 @@ const AvatarMenu: React.FC = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
+        <MenuItem >
           <ListItemIcon>
             <Avatar src={ProfileMe} sx={{ width: 32, height: 32 }}/> 
           </ListItemIcon>
           Profile
         </MenuItem>
         <Divider />
-        <MenuItem>
+        <MenuItem onClick={(e) => handleGoTo(e, '/settings')}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>

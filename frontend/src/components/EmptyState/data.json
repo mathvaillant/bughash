@@ -1,0 +1,8 @@
+{
+    "dashboard": {
+        "h1": "You have no bugs opened at the moment 🥳"
+    },
+    "bugList": {
+        "h1": "No lists to show for now"
+    }
+}

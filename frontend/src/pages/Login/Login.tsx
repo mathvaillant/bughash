@@ -7,7 +7,7 @@ import { getAuth, getAuthUserDataToken } from "../../utils/selectors/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { toastr } from "react-redux-toastr";
-import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
+import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel, Typography } from "@mui/material";
 import './Login.scss';
 
 const Login: React.FC = () => {
@@ -42,6 +42,8 @@ const Login: React.FC = () => {
     e.preventDefault();
     dispatch(login(email, password));
   }
+
+  const handleGoToRegister = (e: any) => navigator('/register');
 
   return (
     <div className='Login'>
@@ -92,6 +94,7 @@ const Login: React.FC = () => {
                 </FormControl>
 
                 <Button type='submit' variant='contained'>Login</Button>
+                <Button size='small' variant="outlined" onClick={handleGoToRegister}>Register</Button>
               </>
             )}
           </form>
