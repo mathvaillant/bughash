@@ -5,7 +5,6 @@ import { EDITOR_JS_TOOLS } from "../../utils/constants.js";
 import useEventListener from "../../utils/hooks/useEventListener.js";
 import useToggle from "../../utils/hooks/useToggle";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";
-import './_Description.scss';
 import _ from "underscore";
 
 const EDITOR_HOLDER_ID = 'editorjs';

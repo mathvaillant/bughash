@@ -1,6 +1,5 @@
 import React from 'react'
 import { Delete, Visibility } from "@mui/icons-material";
-import './FileUploaded.scss';
 import { Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
 

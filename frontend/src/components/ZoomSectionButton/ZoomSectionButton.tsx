@@ -1,7 +1,6 @@
 import React from 'react';
 import { ZoomOutMap } from '@mui/icons-material';
 import { IconButton } from "@mui/material";
-import './_ZoomSectionButton.scss';
 
 interface ZoomSectionButtonProps {
   handleZoomSection: () => void;

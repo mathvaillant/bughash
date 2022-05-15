@@ -8,7 +8,6 @@ import { getAuth, getAuthUserDataToken } from "../../utils/selectors/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
-import './Register.scss';
 
 const Register: React.FC = () => {
   const navigator = useNavigate();

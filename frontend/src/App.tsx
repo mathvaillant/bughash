@@ -17,9 +17,9 @@ import BugPage from "./pages/BugPage/BugPage";
 import BugList from "./pages/BugList/BugList";
 import ProtectedRoute from "./app/ProtectedRoute";
 import Loader from "./components/Loader/Loader";
-import './App.scss';
 import Profile from "./pages/Profile/Profile";
-import Settings from "./pages/Settings/Settings";
+import Settings from "./pages/Settings";
+import './App.scss';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();

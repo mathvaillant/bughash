@@ -9,7 +9,6 @@ import Close from '@mui/icons-material/KeyboardArrowLeft';
 import useEventListener from "../../utils/hooks/useEventListener.js";
 import ListIcon from '@mui/icons-material/List';
 import AvatarMenu from "../AvatarMenu/AvatarMenu";
-import './SideMenu.scss';
 
 const SideMenu: React.FC = () => {
   const [expanded, setExpanded] = useToggle();

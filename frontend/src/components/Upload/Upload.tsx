@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react'
-import './_Upload.scss';
 import classNames from "classnames";
 import useEventListener from "../../utils/hooks/useEventListener.js";
 import ZoomSectionButton from "../ZoomSectionButton/ZoomSectionButton";

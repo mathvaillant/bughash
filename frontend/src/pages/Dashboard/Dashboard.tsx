@@ -1,8 +1,5 @@
-import { Button } from "@mui/material";
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { AddBox } from '@mui/icons-material';
-import './_Dashboard.scss';
 import EmptyState from "../../components/EmptyState/EmptyState";
 
 const Dashboard: React.FC = () => {

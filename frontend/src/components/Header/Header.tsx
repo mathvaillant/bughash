@@ -2,7 +2,6 @@ import React from 'react';
 import { AddBox } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
 import { Button, Tooltip } from "@mui/material";
-import './_Header.scss';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();

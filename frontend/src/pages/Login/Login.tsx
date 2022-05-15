@@ -8,7 +8,6 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { toastr } from "react-redux-toastr";
 import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel, Typography } from "@mui/material";
-import './Login.scss';
 
 const Login: React.FC = () => {
   const navigator = useNavigate();

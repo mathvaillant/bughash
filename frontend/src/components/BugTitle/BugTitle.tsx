@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from 'react'
-import './_BugTitle.scss';
 
 interface Props {
     handleChangeTitle: (title: string) => void

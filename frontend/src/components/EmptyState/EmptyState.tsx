@@ -1,5 +1,4 @@
 import React from 'react';
-import './EmptyState.scss';
 import data from './data.json';
 
 interface IEmptyState {

@@ -12,8 +12,8 @@ import Description from "../../components/Description/Description"
 import Upload from "../../components/Upload/Upload";
 import BugId from "../../components/BugId/BugId";
 import { Button } from "@mui/material";
-import './BugPage.scss';
 import _ from "underscore";
+import { getBugsList } from "../../actions/bugActions/bugActions";
 
 const BugPage: React.FC = () => {
   const params = useParams();
@@ -56,6 +56,8 @@ const BugPage: React.FC = () => {
       if(!params.id) {
         await BugServices.openNew(bugData, token); 
         toastr.success('New Bug Open', 'Successfully opened a new bug');
+
+        dispatch(getBugsList(token));
         navigator('/list'); 
         return;
       }

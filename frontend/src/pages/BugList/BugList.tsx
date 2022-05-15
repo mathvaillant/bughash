@@ -1,24 +1,12 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react'
+import { useSelector } from "react-redux";
 import _ from "underscore";
-import { getBugsList } from "../../actions/bugActions/bugActions";
 import EmptyState from "../../components/EmptyState/EmptyState";
-import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { getBugList } from "../../utils/selectors/bug";
 import BugItem from "./BugItem";
-import './BugList.scss';
 
 const BugList: React.FC = () => {
-  const dispatch = useDispatch();
-
   const bugList = useSelector(getBugList);
-  const token = useSelector(getAuthUserDataToken);
-
-  useEffect(() => {
-    if(token && (!bugList || _.isEmpty(bugList))) {
-      dispatch(getBugsList(token));
-    }
-  }, []);
 
   if(_.isEmpty(bugList)) {
     return (
