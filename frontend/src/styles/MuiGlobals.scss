@@ -1,3 +1,7 @@
 .Mui-selected {
-    color: $black;
+    color: $black !important;
+}
+
+.MuiTabs-indicator {
+    background-color: $black !important;
 }

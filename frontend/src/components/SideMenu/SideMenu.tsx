@@ -2,16 +2,14 @@ import React, { ReactElement, useCallback } from 'react';
 import { Button, IconButton, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router";
 import classNames from "classnames";
-import useToggle from "../../utils/hooks/useToggle";
 import HomeIcon from '@mui/icons-material/Home';
 import Open from '@mui/icons-material/KeyboardArrowRight';
 import Close from '@mui/icons-material/KeyboardArrowLeft';
-import useEventListener from "../../utils/hooks/useEventListener.js";
 import ListIcon from '@mui/icons-material/List';
 import AvatarMenu from "../AvatarMenu/AvatarMenu";
 
 const SideMenu: React.FC = () => {
-  const [expanded, setExpanded] = useToggle();
+  const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
 
   const pathIcons: Record<string, ReactElement> = {
@@ -19,15 +17,9 @@ const SideMenu: React.FC = () => {
     'List': <ListIcon fontSize="small" />,
   }
 
-  const handleClickAway = useCallback((e) => {
-    const shouldResize = !e.target.closest("[data-sidebar-section]");
-
-    if(shouldResize && expanded) {
-      setExpanded();
-    }
-  }, [setExpanded, expanded]);
-
-  useEventListener('click', handleClickAway);
+  const handleExpandSidebar = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    setExpanded(!expanded);
+  };
 
   const navigateToPath = (e: React.MouseEvent<HTMLElement>, path: string): void => navigate(path);
   
@@ -57,7 +49,8 @@ const SideMenu: React.FC = () => {
       data-sidebar-section='toggleClose'
     > 
       <a className="logoName" onClick={() => navigate('/dashboard')}>{!expanded ? 'BH' : 'BugHash'}</a>
-      <IconButton className='Sidebar__expandButton' onClick={setExpanded}>
+      
+      <IconButton className='Sidebar__expandButton' onClick={handleExpandSidebar}>
       {
         !expanded ? <Open /> : <Close />
       }

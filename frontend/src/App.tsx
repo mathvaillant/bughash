@@ -17,7 +17,6 @@ import BugPage from "./pages/BugPage/BugPage";
 import BugList from "./pages/BugList/BugList";
 import ProtectedRoute from "./app/ProtectedRoute";
 import Loader from "./components/Loader/Loader";
-import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings";
 import './App.scss';
 
@@ -66,9 +65,7 @@ const App: React.FC = () => {
               <Route path='/new' element={<BugPage />} />
               <Route path='/edit/:id' element={<BugPage />} />
               <Route path='/list' element={<BugList />} />
-              <Route path="/settings" element={<Settings />}>
-                <Route path='/settings/profile' element={<Profile />} /> 
-              </Route>
+              <Route path="/settings" element={<Settings />} />
             </Route>
           </Route>
           <Route path='/login' element={<Login/>}/>

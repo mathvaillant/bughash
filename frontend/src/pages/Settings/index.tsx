@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Profile from "../Profile/Profile";
+import Profile from "./components/Tabs/Profile/index";
 import { getTabProps } from "./utils";
 
 interface ISettingsTabProps {
@@ -17,6 +17,7 @@ const TabPanel = (props: ISettingsTabProps): JSX.Element => {
 
   return (
     <div
+      className="Settings__tabpanel"
       role="tabpanel"
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
@@ -41,7 +42,7 @@ const Settings = (): JSX.Element => {
     <div className='Settings'>
       <h1 className='Settings__header'>Settings</h1>
 
-      <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>
+      <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%'}}>
         <Tabs
           orientation="vertical"
           variant="scrollable"
@@ -50,8 +51,8 @@ const Settings = (): JSX.Element => {
           aria-label="Vertical tabs example"
           sx={{ borderRight: 1, borderColor: 'divider' }}
         >
-          <Tab label="Item One" {...getTabProps(0)} />
-          <Tab label="Item Two" {...getTabProps(1)} />
+          <Tab label="Profile" {...getTabProps(0)} />
+          <Tab label="Workspace" {...getTabProps(1)} />
         </Tabs>
 
         <TabPanel value={tabIndex} index={0}>

@@ -4,4 +4,12 @@
     h1.Settings__header {
         margin-bottom: 2rem;
     }
+
+    .MuiTabs-root {
+        min-width: 150px;
+    }
+
+    .Settings__tabpanel {
+        width: 100%;
+    }
 }
