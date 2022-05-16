@@ -9,6 +9,15 @@
         flex-direction: column;
         gap: 2rem;
 
+        .Profile__right__save,
+        .Profile__right__cancel {
+            &.Mui-disabled {
+                background-color: $grey;
+                border-color: lighten($grey, 1%);
+                opacity: .6;
+            }
+        }
+
         .Profile__right__cancel {
             color: $black;
             border-color: $black;
@@ -20,10 +29,6 @@
             background-color: $black;
             border-color: white;
             border-radius: 22px;
-
-            &.Mui-disabled {
-                background-color: $grey;
-            }
 
             &.MuiLoadingButton-loading {
                 color: transparent;

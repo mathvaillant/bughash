@@ -20,7 +20,7 @@ const AvatarMenu: React.FC = () => {
 
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>): void => setAnchorEl(event.currentTarget);
+  const handleOpen = (event: React.MouseEvent<HTMLElement>): void => setAnchorEl(event.currentTarget);
 
   const handleClose = (): void => setAnchorEl(null);
 
@@ -40,7 +40,7 @@ const AvatarMenu: React.FC = () => {
       <div className={'AvatarMenu__Avatar'}>
         <Tooltip title="Options">
           <IconButton
-            onClick={handleClick}
+            onMouseEnter={handleOpen}
             size="small"
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
@@ -55,30 +55,35 @@ const AvatarMenu: React.FC = () => {
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
+        onMouseLeave={handleClose}
         onClose={handleClose}
         onClick={handleClose}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem >
+        <MenuItem  onClick={(e) => handleGoTo(e, '/settings')}>
           <ListItemIcon>
-            <Avatar src={ProfileMe} sx={{ width: 32, height: 32 }}/> 
+            <Avatar src={ProfileMe} sx={{ width: 32, height: 32, marginRight: '10px'}}/> 
           </ListItemIcon>
           Profile
         </MenuItem>
+
         <Divider />
+
         <MenuItem onClick={(e) => handleGoTo(e, '/settings')}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
+
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>
+
       </Menu>
     </>
   );

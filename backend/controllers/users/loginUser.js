@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../../models/userModel');
-const { generateToken } = require("../../utils/jwt");
+const generateToken = require("../../utils/jwt");
 
 // @desc    Authenticate a user
 // @route   POST /users/login

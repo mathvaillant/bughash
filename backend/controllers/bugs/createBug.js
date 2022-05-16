@@ -5,11 +5,6 @@ const Bug = require('../../models/bugModel');
 // @route   POST /bugs
 // @access  Private 
 const createBug = asyncHandler(async (req, res) => {
-    if(!req.body.title) {
-        res.status(400);
-        throw new Error('Please send the bug with a title')
-    }
-
     const { title, status, description, files } = req.body;
 
     const bug = await Bug.create({ 

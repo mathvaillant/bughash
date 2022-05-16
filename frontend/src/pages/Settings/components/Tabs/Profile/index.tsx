@@ -17,8 +17,8 @@ const Profile: React.FC = () => {
   const userId = useSelector(getAuthUserDataId);
   const token = useSelector(getAuthUserDataToken);
 
-  const [email, setEmail] = React.useState(userEmail);
-  const [name, setName] = React.useState(userName);
+  const [email, setEmail] = React.useState<string | null>(userEmail);
+  const [name, setName] = React.useState<string | null>(userName);
   const [isLoading, setIsLoading] = React.useState(false);
 
   if(!userEmail || !userName || !userId) return null;
@@ -39,10 +39,10 @@ const Profile: React.FC = () => {
 
       const { name: newName, email: newEmail } = await userServices.updateData(newUserData);
 
-      if(newName && newEmail) {
-        setEmail(newEmail);
-        setName(newName);
-      }
+      setEmail(newEmail || email);
+      setName(newName || name);
+
+      localStorage.setItem('ls_db_user_info', JSON.stringify(newUserData));
 
       toastr.success('Updated', 'Successfully updated');
 
@@ -89,7 +89,14 @@ const Profile: React.FC = () => {
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end', maxWidth: '400px', gap: '1rem'}}>
-          <Button className="Profile__right__cancel" size="small" variant='outlined'>Cancel</Button>
+          <Button
+            disabled={email === userEmail && name === userName} 
+            className="Profile__right__cancel" 
+            size="small" 
+            variant='outlined'
+          >
+            Cancel
+          </Button>
           <LoadingButton 
             disabled={email === userEmail && name === userName}
             loading={isLoading}
