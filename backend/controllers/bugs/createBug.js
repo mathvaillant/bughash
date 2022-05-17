@@ -5,14 +5,14 @@ const Bug = require('../../models/bugModel');
 // @route   POST /bugs
 // @access  Private 
 const createBug = asyncHandler(async (req, res) => {
-    const { title, status, description, files } = req.body;
+    const { title, status, description, fileUrls } = req.body;
 
     const bug = await Bug.create({ 
         title,
         status,
         description: JSON.stringify(description),
         createdBy: req.user.id,
-        files
+        fileUrls
     });
     
     res.status(200).json(bug);

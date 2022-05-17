@@ -7,6 +7,7 @@ import { toastr } from "react-redux-toastr";
 import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
 import { OutputData } from "@editorjs/editorjs";
 import BugServices from "../../utils/services/bugServices";
+import firebaseServices from "../../utils/services/firebaseServices";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
 import Upload from "../../components/Upload/Upload";
@@ -14,6 +15,7 @@ import BugId from "../../components/BugId/BugId";
 import { Button } from "@mui/material";
 import _ from "underscore";
 import { getBugsList } from "../../actions/bugActions/bugActions";
+import { getBugFileUrls } from "../../utils/selectors/bug";
 
 const BugPage: React.FC = () => {
   const params = useParams();
@@ -24,6 +26,7 @@ const BugPage: React.FC = () => {
   const [editorContent, setEditorContent] = useState<OutputData | undefined>();
   
   const token = useSelector(getAuthUserDataToken);
+  const filesUrls = useSelector(getBugFileUrls(params.id || ''));
 
   const handleChangeTitle = useCallback((value: string): void => setbugTitle(value), []);
 
@@ -50,28 +53,44 @@ const BugPage: React.FC = () => {
         description: editorContent,
         title: bugTitle,
         status: 'todo',
-        files: bugFiles
       } as IBug
         
-      if(!params.id) {
-        await BugServices.openNew(bugData, token); 
-        toastr.success('New Bug Open', 'Successfully opened a new bug');
-
-        dispatch(getBugsList(token));
-        navigator('/list'); 
+      if(params.id) {
+        await BugServices.updateBug({...bugData, _id: params.id}, token);  
+        toastr.success('Successfully updated!', '');
         return;
       }
+
+      const newBug = await BugServices.openNew(bugData, token);
       
-      await BugServices.updateBug({...bugData, _id: params.id}, token);  
-      toastr.success('Successfully updated!', '');
+      if(bugFiles.length && newBug._id) {
+        const fileUrls = await firebaseServices.uploadImgArray(bugFiles, newBug._id);
+
+        if(!fileUrls) {
+          throw new Error();
+        }
+
+        const bugDataUpdated: IBug = {
+            ...newBug,
+            fileUrls: fileUrls
+        }
+
+        await BugServices.updateBug(bugDataUpdated, token);
+      }
+
+      toastr.success('New Bug Open', 'Successfully opened a new bug');
+
+      dispatch(getBugsList(token));
+      navigator('/list'); 
+      return;
     
     } catch (error: any) {
-      toastr.error('An error occured white trying to update the data', '');
+      toastr.error('An error occured white trying to submit the data', '');
     } finally {
       dispatch(hideLoader());
     }
 
-  }, [dispatch, bugTitle, token, editorContent, bugFiles, params.id, navigator]);
+  }, [bugTitle, token, editorContent, bugFiles, params.id, navigator]);
 
   const handleUploadFile = useCallback((data: File[]): void => setBugFiles(data), []);
 
@@ -104,7 +123,7 @@ const BugPage: React.FC = () => {
         dispatch(hideLoader());
       }
     })()
-  }, [dispatch, params.id, token]);
+  }, [params.id, token]);
 
   const handleUpdateEditorContent = useCallback((content: OutputData): void => setEditorContent(content), []);
 

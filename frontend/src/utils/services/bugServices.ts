@@ -2,7 +2,6 @@ import axios from 'axios';
 import { IBug } from "../../shared/types";
 
 const BUG_API_URL = '/bugs';
-const UPLOAD_FILE_API = '/uploads';
 
 const getBugs = async (token: string): Promise<IBug[]> => {
     const config = {
@@ -33,26 +32,12 @@ const getSingleBug = async (id: string, token: string): Promise<IBug> => {
     return bugData as IBug;
 }
 
-const openNew = async (bugData: IBug, token: string | null): Promise<void> => {
+const openNew = async (bugData: IBug, token: string | null): Promise<IBug> => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     }
-    
-    if(bugData.files) {
-        const paths: string[] = [];
-
-        bugData.files.forEach(async(file: File) => {
-            const { data } = await axios.post(UPLOAD_FILE_API, file, config);
-
-            const { sourceUrl } = data;
-
-            paths.push(sourceUrl);
-        })
-
-    }
-
     const { data } = await axios.post(BUG_API_URL, bugData, config);
 
     return data;

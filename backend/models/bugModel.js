@@ -18,10 +18,9 @@ const bugSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    files: {
-        type: [mongoose.Schema.Types.ObjectId],
+    fileUrls: {
+        type: [String],
         required: false,
-        ref: 'Upload'
     },
 }, {
     timestamps: true
