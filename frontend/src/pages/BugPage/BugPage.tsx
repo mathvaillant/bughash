@@ -90,7 +90,7 @@ const BugPage: React.FC = () => {
       dispatch(hideLoader());
     }
 
-  }, [bugTitle, token, editorContent, bugFiles, params.id, navigator]);
+  }, [dispatch, bugTitle, token, editorContent, bugFiles, params.id, navigator]);
 
   const handleUploadFile = useCallback((data: File[]): void => setBugFiles(data), []);
 
@@ -123,7 +123,7 @@ const BugPage: React.FC = () => {
         dispatch(hideLoader());
       }
     })()
-  }, [params.id, token]);
+  }, [dispatch, params.id, token]);
 
   const handleUpdateEditorContent = useCallback((content: OutputData): void => setEditorContent(content), []);
 
@@ -151,6 +151,7 @@ const BugPage: React.FC = () => {
           <div>
             <Upload 
               currentFiles={bugFiles}
+              existingFilesUrls={filesUrls}
               handleUploadFile={handleUploadFile}
               handleDeleteFile={handleDeleteFile}
             />

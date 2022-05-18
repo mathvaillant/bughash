@@ -6,14 +6,16 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import useToggle from '../../utils/hooks/useToggle';
 import { CircularProgress } from "@mui/material";
 import FileUploaded from "../FileUploaded/FileUploaded";
+import { toastr } from "react-redux-toastr";
 
 interface UploadProps {
   currentFiles: File[]
   handleUploadFile: (data: File[]) => void,
   handleDeleteFile: (file: File) => void
+  existingFilesUrls: string[]
 }
 
-const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, handleDeleteFile}) => {
+const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, handleDeleteFile, existingFilesUrls}) => {
   const [dragginOver, setDraggingOver] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomSection, setZoomSection] = useToggle();
@@ -43,8 +45,14 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, ha
 
   const handleUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e?.target?.files?.[0];
+    const allowedTypes = /png|jpg|jpeg|/;
 
     if(!file) return;
+
+    if(!allowedTypes.test(file.type)) {
+      toastr.error('Currently we only support uploading images', '');
+      return;
+    }
 
     setIsLoading(true);
 
@@ -93,9 +101,9 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, ha
           />
         </div>
 
-        {!!(currentFiles.length) && (
-          <div className={classNames('Upload__files', {})}>
-            {currentFiles.map((file, index) => {
+        <div className={classNames('Upload__files', {})}>
+
+            {!!(currentFiles.length) && currentFiles.map((file, index) => {
               return (
                 <FileUploaded 
                   key={index} 
@@ -104,8 +112,19 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, ha
                 />
               )
             })}
+
+            {!!(existingFilesUrls.length) && existingFilesUrls.map((srcUrl, index) => {
+              return (
+                <FileUploaded 
+                  key={index} 
+                  srcUrl={srcUrl}
+                  previouslyUploaded={true}
+                  onDelete={handleDelete}
+                />
+              )
+            })}
+
           </div>
-        )}
 
     </div>
   )

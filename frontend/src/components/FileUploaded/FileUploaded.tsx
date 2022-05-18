@@ -1,18 +1,20 @@
 import React from 'react'
 import { Delete, Visibility } from "@mui/icons-material";
-import { Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
+import { Dialog, DialogContent, IconButton } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
 
 interface IFileUploaded {
-  file: File,
+  file?: File,
   onDelete: (file: File) => void
+  srcUrl?: string
+  previouslyUploaded?: boolean
 }
 
-export const FileUploaded: React.FC<IFileUploaded> = ({ file, onDelete }) => {
+export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete, srcUrl, previouslyUploaded = false }) => {
   const [expand, setExpand] = useToggle();
 
   const handleDeleteFile = React.useCallback((): void => {
-    onDelete(file);
+    file && onDelete(file);
   }, [onDelete]);
 
   const handleVisualizeFile = (): void => {
@@ -20,14 +22,16 @@ export const FileUploaded: React.FC<IFileUploaded> = ({ file, onDelete }) => {
   };
 
   const fileData = React.useMemo(() => {
-    const { name, size, type } = file;
-    const fileToBlob = new Blob([file]);
+    if(file) {
+      const { name, size, type } = file;
+      const fileToBlob = new Blob([file]);
 
-    return {
-      name,
-      size: size/1000,
-      type,
-      previewUrl: URL.createObjectURL(fileToBlob),
+      return {
+        name,
+        size: size/1000,
+        type,
+        previewUrl: URL.createObjectURL(fileToBlob),
+      }
     }
   }, [file]);
 
@@ -42,16 +46,10 @@ export const FileUploaded: React.FC<IFileUploaded> = ({ file, onDelete }) => {
         </IconButton>
       </div>
 
-      {fileData.type.includes('image') && (
-        <img src={fileData.previewUrl} />
-      )}
-
-      {fileData.type.includes('video') && (
-        <>
-          <video width="100%" height="100%" controls>
-            <source src={fileData.previewUrl} type={fileData.type} />
-          </video>
-        </>
+      {previouslyUploaded ? (
+        <img src={srcUrl} />
+      ) : (
+        <img src={fileData?.previewUrl}/>
       )}
 
       <Dialog
@@ -59,23 +57,8 @@ export const FileUploaded: React.FC<IFileUploaded> = ({ file, onDelete }) => {
         maxWidth={'lg'}
         onClose={setExpand}
       >
-        <DialogTitle>
-          <Typography>{fileData.name}</Typography>
-          <small>{fileData.size.toFixed(2)}KB</small>
-        </DialogTitle>
-
         <DialogContent>
-          {fileData.type.includes('image') && (
-            <img src={fileData.previewUrl} />
-          )}
-
-          {fileData.type.includes('video') && (
-            <>
-              <video width="100%" height="100%" controls>
-                <source src={fileData.previewUrl} type={fileData.type} />
-              </video>
-            </>
-          )}
+            <img src={fileData?.previewUrl || srcUrl} />
         </DialogContent>
       </Dialog>
     </div>
