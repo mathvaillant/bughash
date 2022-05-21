@@ -7,7 +7,6 @@ import { toastr } from "react-redux-toastr";
 import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
 import { OutputData } from "@editorjs/editorjs";
 import BugServices from "../../utils/services/bugServices";
-import firebaseServices from "../../utils/services/firebaseServices";
 import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
 import Upload from "../../components/Upload/Upload";
@@ -15,7 +14,6 @@ import BugId from "../../components/BugId/BugId";
 import { Button } from "@mui/material";
 import _ from "underscore";
 import { getBugsList } from "../../actions/bugActions/bugActions";
-import { getBugFileUrls } from "../../utils/selectors/bug";
 
 const BugPage: React.FC = () => {
   const params = useParams();
@@ -26,7 +24,6 @@ const BugPage: React.FC = () => {
   const [editorContent, setEditorContent] = useState<OutputData | undefined>();
   
   const token = useSelector(getAuthUserDataToken);
-  const filesUrls = useSelector(getBugFileUrls(params.id || ''));
 
   const handleChangeTitle = useCallback((value: string): void => setbugTitle(value), []);
 
@@ -61,22 +58,7 @@ const BugPage: React.FC = () => {
         return;
       }
 
-      const newBug = await BugServices.openNew(bugData, token);
-      
-      if(bugFiles.length && newBug._id) {
-        const fileUrls = await firebaseServices.uploadImgArray(bugFiles, newBug._id);
-
-        if(!fileUrls) {
-          throw new Error();
-        }
-
-        const bugDataUpdated: IBug = {
-            ...newBug,
-            fileUrls: fileUrls
-        }
-
-        await BugServices.updateBug(bugDataUpdated, token);
-      }
+      await BugServices.openNew(bugData, token);
 
       toastr.success('New Bug Open', 'Successfully opened a new bug');
 
@@ -151,7 +133,6 @@ const BugPage: React.FC = () => {
           <div>
             <Upload 
               currentFiles={bugFiles}
-              existingFilesUrls={filesUrls}
               handleUploadFile={handleUploadFile}
               handleDeleteFile={handleDeleteFile}
             />

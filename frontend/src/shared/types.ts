@@ -20,7 +20,6 @@ export interface BugsState {
 export interface IBug {
     description: OutputData
     files: File[]
-    fileUrls?: string[]
     title: string
     status: string
     _id?: string
@@ -31,6 +30,7 @@ export interface IBug {
 export interface IUser {
     email: string | null
     password?: string | null
+    avatar?: File | null 
     name?: string | null
     role?: string | null
     token?: string | null

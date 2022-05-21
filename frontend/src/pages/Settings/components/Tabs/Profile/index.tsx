@@ -1,12 +1,11 @@
 import React from 'react'
-import ProfileMe from '../../../../../assets/images/profile.png';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PersonIcon from '@mui/icons-material/Person';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Avatar, Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
-import { getAuthUserDataEmail, getAuthUserDataId, getAuthUserDataName, getAuthUserDataToken } from "../../../../../utils/selectors/auth";
+import { getAuthUserDataAvatar, getAuthUserDataEmail, getAuthUserDataId, getAuthUserDataName, getAuthUserDataToken } from "../../../../../utils/selectors/auth";
 import { IUser } from "../../../../../shared/types";
 import userServices from "../../../../../utils/services/userServices";
 import { toastr } from "react-redux-toastr";
@@ -14,17 +13,28 @@ import { toastr } from "react-redux-toastr";
 const Profile: React.FC = () => {
   const userEmail = useSelector(getAuthUserDataEmail);
   const userName = useSelector(getAuthUserDataName);
+  const userAvatar = useSelector(getAuthUserDataAvatar);
   const userId = useSelector(getAuthUserDataId);
   const token = useSelector(getAuthUserDataToken);
 
   const [email, setEmail] = React.useState<string | null>(userEmail);
   const [name, setName] = React.useState<string | null>(userName);
+  const [avatarUrl, setAvatarUrl] = React.useState<string | null>(userAvatar);
   const [isLoading, setIsLoading] = React.useState(false);
 
   if(!userEmail || !userName || !userId) return null;
 
   const handleChangeEmail = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => setEmail(value);
   const handleChangeName = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => setName(value);
+
+  const handleAvatarUpload = async ({ target: { files } }: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    if(!files) return;
+
+    const file = files[0];
+
+    const newAvatar = await userServices.updateUserAvatar(file, token, userId);
+    setAvatarUrl(newAvatar);
+  };
 
   const handleSave = async (): Promise<void> => {
     try {
@@ -58,8 +68,13 @@ const Profile: React.FC = () => {
       <div className="Profile__left">
         <Avatar
           alt="Remy Sharp"
-          src={ProfileMe}
+          src={avatarUrl || ''}
           sx={{ width: 100, height: 100 }}
+        />
+
+        <input 
+          type="file" 
+          onChange={handleAvatarUpload}
         />
       </div>
 

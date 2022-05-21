@@ -6,16 +6,14 @@ import useToggle from "../../utils/hooks/useToggle";
 interface IFileUploaded {
   file?: File,
   onDelete: (file: File) => void
-  srcUrl?: string
-  previouslyUploaded?: boolean
 }
 
-export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete, srcUrl, previouslyUploaded = false }) => {
+export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete }) => {
   const [expand, setExpand] = useToggle();
 
-  const handleDeleteFile = React.useCallback((): void => {
+  const handleDeleteFile = React.useCallback( async (): Promise<void> => {
     file && onDelete(file);
-  }, [onDelete]);
+  }, [file]);
 
   const handleVisualizeFile = (): void => {
     setExpand();
@@ -46,11 +44,12 @@ export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete, s
         </IconButton>
       </div>
 
-      {previouslyUploaded ? (
-        <img src={srcUrl} />
-      ) : (
-        <img src={fileData?.previewUrl}/>
-      )}
+      <img src={fileData?.previewUrl}/>
+      {/* { 
+        <Tooltip title='Previously uploaded'>
+          <CheckIcon/>
+        </Tooltip>
+      } */}
 
       <Dialog
         open={expand}
@@ -58,7 +57,7 @@ export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete, s
         onClose={setExpand}
       >
         <DialogContent>
-            <img src={fileData?.previewUrl || srcUrl} />
+            <img src={fileData?.previewUrl} />
         </DialogContent>
       </Dialog>
     </div>

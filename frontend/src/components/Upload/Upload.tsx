@@ -12,10 +12,9 @@ interface UploadProps {
   currentFiles: File[]
   handleUploadFile: (data: File[]) => void,
   handleDeleteFile: (file: File) => void
-  existingFilesUrls: string[]
 }
 
-const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, handleDeleteFile, existingFilesUrls}) => {
+const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, handleDeleteFile }) => {
   const [dragginOver, setDraggingOver] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomSection, setZoomSection] = useToggle();
@@ -108,17 +107,6 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, ha
                 <FileUploaded 
                   key={index} 
                   file={file}
-                  onDelete={handleDelete}
-                />
-              )
-            })}
-
-            {!!(existingFilesUrls.length) && existingFilesUrls.map((srcUrl, index) => {
-              return (
-                <FileUploaded 
-                  key={index} 
-                  srcUrl={srcUrl}
-                  previouslyUploaded={true}
                   onDelete={handleDelete}
                 />
               )

@@ -17,6 +17,10 @@ const userSchema = mongoose.Schema({
     role: {
         type: String,
         required: false
+    },
+    avatar: {
+        type: String,
+        required: false
     }
 }, {
     timestamps: true 
