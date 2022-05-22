@@ -2,6 +2,10 @@
     margin-left: 50px;
     height: 100%;
 
+    @include large-mobile {
+        margin-left: 0px;
+    }
+
     .zoomSection {
         top: 0px;
         left: 20px;
@@ -16,6 +20,10 @@
     .BugPage__header {
         display: flex;
         padding: 20px;
+
+        @include large-mobile {
+            display: block;
+        }
 
         div:first-child {
             flex: 2 1;
@@ -45,11 +53,32 @@
         position: relative;
         height: 100%;
 
+        @include large-mobile {
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: column-reverse;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
         > * {
             display: flex;
             flex-direction: column;
             width: 50%;
             height:100%;
+
+            @include large-mobile {
+                width: 98%;
+
+                &:nth-of-type(1) {
+                    display: none;
+                }    
+                &:nth-of-type(2) {
+                    padding: 0px 0px 1rem 0px !important;
+                }    
+            }
             
             &:nth-of-type(1) {
                 padding: 10px 10px 20px 20px;

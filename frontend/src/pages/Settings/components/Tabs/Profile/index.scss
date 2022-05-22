@@ -1,7 +1,10 @@
 .Profile {
     display: flex;
     gap: 3rem;
-    
+
+    @include large-mobile {
+        flex-direction: column;
+    }
 
     .Profile__right {
         width: 100%;

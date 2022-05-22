@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Profile from "./components/Tabs/Profile/index";
 import { getTabProps } from "./utils";
+import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 
 interface ISettingsTabProps {
   children?: React.ReactNode;
@@ -35,6 +36,9 @@ const TabPanel = (props: ISettingsTabProps): JSX.Element => {
 
 const Settings = (): JSX.Element => {
   const [tabIndex, setTabIndex] = React.useState(0);
+  const { isMobile } = useDeviceDetect();
+
+  const tabOrientation = isMobile ? 'horizontal' : 'vertical';
 
   const handleChange = (event: React.SyntheticEvent, newValue: number): void => setTabIndex(newValue);
 
@@ -44,7 +48,7 @@ const Settings = (): JSX.Element => {
 
       <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%'}}>
         <Tabs
-          orientation="vertical"
+          orientation={tabOrientation}
           variant="scrollable"
           value={tabIndex}
           onChange={handleChange}

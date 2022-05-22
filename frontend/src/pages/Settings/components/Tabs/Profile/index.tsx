@@ -9,6 +9,7 @@ import { getAuthUserDataAvatar, getAuthUserDataEmail, getAuthUserDataId, getAuth
 import { IUser } from "../../../../../shared/types";
 import userServices from "../../../../../utils/services/userServices";
 import { toastr } from "react-redux-toastr";
+import { getBlobFromFile } from "../../../../../utils/utils";
 
 const Profile: React.FC = () => {
   const userEmail = useSelector(getAuthUserDataEmail);

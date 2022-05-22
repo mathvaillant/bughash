@@ -8,10 +8,12 @@ import { getAuth, getAuthUserDataToken } from "../../utils/selectors/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
+import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 
 const Register: React.FC = () => {
   const navigator = useNavigate();
   const dispatch = useDispatch();
+  const { isMobile } = useDeviceDetect();
 
   const [showPassword, setShowPassword] = useToggle();
   const [password, setPassword] = useState('');
@@ -34,6 +36,8 @@ const Register: React.FC = () => {
     }
   }, [error, token, navigator])
 
+  const handleGoToLogin = (): void => navigator('/login');
+
   const onChangeEmail = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => setEmail(value);
 
   const onChangeName = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => setName(value);
@@ -47,14 +51,18 @@ const Register: React.FC = () => {
 
   return (
     <div className='Register'>
-        <div className="Register__left">
+        
+        {!isMobile && (
+          <div className="Register__left">
             <div>
               <h2>{'Never forget about crazy bugs anymore.'}</h2>
               <h1>{'Never.'}</h1>
               <h1>{'Anymore.'}</h1>
             </div>
             <img src={RegisterImg} alt="" />
-        </div>
+          </div>
+        )}
+
         <div className="Register__right">
           <form onSubmit={handleSubmit}>
 
@@ -104,6 +112,7 @@ const Register: React.FC = () => {
                 </FormControl>
 
                 <Button type='submit' variant='contained'>Register</Button>
+                <Button size="small" variant='outlined' onClick={handleGoToLogin}>Login</Button>
               </>
             )}
           </form>

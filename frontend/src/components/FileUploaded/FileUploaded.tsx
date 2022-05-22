@@ -2,6 +2,7 @@ import React from 'react'
 import { Delete, Visibility } from "@mui/icons-material";
 import { Dialog, DialogContent, IconButton } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
+import { getBlobFromFile } from "../../utils/utils";
 
 interface IFileUploaded {
   file?: File,
@@ -21,15 +22,9 @@ export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete })
 
   const fileData = React.useMemo(() => {
     if(file) {
-      const { name, size, type } = file;
-      const fileToBlob = new Blob([file]);
+      const result = getBlobFromFile(file);
 
-      return {
-        name,
-        size: size/1000,
-        type,
-        previewUrl: URL.createObjectURL(fileToBlob),
-      }
+      return result;
     }
   }, [file]);
 

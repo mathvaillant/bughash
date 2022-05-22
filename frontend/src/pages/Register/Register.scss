@@ -39,6 +39,11 @@
             box-shadow: $lightBoxShadow;
             padding: 2rem;
 
+            @include large-mobile {
+                height: 90%;
+                width: 100%;
+            }
+
             > .MuiCircularProgress-root {
                 margin: auto;
             }

@@ -17,7 +17,7 @@ const updateData = async (userData: IUser): Promise<IUser> => {
 }
 
 // Update user avatar 
-const updateUserAvatar = async (avatar: File, token: string | null, userId: string): Promise<string> => {
+const updateUserAvatar = async (avatar: File, token: string | null, userId: string): Promise<any> => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -28,14 +28,11 @@ const updateUserAvatar = async (avatar: File, token: string | null, userId: stri
     const formData = new FormData;
     formData.append('avatar', avatar);
 
-    const { data } = await axios.put(`${USER_BASE_URL}/${userId}`, formData, config);
+    const { data: { newAvatar } } = await axios.put(`${USER_BASE_URL}/${userId}`, formData, config);
 
-    // Update it on localStorage
-    const userLSData = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
-    const userLSUpdated = {...userLSData, avatar: data.newAvatar};
-    localStorage.setItem('ls_db_user_info', JSON.stringify(userLSUpdated));
+    const avatarFile = new File([newAvatar], newAvatar.filename, {type: newAvatar.mimtype});
 
-    return data.newAvatar;
+    return avatarFile;
 }
 
 export const userServices = {

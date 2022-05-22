@@ -14,6 +14,16 @@ $sidebarBgColor: #ececec;
     transition: linear 100ms;
     box-shadow: $lightBoxShadow;
 
+    @include large-mobile {
+        position: fixed;
+        width: 100% !important;
+        height: 50px;
+        bottom: 0px;
+        top: unset;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
     .logoName {
         cursor: pointer;
         padding: 0.1rem .5rem;
@@ -24,6 +34,10 @@ $sidebarBgColor: #ececec;
         font-size: inherit;
         color: $white;
         background-color: $black;
+
+        @include large-mobile {
+            margin: unset;
+        }
     }
 
     &.open {
@@ -63,6 +77,10 @@ $sidebarBgColor: #ececec;
             right: -15px;
             background-color: $black;
             box-shadow: $defaultBoxShadow;
+
+            @include large-mobile {
+                display: none;
+            }
 
             .MuiSvgIcon-root {
                 fill: $white;

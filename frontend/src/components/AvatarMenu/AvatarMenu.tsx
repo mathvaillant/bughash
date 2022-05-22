@@ -12,15 +12,29 @@ import Logout from '@mui/icons-material/Logout';
 import { logout } from "../../actions/authActions/authAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 
 const AvatarMenu: React.FC = () => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
+  const { isMobile } = useDeviceDetect();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
 
-  const handleOpen = (event: React.MouseEvent<HTMLElement>): void => setAnchorEl(event.currentTarget);
+  const handleGoTo = (e: React.MouseEvent<HTMLElement>, path: string): void => {
+    navigator(path);
+  };
+
+  const handleOpen = (event: React.MouseEvent<HTMLElement>): void => {
+    if(!isMobile) {
+      setAnchorEl(event.currentTarget);
+      return;
+    }
+
+    handleGoTo(event, '/settings');
+  };
 
   const handleClose = (): void => setAnchorEl(null);
 
@@ -30,10 +44,6 @@ const AvatarMenu: React.FC = () => {
 
     dispatch(logout());
   }
-
-  const handleGoTo = (e: React.MouseEvent<HTMLElement>, path: string): void => {
-    navigator(path);
-  };
 
   return (
     <>

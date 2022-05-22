@@ -1,6 +1,16 @@
 .Settings {
     margin: 0rem 5rem;
 
+    @include large-mobile {
+        margin: 10px;
+    }
+
+    > .MuiBox-root {
+        @include large-mobile {
+            flex-direction: column !important;
+        }
+    }
+
     h1.Settings__header {
         margin-bottom: 2rem;
     }

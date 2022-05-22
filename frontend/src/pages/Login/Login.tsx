@@ -7,11 +7,13 @@ import { getAuth, getAuthUserDataToken } from "../../utils/selectors/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { toastr } from "react-redux-toastr";
-import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel, Typography } from "@mui/material";
+import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
+import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 
 const Login: React.FC = () => {
   const navigator = useNavigate();
   const dispatch = useDispatch();
+  const { isMobile } = useDeviceDetect();
 
   const [showPassword, setShowPassword] = useToggle();
   const [password, setPassword] = useState('');
@@ -46,14 +48,18 @@ const Login: React.FC = () => {
 
   return (
     <div className='Login'>
-        <div className="Login__left">
-            <div>
-              <h2>{'Never forget about crazy bugs anymore.'}</h2>
-              <h1>{'Never.'}</h1>
-              <h1>{'Anymore.'}</h1>
-            </div>
-            <img src={LoginImg} alt="" />
-        </div>
+
+        {!isMobile && (
+          <div className="Login__left">
+              <div>
+                <h2>{'Never forget about crazy bugs anymore.'}</h2>
+                <h1>{'Never.'}</h1>
+                <h1>{'Anymore.'}</h1>
+              </div>
+              <img src={LoginImg} alt="" />
+          </div>
+        )}
+
         <div className="Login__right">
           <form onSubmit={handleSubmit}>
 

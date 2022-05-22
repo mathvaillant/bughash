@@ -6,11 +6,11 @@ const User = require('../../models/userModel');
 // @access  Private
 const updateUser = asyncHandler( async (req, res) => {
     const { name, email } = req.body;
-    const { filename: avatar } = req.file;
+    const avatar = req.file;
 
     if(avatar) {
-        const userWithNewAvatar = await User.findByIdAndUpdate(req.params.id, { avatar });
-        res.status(200).json({ newAvatar: req.file });
+        await User.findByIdAndUpdate(req.params.id, { avatar });
+        res.status(200).json({ newAvatar: avatar });
         return;
     }
 

@@ -9,8 +9,16 @@
     padding: 0px 20px 0rem 4.5rem;
     font-size: 20px;
 
+    @include large-mobile {
+        padding: unset;
+    }
+
     h2 {
         color: $black;
+    }
+
+    .GoBack > svg {
+        fill: $black;
     }
 
     .BugPage {
@@ -29,7 +37,8 @@
             border: 1px solid $white;
         }
 
-        svg {
+        > svg {
+            fill: $white;
             padding: 0.25rem;
             cursor: pointer;
         }
