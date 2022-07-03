@@ -48,10 +48,7 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
         });
 
 
-        const userLoggedIn = await authServices.login({
-            email,
-            password
-        })
+        const userLoggedIn = await authServices.login({ email, password });
 
         dispatch({
             type: ActionType.AUTH_LOGIN_SUCCESS,

@@ -44,7 +44,7 @@ const Login: React.FC = () => {
     dispatch(login(email, password));
   }
 
-  const handleGoToRegister = (e: any) => navigator('/register');
+  const handleGoToRegister = (): void => navigator('/register');
 
   return (
     <div className='Login'>

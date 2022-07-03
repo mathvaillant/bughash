@@ -10,9 +10,9 @@ const getBugs = async (token: string): Promise<IBug[]> => {
         }
     }
 
-    const { data } = await axios.get(BUG_API_URL, config);
+    const { data: { data: { bugs } } } = await axios.get(BUG_API_URL, config);
 
-    return data as IBug[];
+    return bugs as IBug[];
 }
 
 const getSingleBug = async (id: string, token: string): Promise<IBug> => {
@@ -22,11 +22,11 @@ const getSingleBug = async (id: string, token: string): Promise<IBug> => {
         }
     }
 
-    const { data } = await axios.get(`${BUG_API_URL}/${id}`, config);
+    const { data: { data: { bug } } } = await axios.get(`${BUG_API_URL}/${id}`, config);
 
     const bugData = {
-        ...data,
-        description: JSON.parse(data.description)
+        ...bug,
+        description: JSON.parse(bug.description)
     } as IBug
 
     return bugData as IBug;
@@ -38,9 +38,9 @@ const openNew = async (bugData: IBug, token: string | null): Promise<IBug> => {
             Authorization: `Bearer ${token}`,
         }
     }
-    const { data } = await axios.post(BUG_API_URL, bugData, config);
+    const { data: { data: { bug } } } = await axios.post(BUG_API_URL, bugData, config);
 
-    return data;
+    return bug;
 }
 
 const updateBug = async (bugData: IBug, token: string): Promise<IBug> => {
@@ -49,9 +49,9 @@ const updateBug = async (bugData: IBug, token: string): Promise<IBug> => {
             Authorization: `Bearer ${token}`
         }
     }
-    const { data } = await axios.put(`${BUG_API_URL}/${bugData._id}`, bugData, config);
+    const { data: { data: { bug } } } = await axios.put(`${BUG_API_URL}/${bugData._id}`, bugData, config);
 
-    return data as IBug;
+    return bug as IBug;
 } 
 
 const deleteBug = async (id: string, token: string): Promise<string> => {
@@ -61,9 +61,9 @@ const deleteBug = async (id: string, token: string): Promise<string> => {
         }
     }
 
-    const { data } = await axios.delete(`${BUG_API_URL}/${id}`, config);
+    const { data: { data: { message } } } = await axios.delete(`${BUG_API_URL}/${id}`, config);
 
-    return data?.message;
+    return message;
 }
 
 export const BugServices = {

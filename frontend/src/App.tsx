@@ -41,7 +41,7 @@ const App: React.FC = () => {
         dispatch(setUserData(userData));
         dispatch(getBugsList(userData?.token));
 
-      } catch (error: any) {
+      } catch (error) {
         console.log(error);
       } finally {
         dispatch(hideLoader());

@@ -63,8 +63,6 @@ const BugPage: React.FC = () => {
       toastr.success('New Bug Open', 'Successfully opened a new bug');
 
       dispatch(getBugsList(token));
-      navigator('/list'); 
-      return;
     
     } catch (error: any) {
       toastr.error('An error occured white trying to submit the data', '');

@@ -62,9 +62,9 @@ const Settings = (): JSX.Element => {
         <TabPanel value={tabIndex} index={0}>
           <Profile />
         </TabPanel>
-        <TabPanel value={tabIndex} index={1}>
+        {/* <TabPanel value={tabIndex} index={1}>
           Workspace
-        </TabPanel>
+        </TabPanel> */}
       </Box>
     </div>
   );

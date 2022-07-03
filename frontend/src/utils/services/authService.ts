@@ -27,9 +27,8 @@ const login = async (userData: IUser): Promise<IUser> => {
 
 // Logout user
 const logout =  async (): Promise<void> => {
-    localStorage.clear();
-
     return new Promise((resolve) => {
+        localStorage.clear();
         resolve();
     })
 };

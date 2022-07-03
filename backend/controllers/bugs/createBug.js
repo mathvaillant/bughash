@@ -5,17 +5,27 @@ const Bug = require('../../models/bugModel');
 // @route   POST /bugs
 // @access  Private 
 const createBug = asyncHandler(async (req, res) => {
-    const { title, status, description, files } = req.body;
+    try {
+        const { title, status, description, files } = req.body;
 
-    const bug = await Bug.create({ 
-        title,
-        status,
-        description: JSON.stringify(description),
-        createdBy: req.user.id,
-        files
-    });
-    
-    res.status(200).json(bug);
+        const bug = await Bug.create({ 
+            title,
+            status,
+            description: JSON.stringify(description),
+            createdBy: req.user.id,
+            files
+        });
+        
+        res.status(201).json({
+            status: 'ok',
+            data: { bug } 
+        });
+    } catch (error) {
+        res.status(401).json({
+            status: 'fail',
+            message: 'Could not create the bug'
+        })
+    }
 })
 
 module.exports = createBug;

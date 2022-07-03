@@ -14,12 +14,10 @@ const protect = asyncHandler(async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
             // Get user from the token and append to the request
-            req.user = await User.findById(decoded.id)
-                .select('-password') // does not return the hashedPassword from the decoded token
-            
+            req.user = await User.findById(decoded.id);
+
             next();
         } catch (error) {
-            console.log(error);
             res.status(401);
             throw new Error('Not authorized');
         }

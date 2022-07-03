@@ -6,17 +6,18 @@ const getSingleBug = require('../controllers/bugs/getSingleBug');
 const createBug = require('../controllers/bugs/createBug');
 const updateBug = require('../controllers/bugs/updateBug');
 const deleteBug = require('../controllers/bugs/deleteBug');
-
+const { checkBugId } = require('../middleware/checkBugId');
 const { protect } = require('../middleware/authMiddleware');
 
-router.get('/', getBugs);
+router.route('/')
+    .all(protect)
+    .get(getBugs)
+    .post(createBug);
 
-router.get('/:id', protect, getSingleBug);
-
-router.post('/', protect, createBug);
-
-router.put('/:id', protect, updateBug);
-
-router.delete('/:id', protect, deleteBug);
+router.route('/:id')
+    .all(protect, checkBugId)
+    .get(getSingleBug)
+    .patch(updateBug)
+    .delete(deleteBug);
 
 module.exports = router;

@@ -47,10 +47,12 @@ const AvatarMenu: React.FC = () => {
 
   return (
     <>
-      <div className={'AvatarMenu__Avatar'}>
+      <div 
+        className={'AvatarMenu__Avatar'}
+        onMouseOver={handleOpen}
+      >
         <Tooltip title="Options">
           <IconButton
-            onMouseEnter={handleOpen}
             size="small"
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
@@ -65,8 +67,6 @@ const AvatarMenu: React.FC = () => {
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
-        onMouseLeave={handleClose}
-        onClose={handleClose}
         onClick={handleClose}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}

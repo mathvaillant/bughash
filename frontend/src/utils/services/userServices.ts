@@ -28,7 +28,7 @@ const updateUserAvatar = async (avatar: File, token: string | null, userId: stri
     const formData = new FormData;
     formData.append('avatar', avatar);
 
-    const { data: { newAvatar } } = await axios.put(`${USER_BASE_URL}/${userId}`, formData, config);
+    const { data: { data: newAvatar } } = await axios.put(`${USER_BASE_URL}/${userId}/avatar`, formData, config);
 
     const avatarFile = new File([newAvatar], newAvatar.filename, {type: newAvatar.mimtype});
 

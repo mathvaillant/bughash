@@ -5,9 +5,19 @@ const Bug = require('../../models/bugModel');
 // @route   GET /bugs/:id
 // @access  Private
 const getSingleBug = asyncHandler(async (req, res) => {
-    const bug = await Bug.findById(req.params.id);
+    try {
+        const bug = await Bug.findById(req.params.id);
 
-    res.status(200).json(bug)
+        res.status(200).json({
+            status: 'ok',
+            data: {bug}
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: 'fail',
+            message: 'Could not find bug'
+        })
+    }
 });
 
 module.exports = getSingleBug;

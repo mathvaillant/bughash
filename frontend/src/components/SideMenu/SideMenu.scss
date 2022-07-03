@@ -41,11 +41,11 @@ $sidebarBgColor: #ececec;
     }
 
     &.open {
-        width: 50px;
+        width: 12vw;
     }
 
     &.closed {
-        width: 20vw;
+        width: 50px;
     }
 
     .MuiButtonBase-root {
@@ -95,8 +95,8 @@ $sidebarBgColor: #ececec;
             fill: $black;
         }
     }
+}
 
-    .AvatarMenu__Avatar {
-        margin-top: auto;
-    }
+.AvatarMenu__Avatar {
+    margin-top: auto;
 }

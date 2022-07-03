@@ -17,9 +17,7 @@ const SideMenu: React.FC = () => {
     'List': <ListIcon fontSize="small" />,
   }
 
-  const handleExpandSidebar = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    setExpanded(!expanded);
-  };
+  const handleExpandSidebar = (): void => setExpanded(!expanded);
 
   const navigateToPath = (e: React.MouseEvent<HTMLElement>, path: string): void => navigate(path);
   
@@ -45,7 +43,7 @@ const SideMenu: React.FC = () => {
 
   return (
     <div 
-      className={classNames('SideMenu', {open: !expanded, closed: expanded})} 
+      className={classNames('SideMenu', {open: expanded, closed: !expanded})} 
       data-sidebar-section='toggleClose'
     > 
       <a className="logoName" onClick={() => navigate('/dashboard')}>{!expanded ? 'BH' : 'BugHash'}</a>
