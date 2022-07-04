@@ -6,20 +6,8 @@ const User = require('../../models/userModel');
 // @access  Private
 const updateUser = asyncHandler( async (req, res) => {
     try {
-        const { name, email } = req.body;
-
-        if(!name | !email) {
-            res.status(400);
-            throw new Error('Name and Email are required!');
-        }
-
-        const userUpdated = { name, email };
-        const data = await User.findByIdAndUpdate(req.params.id, userUpdated);
-
-        if(!data) {
-            res.status(400);
-            throw new Error('Cannot update data');
-        }
+        console.log(req.body);
+        const userUpdated = await User.findByIdAndUpdate(req.params.id, req.body);
 
         res.status(200).json({
             status: 'ok',

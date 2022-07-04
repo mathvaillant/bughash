@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ProfileMe from '../../assets/images/profile.png';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,14 +9,17 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { logout } from "../../actions/authActions/authAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
+import { getAuthUserDataAvatarUrl } from "../../utils/selectors/auth";
 
 const AvatarMenu: React.FC = () => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
+
   const { isMobile } = useDeviceDetect();
+  const userAvatar = useSelector(getAuthUserDataAvatarUrl);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -58,7 +60,7 @@ const AvatarMenu: React.FC = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar src={ProfileMe} sx={{ width: 32, height: 32 }}/>
+            <Avatar src={userAvatar} sx={{ width: 32, height: 32 }}/>
           </IconButton>
         </Tooltip>
       </div>
@@ -73,7 +75,7 @@ const AvatarMenu: React.FC = () => {
       >
         <MenuItem  onClick={(e) => handleGoTo(e, '/settings')}>
           <ListItemIcon>
-            <Avatar src={ProfileMe} sx={{ width: 32, height: 32, marginRight: '10px'}}/> 
+            <Avatar src={userAvatar} sx={{ width: 32, height: 32, marginRight: '10px'}}/> 
           </ListItemIcon>
           Profile
         </MenuItem>

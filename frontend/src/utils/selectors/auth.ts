@@ -8,4 +8,4 @@ export const getAuthUserDataEmail = (state: ReduxState): string | null => _.get(
 export const getAuthUserDataRole = (state: ReduxState): string | null => _.get(state, ['auth', 'userData', 'role'], null);
 export const getAuthUserDataToken = (state: ReduxState): string | null => _.get(state, ['auth', 'userData', 'token'], null);
 export const getAuthUserDataId = (state: ReduxState): string | null => _.get(state, ['auth', 'userData', '_id'], null);
-export const getAuthUserDataAvatar = (state: ReduxState): string | null => _.get(state, ['auth', 'userData', 'avatar'], null);
+export const getAuthUserDataAvatarUrl = (state: ReduxState): string => _.get(state, ['auth', 'userData', 'avatarUrl'], '');

@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/bugs', require('./routes/bugsRoutes'));
 app.use('/users', require('./routes/userRoutes'));
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.use(errorHandler);
 
