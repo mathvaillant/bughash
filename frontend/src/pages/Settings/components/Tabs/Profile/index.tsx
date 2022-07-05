@@ -5,22 +5,22 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Avatar, Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
-import { getAuthUserDataAvatar, getAuthUserDataEmail, getAuthUserDataId, getAuthUserDataName, getAuthUserDataToken } from "../../../../../utils/selectors/auth";
-import { IUser } from "../../../../../shared/types";
+import { getAuthUserDataAvatarUrl, getAuthUserDataEmail, getAuthUserDataId, getAuthUserDataName, getAuthUserDataToken } from "../../../../../utils/selectors/auth";
 import userServices from "../../../../../utils/services/userServices";
 import { toastr } from "react-redux-toastr";
-import { getBlobFromFile } from "../../../../../utils/utils";
+import firebaseServices from '../../../../../utils/services/firebase'
+import { Edit } from "@mui/icons-material";
 
 const Profile: React.FC = () => {
   const userEmail = useSelector(getAuthUserDataEmail);
   const userName = useSelector(getAuthUserDataName);
-  const userAvatar = useSelector(getAuthUserDataAvatar);
+  const userAvatar = useSelector(getAuthUserDataAvatarUrl);
   const userId = useSelector(getAuthUserDataId);
   const token = useSelector(getAuthUserDataToken);
 
   const [email, setEmail] = React.useState<string | null>(userEmail);
   const [name, setName] = React.useState<string | null>(userName);
-  const [avatarUrl, setAvatarUrl] = React.useState<string | null>(userAvatar);
+  const [avatarUrl, setAvatarUrl] = React.useState<string>(userAvatar);
   const [isLoading, setIsLoading] = React.useState(false);
 
   if(!userEmail || !userName || !userId) return null;
@@ -31,31 +31,22 @@ const Profile: React.FC = () => {
   const handleAvatarUpload = async ({ target: { files } }: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     if(!files) return;
 
-    const file = files[0];
+    const urlPaths = await firebaseServices.uploadImageArray(Array.from(files), 'avatar', null, userId, token);
+    
+    const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
+    localStorage.setItem('ls_db_user_info', JSON.stringify({...lsUser, avatarUrl: urlPaths[0]}));
 
-    const newAvatar = await userServices.updateUserAvatar(file, token, userId);
-    const newAvatarUrl = getBlobFromFile(newAvatar).previewUrl;
-
-    setAvatarUrl(newAvatarUrl);
+    setAvatarUrl(urlPaths[0]);
   };
 
   const handleSave = async (): Promise<void> => {
     try {
       setIsLoading(true);
 
-      const newUserData: IUser = {
-        email,
-        name,
-        _id: userId,
-        token 
-      };
+      await userServices.updateData({ name, email }, userId, token);
 
-      const { name: newName, email: newEmail } = await userServices.updateData(newUserData);
-
-      setEmail(newEmail || email);
-      setName(newName || name);
-
-      localStorage.setItem('ls_db_user_info', JSON.stringify(newUserData));
+      const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
+      JSON.stringify({...lsUser, name, email});
 
       toastr.success('Updated', 'Successfully updated');
 
@@ -69,16 +60,20 @@ const Profile: React.FC = () => {
     <div className="Profile">
 
       <div className="Profile__left">
-        <Avatar
-          alt="Remy Sharp"
-          src={avatarUrl || ''}
-          sx={{ width: 100, height: 100 }}
-        />
+        <div className="Profile__left__inputWrapper">
+          <Avatar
+            alt="Remy Sharp"
+            src={avatarUrl}
+            sx={{ width: 60, height: 60 }}
+          />
 
-        <input 
-          type="file" 
-          onChange={handleAvatarUpload}
-        />
+          <Edit />
+
+          <input 
+            type="file" 
+            onChange={handleAvatarUpload}
+          />
+        </div>
       </div>
 
       <div className="Profile__right">

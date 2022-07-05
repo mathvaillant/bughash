@@ -22,7 +22,7 @@ const imageUploader = (file: File, basePath: string): Promise<string> => {
     })
 }
 
-const uploadImage = async (
+const uploadImageArray = async (
     files: File[], 
     type: 'bug' | 'avatar', 
     bugId: string | null, 
@@ -59,7 +59,7 @@ const uploadImage = async (
 }
 
 const firebaseServices = {
-    uploadImage
+    uploadImageArray
 }
 
 export default firebaseServices;
