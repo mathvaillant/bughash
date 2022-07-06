@@ -2,13 +2,13 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import LoginImg from '../../assets/images/login.jpeg';
 import useToggle from "../../utils/hooks/useToggle";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../actions/authActions/authAction";
 import { getAuth, getAuthUserDataToken } from "../../utils/selectors/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { toastr } from "react-redux-toastr";
 import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
 import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
+import { login } from "../../actions/authActions/authAction";
 
 const Login: React.FC = () => {
   const navigator = useNavigate();

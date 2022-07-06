@@ -30,7 +30,7 @@ export interface IBug {
 export interface IUser {
     email: string | null
     password?: string | null
-    avatar?: string | null 
+    avatarUrl?: string | null 
     name?: string | null
     role?: string | null
     token?: string | null

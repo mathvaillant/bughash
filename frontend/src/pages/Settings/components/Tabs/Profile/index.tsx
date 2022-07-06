@@ -5,25 +5,35 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Avatar, Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
-import { getAuthUserDataAvatarUrl, getAuthUserDataEmail, getAuthUserDataId, getAuthUserDataName, getAuthUserDataToken } from "../../../../../utils/selectors/auth";
+import { getAuthUserData } from "../../../../../utils/selectors/auth";
 import userServices from "../../../../../utils/services/userServices";
 import { toastr } from "react-redux-toastr";
 import firebaseServices from '../../../../../utils/services/firebase'
 import { Edit } from "@mui/icons-material";
 
 const Profile: React.FC = () => {
-  const userEmail = useSelector(getAuthUserDataEmail);
-  const userName = useSelector(getAuthUserDataName);
-  const userAvatar = useSelector(getAuthUserDataAvatarUrl);
-  const userId = useSelector(getAuthUserDataId);
-  const token = useSelector(getAuthUserDataToken);
-
-  const [email, setEmail] = React.useState<string | null>(userEmail);
-  const [name, setName] = React.useState<string | null>(userName);
-  const [avatarUrl, setAvatarUrl] = React.useState<string>(userAvatar);
+  const [email, setEmail] = React.useState<string | null>(null);
+  const [name, setName] = React.useState<string | null>(null);
+  const [token, setToken] = React.useState<string | null>(null);
+  const [userId, setUserId] = React.useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState(false);
 
-  if(!userEmail || !userName || !userId) return null;
+  const stateUserData = useSelector(getAuthUserData);
+
+  React.useEffect(() => {
+    if(stateUserData) {
+      const { email: useremail, name: username, avatarUrl: avatar, token: usertoken, _id } = stateUserData;
+
+      setEmail(useremail || null);
+      setName(username || null);
+      setAvatarUrl(avatar || '');
+      setToken(usertoken || null);
+      setUserId(_id || null);
+    }
+  }, [stateUserData]);
+
+  if(!email || !name || !userId || !token) return null;
 
   const handleChangeEmail = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => setEmail(value);
   const handleChangeName = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => setName(value);
@@ -103,7 +113,6 @@ const Profile: React.FC = () => {
 
         <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end', maxWidth: '400px', gap: '1rem'}}>
           <Button
-            disabled={email === userEmail && name === userName} 
             className="Profile__right__cancel" 
             size="small" 
             variant='outlined'
@@ -111,7 +120,6 @@ const Profile: React.FC = () => {
             Cancel
           </Button>
           <LoadingButton 
-            disabled={email === userEmail && name === userName}
             loading={isLoading}
             className="Profile__right__save" 
             size="small" 

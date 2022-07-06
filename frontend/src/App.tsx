@@ -1,32 +1,27 @@
-import React, { useEffect } from 'react';
-import { Outlet, Routes } from "react-router";
+import React from 'react';
+import { Routes } from "react-router";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthUserDataToken } from "./utils/selectors/auth";
-import { getBugsList } from "./actions/bugActions/bugActions";
-import { hideLoader, showLoader } from "./actions/loaderActions/loaderActions";
 import { getLoader } from "./utils/selectors/loader";
-import { IUser } from "./shared/types";
-import { setUserData } from "./actions/authActions/authAction";
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import Header from "./components/Header/Header";
-import SideMenu from "./components/SideMenu/SideMenu";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import BugPage from "./pages/BugPage/BugPage";
 import BugList from "./pages/BugList/BugList";
-import ProtectedRoute from "./app/ProtectedRoute";
+import AppOn from "./app/AppOn";
 import Loader from "./components/Loader/Loader";
 import Settings from "./pages/Settings";
 import './App.scss';
+import { hideLoader, showLoader } from "./actions/loaderActions/loaderActions";
+import { IUser } from "./shared/types";
+import { setUserData } from "./actions/authActions/authAction";
+import { getBugsList } from "./actions/bugActions/bugActions";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-
-  const token = useSelector(getAuthUserDataToken);
   const loader = useSelector(getLoader); 
 
-  useEffect(() => {
+  React.useEffect(() => {
     (async() => {
       try {
         dispatch(showLoader());
@@ -35,11 +30,11 @@ const App: React.FC = () => {
         const userData: IUser | null = userInfoStored ? JSON.parse(userInfoStored) : null;
 
         if(!userData?.token) {
-          throw new Error('Permission denied!');
+          throw new Error('You do not have access to this workspace');
         }
 
         dispatch(setUserData(userData));
-        dispatch(getBugsList(userData?.token));
+        dispatch(getBugsList(userData.token));
 
       } catch (error) {
         console.log(error);
@@ -52,21 +47,13 @@ const App: React.FC = () => {
   return (
     <div className='App'>
       <Router>
-        {!!token && 
-          <>
-            <Header/>
-            <SideMenu/>
-          </>
-        }
         <Routes>
-          <Route element={<ProtectedRoute isAuthenticated={!!token}/>}>
-            <Route path='/' element={<Outlet />}>
-              <Route path='/dashboard' element={<Dashboard />} />
-              <Route path='/new' element={<BugPage />} />
-              <Route path='/edit/:id' element={<BugPage />} />
-              <Route path='/list' element={<BugList />} />
-              <Route path="/settings" element={<Settings />} />
-            </Route>
+          <Route path='/' element={<AppOn />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/new' element={<BugPage />} />
+            <Route path='/edit/:id' element={<BugPage />} />
+            <Route path='/list' element={<BugList />} />
+            <Route path="/settings" element={<Settings />} />
           </Route>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>

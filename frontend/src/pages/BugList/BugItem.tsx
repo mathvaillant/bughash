@@ -3,11 +3,14 @@ import { Launch } from "@mui/icons-material";
 import { Avatar, CardActions, CardContent, CardHeader, IconButton, Tooltip } from "@mui/material";
 import { IBug } from "../../shared/types";
 import BugItemMenu from "./BugItemMenu";
-import ProfileMe from '../../assets/images/profile.png';
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { getAuthUserDataAvatarUrl, getAuthUserDataName } from "../../utils/selectors/auth";
 
 export const BugItem = ({ _id, title, status, createdAt, createdBy, description, files }: IBug): JSX.Element => {
   const navigator = useNavigate();
+  const userAvatar = useSelector(getAuthUserDataAvatarUrl);
+  const userName  = useSelector(getAuthUserDataName);
   const blocks = description?.blocks;
 
   const handleEditBug = (): void => navigator(`/edit/${_id}`);
@@ -33,11 +36,11 @@ export const BugItem = ({ _id, title, status, createdAt, createdBy, description,
 
       <CardActions>
         <IconButton>
-          <Tooltip placement={'bottom'} title={createdBy || ''}>
+          <Tooltip placement={'bottom'} title={userName || ''}>
             <Avatar 
               className={'UserAvatar'} 
               alt={createdBy} 
-              src={ProfileMe} 
+              src={userAvatar} 
               sx={{ width: 25, height: 25 }}
             />
           </Tooltip>
