@@ -38,9 +38,9 @@ const openNew = async (bugData: IBug, token: string | null): Promise<IBug> => {
             Authorization: `Bearer ${token}`,
         }
     }
-    const { data: { data: { bug } } } = await axios.post(BUG_API_URL, bugData, config);
+    const { data: { data } } = await axios.post(BUG_API_URL, bugData, config);
 
-    return bug;
+    return data.bug;
 }
 
 const updateBug = async (bugData: IBug, token: string): Promise<IBug> => {

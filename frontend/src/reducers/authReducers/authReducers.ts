@@ -3,17 +3,12 @@ import { IUser } from "../../shared/types";
 
 interface State {
     loading?: boolean
-    userData?: IUser
-    error?: string | null
+    userData?: IUser | null
+    error?: any
 }
 
 const InitialState = {
-    userData: {
-        name: null,
-        email: null,
-        role: null,
-        token: null
-    },
+    userData: null,
     loading: false,
     error: null
 }

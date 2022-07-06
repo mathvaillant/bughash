@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes } from "react-router";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoader } from "./utils/selectors/loader";
 import Login from './pages/Login/Login';
@@ -19,22 +19,24 @@ import { getBugsList } from "./actions/bugActions/bugActions";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const loader = useSelector(getLoader); 
+  const loader = useSelector(getLoader);
 
   React.useEffect(() => {
     (async() => {
       try {
         dispatch(showLoader());
-        
+
         const userInfoStored = localStorage.getItem('ls_db_user_info');
         const userData: IUser | null = userInfoStored ? JSON.parse(userInfoStored) : null;
 
-        if(!userData?.token) {
-          throw new Error('You do not have access to this workspace');
-        }
+        if(!userData?.token) return;
 
         dispatch(setUserData(userData));
         dispatch(getBugsList(userData.token));
+
+        if(window.location.pathname === '/') {
+          window.location.replace('/dashboard');
+        }
 
       } catch (error) {
         console.log(error);

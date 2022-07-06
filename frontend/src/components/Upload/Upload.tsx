@@ -44,11 +44,11 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, ha
 
   const handleUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e?.target?.files?.[0];
-    const allowedTypes = /png|jpg|jpeg|/;
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
     if(!file) return;
 
-    if(!allowedTypes.test(file.type)) {
+    if(!allowedTypes.includes(file.type)) {
       toastr.error('Currently we only support uploading images', '');
       return;
     }
@@ -96,7 +96,6 @@ const Upload: React.FC<UploadProps> = ({ currentFiles = [], handleUploadFile, ha
             onChange={handleUpload} 
             ref={inputRef} 
             data-attr='inputRef' 
-            multiple
           />
         </div>
 

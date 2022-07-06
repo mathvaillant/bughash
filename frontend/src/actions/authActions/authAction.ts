@@ -3,7 +3,7 @@ import { IUser } from "../../shared/types";
 import authServices from "../../utils/services/authService";
 import { ActionRegister, ActionLogout, ActionType, ActionLogin } from "./actionTypes";
 
-export const register = (name: string | null, email: string, password: string) => async (dispatch: Dispatch<ActionRegister>) => {
+export const register = (name: string, email: string, password: string) => async (dispatch: Dispatch<ActionRegister>) => {
     try { 
         dispatch({
             type: ActionType.AUTH_REGISTER_REQUEST,
@@ -12,11 +12,7 @@ export const register = (name: string | null, email: string, password: string) =
             }
         })
 
-        const newUserRegistered = await authServices.register({
-            name,
-            email,
-            password
-        });
+        const newUserRegistered = await authServices.register(email, password, name);
 
         dispatch({
             type: ActionType.AUTH_REGISTER_SUCCESS,
@@ -25,13 +21,11 @@ export const register = (name: string | null, email: string, password: string) =
                 loading: false
             },
         })
-    } catch (error: any) {
-        const message = (error?.response?.data?.message) || error?.message
-
+    } catch (error) {
         dispatch({
             type: ActionType.AUTH_REGISTER_FAIL,
             payload: {
-                error: message,
+                error,
                 loading: false
             }
         })
@@ -48,7 +42,7 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
         });
 
 
-        const userLoggedIn = await authServices.login({ email, password });
+        const userLoggedIn = await authServices.login(email, password);
 
         dispatch({
             type: ActionType.AUTH_LOGIN_SUCCESS,
@@ -58,13 +52,11 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
             }
         });
 
-    } catch (error: any) {
-        const message = (error?.response?.data?.message) || error?.message
-
+    } catch (error) {
         dispatch({
             type: ActionType.AUTH_LOGIN_FAIL,
             payload: {
-                error: message,
+                error: error,
                 loading: false
             }
         })

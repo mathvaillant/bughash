@@ -29,7 +29,7 @@ export interface IAuthRegisterSuccess {
 export interface IAuthRegisterFail {
     type: ActionType.AUTH_REGISTER_FAIL
     payload: {
-        error: string | null
+        error: any
         loading: boolean
     }
 }
@@ -60,7 +60,7 @@ export interface ISetUserData {
 export interface IAuthLoginFail {
     type: ActionType.AUTH_LOGIN_FAIL
     payload: {
-        error: string | null
+        error: any
         loading: boolean
     }
 }

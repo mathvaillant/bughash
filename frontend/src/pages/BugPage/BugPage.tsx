@@ -15,7 +15,7 @@ import { Button } from "@mui/material";
 import _ from "underscore";
 import { getBugsList } from "../../actions/bugActions/bugActions";
 
-const BugPage: React.FC = () => {
+const BugPage: React.FC = () => { // token should come thourgh props...
   const params = useParams();
   const navigator = useNavigate();
   const dispatch = useDispatch();
@@ -49,6 +49,7 @@ const BugPage: React.FC = () => {
       const bugData = {
         description: editorContent,
         title: bugTitle,
+        files: bugFiles,
         status: 'todo',
       } as IBug
         

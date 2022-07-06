@@ -22,34 +22,26 @@ const imageUploader = (file: File, basePath: string): Promise<string> => {
     })
 }
 
-const uploadImageArray = async (
-    files: File[], 
-    type: 'bug' | 'avatar', 
-    bugId: string | null, 
-    userId: string | null,
-    token: string | null
-): Promise<string[]> => {
-    try {
+const updateUserAvatar = async (file: File, userId: string, token: string): Promise<string> => {
+    const basePath = `avatars/${userId}`;
+    
+    // Upload to Firebase storage
+    const avatarUrl = await imageUploader(file, basePath);
 
-        // Upload images to firebase storage
-        const basePathByType = {
-            bug: `bugs/${bugId}`,
-            avatar: `avatars/${userId}`
-        };
+    // Update avatar url on MongoDB
+    await userServices.updateData({ avatarUrl }, userId, token);
+    return avatarUrl;
+};
+
+const uploadImageArray = async (files: File[], bugId: string): Promise<string[]> => {
+    try {
+        const basePath = `bugs/${bugId}`; // each bug file will need its own uniq id;
 
         const updates = files.map(async (file) => {
-            return (await imageUploader(file, basePathByType[type]))
+            return (await imageUploader(file, basePath));
         })
 
         const paths = await Promise.all(updates);
-
-
-        // Update images for Bug/User avatar
-        if(type === 'avatar' && userId) {
-           await userServices.updateData({avatar: paths[0]}, userId, token);
-        } // else {
-            // handle images of bugs
-        //}
 
         return paths;
     } catch (error) {
@@ -59,7 +51,8 @@ const uploadImageArray = async (
 }
 
 const firebaseServices = {
-    uploadImageArray
+    uploadImageArray,
+    updateUserAvatar
 }
 
 export default firebaseServices;

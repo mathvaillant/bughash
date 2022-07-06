@@ -28,11 +28,10 @@ export interface IBug {
 }
 
 export interface IUser {
-    email: string | null
-    password?: string | null
-    avatarUrl?: string | null 
-    name?: string | null
-    role?: string | null
-    token?: string | null
-    _id?: string | null
+    email: string
+    avatarUrl: string 
+    name: string
+    token: string
+    _id: string
+    role?: string
 }

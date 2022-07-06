@@ -45,6 +45,15 @@
         box-shadow: $lightBoxShadow;
         transition: all 100ms;
 
+        #uploadFile {
+            top: 0px;
+            opacity: 0;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            cursor: pointer;
+        }
+
         &.dragginOver {
             background: ghostwhite;
         }
@@ -55,14 +64,6 @@
             #uploadFile {
                 height: 40%;
             }
-        }
-    
-        #uploadFile {
-            opacity: 0;
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            cursor: pointer;
         }
 
         &:hover {

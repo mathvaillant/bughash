@@ -4,8 +4,8 @@ import { IUser } from "../../shared/types";
 const USERS_API_URL = '/users';
 
 // Register user
-const register = async (userData: IUser): Promise<IUser> => {
-    const { data } = await axios.post(USERS_API_URL, userData);
+const register = async (email: string, password: string, name: string): Promise<IUser> => {
+    const { data } = await axios.post(USERS_API_URL, { email, password, name });
 
     if(data) {
         localStorage.setItem('ls_db_user_info', JSON.stringify(data));
@@ -15,8 +15,8 @@ const register = async (userData: IUser): Promise<IUser> => {
 }
 
 // Login User 
-const login = async (userData: IUser): Promise<IUser> => {
-    const { data } = await axios.post(`${USERS_API_URL}/login`, userData);
+const login = async (email: string, password: string): Promise<IUser> => {
+    const { data } = await axios.post(`${USERS_API_URL}/login`, { email, password });
 
     if(data) {
         localStorage.setItem('ls_db_user_info', JSON.stringify(data));
@@ -26,9 +26,10 @@ const login = async (userData: IUser): Promise<IUser> => {
 }
 
 // Logout user
-const logout =  async (): Promise<void> => {
+const logout = async (): Promise<void> => {
     return new Promise((resolve) => {
         localStorage.clear();
+        window.location.replace('/login');
         resolve();
     })
 };

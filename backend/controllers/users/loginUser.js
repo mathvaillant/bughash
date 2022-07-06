@@ -7,22 +7,27 @@ const generateToken = require("../../utils/jwt");
 // @route   POST /users/login
 // @acess   Public
 const loginUser = asyncHandler(async(req, res) => {
-    const { email, password } = req.body;
-    
-    // Check for user email
-    const user = await User.findOne({email});
+    try {
+        const { email, password } = req.body;
 
-    if(user && password && (await bcrypt.compare(password, user.password))) {
-        res.json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            token: generateToken(user._id),
-            avatarUrl: user.avatar
+        const user = await User.findOne({email});
+
+        if(user && password && (await bcrypt.compare(password, user.password))) {
+            return res.json({
+                _id: user.id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id),
+                avatarUrl: user.avatarUrl
+            })
+        } else {    
+            throw new Error('Invalid email or password'); 
+        }
+    } catch (error) {
+        res.status((401)).json({
+            status: 'fail',
+            message: error || 'Not authorized'
         })
-    } else {    
-        res.status(400);
-        throw new Error('Invalid email or password'); 
     }
 });
 

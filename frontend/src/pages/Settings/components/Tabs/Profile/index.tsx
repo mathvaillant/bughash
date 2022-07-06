@@ -41,12 +41,12 @@ const Profile: React.FC = () => {
   const handleAvatarUpload = async ({ target: { files } }: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     if(!files) return;
 
-    const urlPaths = await firebaseServices.uploadImageArray(Array.from(files), 'avatar', null, userId, token);
+    const newUrl = await firebaseServices.updateUserAvatar(files[0], userId, token);
     
     const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
-    localStorage.setItem('ls_db_user_info', JSON.stringify({...lsUser, avatarUrl: urlPaths[0]}));
+    localStorage.setItem('ls_db_user_info', JSON.stringify({...lsUser, avatarUrl: newUrl}));
 
-    setAvatarUrl(urlPaths[0]);
+    setAvatarUrl(newUrl);
   };
 
   const handleSave = async (): Promise<void> => {
