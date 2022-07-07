@@ -3,6 +3,7 @@ import { Delete, Visibility } from "@mui/icons-material";
 import { Dialog, DialogContent, IconButton } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
 import { getBlobFromFile } from "../../utils/utils";
+import firebaseServices from "../../utils/services/firebaseServices";
 
 interface IFileUploaded {
   file?: File,
@@ -12,8 +13,9 @@ interface IFileUploaded {
 export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete }) => {
   const [expand, setExpand] = useToggle();
 
-  const handleDeleteFile = React.useCallback( async (): Promise<void> => {
+  const handleDeleteFile = React.useCallback(async (): Promise<void> => {
     file && onDelete(file);
+    //firebaseServices.deleteFileFromStorage();
   }, [file]);
 
   const handleVisualizeFile = (): void => {

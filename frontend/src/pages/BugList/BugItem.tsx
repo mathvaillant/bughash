@@ -5,11 +5,11 @@ import { IBug } from "../../shared/types";
 import BugItemMenu from "./BugItemMenu";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import { getAuthUserDataAvatarUrl, getAuthUserDataName } from "../../utils/selectors/auth";
+import { getAuthUserDataAvatar, getAuthUserDataName } from "../../utils/selectors/auth";
 
 export const BugItem = ({ _id, title, status, createdAt, createdBy, description, files }: IBug): JSX.Element => {
   const navigator = useNavigate();
-  const userAvatar = useSelector(getAuthUserDataAvatarUrl);
+  const userAvatar = useSelector(getAuthUserDataAvatar);
   const userName  = useSelector(getAuthUserDataName);
   const blocks = description?.blocks;
 
@@ -40,7 +40,7 @@ export const BugItem = ({ _id, title, status, createdAt, createdBy, description,
             <Avatar 
               className={'UserAvatar'} 
               alt={createdBy} 
-              src={userAvatar} 
+              src={userAvatar?.url} 
               sx={{ width: 25, height: 25 }}
             />
           </Tooltip>

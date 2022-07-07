@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const Files = mongoose.Schema({
+    url: String,
+    ref: String
+});
+
 const bugSchema = mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
@@ -19,7 +24,7 @@ const bugSchema = mongoose.Schema({
         required: true,
     },
     files: {
-        type: [String],
+        type: [Files],
         required: false
     },
 }, {

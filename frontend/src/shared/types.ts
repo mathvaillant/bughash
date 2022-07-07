@@ -29,9 +29,14 @@ export interface IBug {
 
 export interface IUser {
     email: string
-    avatarUrl: string 
+    avatar: IFile 
     name: string
     token: string
     _id: string
     role?: string
+}
+
+export interface IFile {
+    url: string
+    ref: string
 }

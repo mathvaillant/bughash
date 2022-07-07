@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const Avatar = mongoose.Schema({
+    url: String,
+    ref: String
+});
+
 const userSchema = mongoose.Schema({ 
     name: {
         type: String,
@@ -19,8 +24,8 @@ const userSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    avatarUrl: {
-        type: String,
+    avatar: {
+        type: Avatar,
         required: false
     }
 }, {

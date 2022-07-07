@@ -8,28 +8,29 @@ import { useSelector } from "react-redux";
 import { getAuthUserData } from "../../../../../utils/selectors/auth";
 import userServices from "../../../../../utils/services/userServices";
 import { toastr } from "react-redux-toastr";
-import firebaseServices from '../../../../../utils/services/firebase'
+import firebaseServices from '../../../../../utils/services/firebaseServices'
 import { Edit } from "@mui/icons-material";
+import { IFile } from "../../../../../shared/types";
 
 const Profile: React.FC = () => {
   const [email, setEmail] = React.useState<string | null>(null);
   const [name, setName] = React.useState<string | null>(null);
   const [token, setToken] = React.useState<string | null>(null);
   const [userId, setUserId] = React.useState<string | null>(null);
-  const [avatarUrl, setAvatarUrl] = React.useState<string>('');
+  const [avatar, setAvatar] = React.useState<IFile | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const stateUserData = useSelector(getAuthUserData);
 
   React.useEffect(() => {
     if(stateUserData) {
-      const { email: useremail, name: username, avatarUrl: avatar, token: usertoken, _id } = stateUserData;
+      const { email: useremail, name: username, avatar: useravatar, token: usertoken, _id } = stateUserData;
 
-      setEmail(useremail || null);
-      setName(username || null);
-      setAvatarUrl(avatar || '');
-      setToken(usertoken || null);
-      setUserId(_id || null);
+      setEmail(useremail);
+      setName(username);
+      setAvatar(useravatar);
+      setToken(usertoken);
+      setUserId(_id);
     }
   }, [stateUserData]);
 
@@ -41,12 +42,23 @@ const Profile: React.FC = () => {
   const handleAvatarUpload = async ({ target: { files } }: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     if(!files) return;
 
-    const newUrl = await firebaseServices.updateUserAvatar(files[0], userId, token);
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+
+    if(!allowedTypes.includes(files[0].type)) {
+      toastr.error('Profile images can only be of image type', '');
+      return;
+    }
+
+    if(avatar?.ref) {
+      await firebaseServices.deleteAvatarFromStorage(avatar.ref);
+    }
+
+    const newAvatar: IFile = await firebaseServices.updateUserAvatar(files[0], userId, token);
     
     const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
-    localStorage.setItem('ls_db_user_info', JSON.stringify({...lsUser, avatarUrl: newUrl}));
+    localStorage.setItem('ls_db_user_info', JSON.stringify({...lsUser, avatar: newAvatar}));
 
-    setAvatarUrl(newUrl);
+    setAvatar(newAvatar);
   };
 
   const handleSave = async (): Promise<void> => {
@@ -73,7 +85,7 @@ const Profile: React.FC = () => {
         <div className="Profile__left__inputWrapper">
           <Avatar
             alt="Remy Sharp"
-            src={avatarUrl}
+            src={avatar?.url}
             sx={{ width: 60, height: 60 }}
           />
 

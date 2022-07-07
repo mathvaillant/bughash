@@ -1,4 +1,4 @@
-import { AuthState, IUser, ReduxState } from "../../shared/types";
+import { AuthState, IFile, IUser, ReduxState } from "../../shared/types";
 import _ from 'underscore';
 
 
@@ -9,4 +9,4 @@ export const getAuthUserDataEmail = (state: ReduxState): string | null => _.get(
 export const getAuthUserDataRole = (state: ReduxState): string | null => _.get(state, ['auth', 'userData', 'role'], null);
 export const getAuthUserDataToken = (state: ReduxState): string | null => _.get(state, ['auth', 'userData', 'token'], null);
 export const getAuthUserDataId = (state: ReduxState): string | null => _.get(state, ['auth', 'userData', '_id'], null);
-export const getAuthUserDataAvatarUrl = (state: ReduxState): string => _.get(state, ['auth', 'userData', 'avatarUrl'], '');
+export const getAuthUserDataAvatar = (state: ReduxState): IFile | null => _.get(state, ['auth', 'userData', 'avatar'], null);

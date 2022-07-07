@@ -6,7 +6,6 @@ const User = require('../../models/userModel');
 // @access  Private
 const updateUser = asyncHandler( async (req, res) => {
     try {
-        console.log(req.body);
         const userUpdated = await User.findByIdAndUpdate(req.params.id, req.body);
 
         res.status(200).json({
