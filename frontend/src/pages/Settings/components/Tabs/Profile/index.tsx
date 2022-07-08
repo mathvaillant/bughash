@@ -50,7 +50,7 @@ const Profile: React.FC = () => {
     }
 
     if(avatar?.ref) {
-      await firebaseServices.deleteAvatarFromStorage(avatar.ref);
+      await firebaseServices.deleteFileFromStorage(avatar.ref);
     }
 
     const newAvatar: IFile = await firebaseServices.updateUserAvatar(files[0], userId, token);

@@ -2,33 +2,19 @@ import React from 'react'
 import { Delete, Visibility } from "@mui/icons-material";
 import { Dialog, DialogContent, IconButton } from "@mui/material";
 import useToggle from "../../utils/hooks/useToggle";
-import { getBlobFromFile } from "../../utils/utils";
-import firebaseServices from "../../utils/services/firebaseServices";
 
 interface IFileUploaded {
-  file?: File,
-  onDelete: (file: File) => void
+  url: string
+  fileRef: string
+  onDelete: (fileRef: string) => void
 }
 
-export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete }) => {
+export const FileUploaded: React.FC<IFileUploaded> = ({ url, fileRef, onDelete }) => {
   const [expand, setExpand] = useToggle();
 
-  const handleDeleteFile = React.useCallback(async (): Promise<void> => {
-    file && onDelete(file);
-    //firebaseServices.deleteFileFromStorage();
-  }, [file]);
+  const handleDeleteFile = React.useCallback(async (): Promise<void> => onDelete(fileRef), [fileRef]);
 
-  const handleVisualizeFile = (): void => {
-    setExpand();
-  };
-
-  const fileData = React.useMemo(() => {
-    if(file) {
-      const result = getBlobFromFile(file);
-
-      return result;
-    }
-  }, [file]);
+  const handleVisualizeFile = (): void => setExpand();
 
   return (
     <div className='FileUploaded'>
@@ -41,12 +27,7 @@ export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete })
         </IconButton>
       </div>
 
-      <img src={fileData?.previewUrl}/>
-      {/* { 
-        <Tooltip title='Previously uploaded'>
-          <CheckIcon/>
-        </Tooltip>
-      } */}
+      <img src={url}/>
 
       <Dialog
         open={expand}
@@ -54,7 +35,7 @@ export const FileUploaded: React.FC<IFileUploaded> = ({ file = null, onDelete })
         onClose={setExpand}
       >
         <DialogContent>
-            <img src={fileData?.previewUrl} />
+            <img src={url} />
         </DialogContent>
       </Dialog>
     </div>

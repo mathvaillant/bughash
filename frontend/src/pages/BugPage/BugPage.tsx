@@ -16,21 +16,15 @@ import _ from "underscore";
 import { getBugsList } from "../../actions/bugActions/bugActions";
 
 const BugPage: React.FC = () => { // token should come thourgh props...
-  const params = useParams();
+  const { id } = useParams();
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const [bugTitle, setbugTitle] = useState<string>('');
-  const [bugFiles, setBugFiles] = useState<File[]>([]);
   const [editorContent, setEditorContent] = useState<OutputData | undefined>();
   
   const token = useSelector(getAuthUserDataToken);
 
   const handleChangeTitle = useCallback((value: string): void => setbugTitle(value), []);
-
-  const handleDeleteFile = useCallback((file: File) => {
-    const filesUpdated = _.without(bugFiles, file);
-    setBugFiles(filesUpdated);
-  }, [bugFiles]);
 
   const handleSave = useCallback(async (): Promise<void> => {
     try {
@@ -49,12 +43,11 @@ const BugPage: React.FC = () => { // token should come thourgh props...
       const bugData = {
         description: editorContent,
         title: bugTitle,
-        files: bugFiles,
         status: 'todo',
       } as IBug
         
-      if(params.id) {
-        await BugServices.updateBug({...bugData, _id: params.id}, token);  
+      if(id) {
+        await BugServices.updateBug({...bugData, _id: id}, token);  
         toastr.success('Successfully updated!', '');
         return;
       }
@@ -65,37 +58,34 @@ const BugPage: React.FC = () => { // token should come thourgh props...
 
       dispatch(getBugsList(token));
     
-    } catch (error: any) {
+    } catch (error) {
       toastr.error('An error occured white trying to submit the data', '');
     } finally {
       dispatch(hideLoader());
     }
 
-  }, [dispatch, bugTitle, token, editorContent, bugFiles, params.id, navigator]);
-
-  const handleUploadFile = useCallback((data: File[]): void => setBugFiles(data), []);
+  }, [dispatch, bugTitle, token, editorContent, id, navigator]);
 
   useEffect(() => {
-    if(!params.id) return;
+    if(!id) return 
 
     (async () => {
       try {
           dispatch(showLoader());
 
-          if(!params.id || !token) {
+          if(!token) {
             throw new Error('Permission denied!');
           }
 
-          const bugData = await BugServices.getSingleBug(params.id, token);
+          const bugData = await BugServices.getSingleBug(id, token);
 
           if(!bugData) {
             throw new Error('Could not find the bug');
           }
 
-          const { title, description, files } = bugData;
+          const { title, description } = bugData;
 
           setbugTitle(title);
-          setBugFiles(files || []);
           setEditorContent(description);
 
       } catch (error: any) {
@@ -104,7 +94,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
         dispatch(hideLoader());
       }
     })()
-  }, [dispatch, params.id, token]);
+  }, [dispatch, id, token]);
 
   const handleUpdateEditorContent = useCallback((content: OutputData): void => setEditorContent(content), []);
 
@@ -114,7 +104,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
           <div></div>
           <div>
             <BugTitle handleChangeTitle={handleChangeTitle} title={bugTitle}/>
-            {params.id && <BugId id={`${params.id}`}/>}
+            {id && <BugId id={`${id}`}/>}
             {
               <Button 
                 variant='contained' 
@@ -122,7 +112,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
                 className='saveButton' 
                 onClick={handleSave}
               >
-                {!params.id ? 'Save' : 'Update'}
+                {!id ? 'Save' : 'Update'}
               </Button>
             }
           </div>
@@ -130,11 +120,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
 
         <div className='BugPage__content'>
           <div>
-            <Upload 
-              currentFiles={bugFiles}
-              handleUploadFile={handleUploadFile}
-              handleDeleteFile={handleDeleteFile}
-            />
+            <Upload bugId={id || ''} />
           </div>
           <div>
             <Description 

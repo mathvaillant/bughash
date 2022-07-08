@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { IBug } from "../../shared/types";
+import firebaseServices from "./firebaseServices";
 
 const BUG_API_URL = '/bugs';
 
@@ -32,24 +33,13 @@ const getSingleBug = async (id: string, token: string): Promise<IBug> => {
     return bugData as IBug;
 }
 
-const openNew = async (bugData: IBug, token: string | null): Promise<IBug> => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    }
-    const { data: { data } } = await axios.post(BUG_API_URL, bugData, config);
-
-    return data.bug;
-}
-
-const updateBug = async (bugData: IBug, token: string): Promise<IBug> => {
+const updateBug = async (bugData: any, token: string): Promise<IBug> => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const { data: { data: { bug } } } = await axios.put(`${BUG_API_URL}/${bugData._id}`, bugData, config);
+    const { data: { data: { bug } } } = await axios.patch(`${BUG_API_URL}/${bugData._id}`, bugData, config);
 
     return bug as IBug;
 } 
@@ -64,6 +54,18 @@ const deleteBug = async (id: string, token: string): Promise<string> => {
     const { data: { data: { message } } } = await axios.delete(`${BUG_API_URL}/${id}`, config);
 
     return message;
+}
+
+const openNew = async (bugData: IBug, token: string): Promise<any> => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    }
+
+    const { data: { data: { bug } } } = await axios.post(BUG_API_URL, bugData, config);
+
+    return bug;
 }
 
 export const BugServices = {

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Files = mongoose.Schema({
+const bugFiles = mongoose.Schema({
     url: String,
     ref: String
 });
@@ -24,7 +24,7 @@ const bugSchema = mongoose.Schema({
         required: true,
     },
     files: {
-        type: [Files],
+        type: [bugFiles],
         required: false
     },
 }, {

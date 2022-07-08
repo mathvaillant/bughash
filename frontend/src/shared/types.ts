@@ -19,7 +19,7 @@ export interface BugsState {
 
 export interface IBug {
     description: OutputData
-    files: File[]
+    files: IFile[]
     title: string
     status: string
     _id?: string
