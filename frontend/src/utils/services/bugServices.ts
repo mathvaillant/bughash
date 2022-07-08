@@ -44,16 +44,16 @@ const updateBug = async (bugData: any, token: string): Promise<IBug> => {
     return bug as IBug;
 } 
 
-const deleteBug = async (id: string, token: string): Promise<string> => {
+const deleteBug = async (id: string, fileRefs: string[], token: string): Promise<void> => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
 
-    const { data: { data: { message } } } = await axios.delete(`${BUG_API_URL}/${id}`, config);
+    await firebaseServices.deleteFilesFromDirStorage(fileRefs);
 
-    return message;
+    await axios.delete(`${BUG_API_URL}/${id}`, config);
 }
 
 const openNew = async (bugData: IBug, token: string): Promise<any> => {

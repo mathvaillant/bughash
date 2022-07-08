@@ -54,9 +54,9 @@ const BugPage: React.FC = () => { // token should come thourgh props...
 
       await BugServices.openNew(bugData, token);
 
-      toastr.success('New Bug Open', 'Successfully opened a new bug');
-
+      navigator('/list');
       dispatch(getBugsList(token));
+      toastr.success('Successfully opened a new bug', '');
     
     } catch (error) {
       toastr.error('An error occured white trying to submit the data', '');
@@ -64,7 +64,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
       dispatch(hideLoader());
     }
 
-  }, [dispatch, bugTitle, token, editorContent, id, navigator]);
+  }, [bugTitle, token, editorContent, id, navigator]);
 
   useEffect(() => {
     if(!id) return 

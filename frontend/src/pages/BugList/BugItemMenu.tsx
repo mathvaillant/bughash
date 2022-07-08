@@ -17,6 +17,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import { getBugFiles } from "../../utils/selectors/bug";
 
 interface BugItemProps {
   _id: string | undefined
@@ -71,6 +72,7 @@ const BugItemMenu: React.FC<BugItemProps> = ({ _id, title }): JSX.Element => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const token = useSelector(getAuthUserDataToken);
+  const bugFiles = useSelector(getBugFiles(_id || ''))
 
   const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget);
@@ -92,9 +94,10 @@ const BugItemMenu: React.FC<BugItemProps> = ({ _id, title }): JSX.Element => {
             throw new Error('You do not have permissions to perform this action!');
           }
 
-          const response = await BugServices.deleteBug(_id, token);
+          const fileRefs = bugFiles.map(file => file.ref);
+          await BugServices.deleteBug(_id, fileRefs, token);
 
-          toastr.success('Done', response);
+          toastr.success('Done', '');
           dispatch(getBugsList(token));
 
         } catch (error: any) {

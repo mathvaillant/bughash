@@ -36,6 +36,20 @@ const deleteFileFromStorage = async (fileRef: any): Promise<void | null> => {
     }
 };
 
+const deleteFilesFromDirStorage = async (refs: any): Promise<void | null> => {
+    try {
+        const actions = refs.map(async (fileRef: any) => {
+            const objectRef = ref(storage, fileRef);
+            return (await deleteObject(objectRef));
+        })
+
+        await Promise.all(actions);
+    } catch (error) {
+        console.log("🚀 ~ file: firebaseServices.ts ~ line 34 ~ deleteFileFromStorage ~ error", error);
+        return null;
+    }
+};
+
 const updateUserAvatar = async (file: File, userId: string, token: string): Promise<IFile> => {
     const basePath = `avatars/${userId}`;    
     const avatar = await imageUploader(file, basePath);
@@ -77,6 +91,7 @@ const firebaseServices = {
     uploadBugFile,
     updateUserAvatar,
     deleteFileFromStorage,
+    deleteFilesFromDirStorage,
     removeBugFile
 }
 
