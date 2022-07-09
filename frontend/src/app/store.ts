@@ -9,12 +9,14 @@ import {
 } from '../reducers/authReducers/authReducers';
 import { bugsReducer } from "../reducers/bugReducers/bugsReducer";
 import { loaderReducer } from "../reducers/bugReducers/loaderReducer";
+import { modalReducer } from "../reducers/modalReducers/modalReducers";
 
 const reducers = combineReducers({
     auth: authReducer,
     toastr: toastrReducer,
     bugs: bugsReducer,
-    loader: loaderReducer
+    loader: loaderReducer,
+    modals: modalReducer
 });
 
 const middleware = [thunk];

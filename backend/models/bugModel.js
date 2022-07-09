@@ -13,7 +13,7 @@ const bugSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        required: [true, 'Please add a description.']
+        required: false
     },
     title: {
         type: String,
@@ -21,7 +21,7 @@ const bugSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        required: true,
+        required: false,
     },
     files: {
         type: [bugFiles],

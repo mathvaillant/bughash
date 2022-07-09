@@ -56,7 +56,7 @@ const deleteBug = async (id: string, fileRefs: string[], token: string): Promise
     await axios.delete(`${BUG_API_URL}/${id}`, config);
 }
 
-const openNew = async (bugData: IBug, token: string): Promise<any> => {
+const openNew = async (bugData: any, token: string): Promise<any> => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

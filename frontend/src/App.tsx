@@ -52,7 +52,6 @@ const App: React.FC = () => {
         <Routes>
           <Route path='/' element={<AppOn />}>
             <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/new' element={<BugPage />} />
             <Route path='/edit/:id' element={<BugPage />} />
             <Route path='/list' element={<BugList />} />
             <Route path="/settings" element={<Settings />} />
@@ -67,4 +66,4 @@ const App: React.FC = () => {
   );
 }
 
-export default App;
+export default React.memo(App);

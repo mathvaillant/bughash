@@ -1,9 +1,11 @@
 import { OutputData } from "@editorjs/editorjs";
+import { ModalState } from "../reducers/modalReducers/modalReducers";
 
 export interface ReduxState {
     auth: AuthState
     bugs: BugsState
     loader: boolean
+    modals: ModalState
 }
 export interface AuthState {
     userData: IUser

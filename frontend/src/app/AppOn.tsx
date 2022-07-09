@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate, Outlet } from "react-router";
 import SideMenu from "../components/SideMenu/SideMenu";
 import Header from "../components/Header/Header";
-
+import NewBugModal from "../components/NewBugModal/NewBugModal";
 
 const AppOn: React.FC = () => {
   const userLoggedIn = Boolean(JSON.parse(localStorage.getItem('ls_db_user_info') as string)?.token);
@@ -14,7 +14,7 @@ const AppOn: React.FC = () => {
   return <>
     <SideMenu />
     <Header />
-
+    <NewBugModal />
     <Outlet />
   </>
   
