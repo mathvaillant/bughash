@@ -21,6 +21,7 @@ const bugSchema = mongoose.Schema({
     },
     status: {
         type: String,
+        default: 'todo',
         required: false,
     },
     files: {

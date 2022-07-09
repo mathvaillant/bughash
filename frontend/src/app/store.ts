@@ -1,12 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { reducer as toastrReducer} from 'react-redux-toastr';
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from 'redux-thunk';
 
-import { composeWithDevTools } from "redux-devtools-extension";
-
-import {
-    authReducer
-} from '../reducers/authReducers/authReducers';
+import { authReducer } from '../reducers/authReducers/authReducers';
 import { bugsReducer } from "../reducers/bugReducers/bugsReducer";
 import { loaderReducer } from "../reducers/bugReducers/loaderReducer";
 import { modalReducer } from "../reducers/modalReducers/modalReducers";

@@ -12,11 +12,10 @@ import Description from "../../components/Description/Description"
 import Upload from "../../components/Upload/Upload";
 import BugId from "../../components/BugId/BugId";
 import { Button } from "@mui/material";
-import _ from "underscore";
-import { getBugsList } from "../../actions/bugActions/bugActions";
 
-const BugPage: React.FC = () => { // token should come thourgh props...
+const BugPage: React.FC = () => {
   const { id } = useParams();
+
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const [bugTitle, setbugTitle] = useState<string>('');
@@ -30,33 +29,19 @@ const BugPage: React.FC = () => { // token should come thourgh props...
     try {
       dispatch(showLoader());
 
-      if(!bugTitle) {
-        toastr.error('Please check if both a title and a description were provided.', '');
-        throw new Error();
-      }
-
       if(!token) {
         toastr.error('You do not have permissions to update the content', '');
         throw new Error();
       }
 
       const bugData = {
-        description: editorContent,
-        title: bugTitle,
+        description: editorContent || null,
+        title: bugTitle || 'Untitled',
         status: 'todo',
       } as IBug
         
-      if(id) {
-        await BugServices.updateBug({...bugData, _id: id}, token);  
-        toastr.success('Successfully updated!', '');
-        return;
-      }
-
-      await BugServices.openNew(bugData, token);
-
-      navigator('/list');
-      dispatch(getBugsList(token));
-      toastr.success('Successfully opened a new bug', '');
+      await BugServices.updateBug({...bugData, _id: id}, token);  
+      toastr.success('Successfully updated!', '');
     
     } catch (error) {
       toastr.error('An error occured white trying to submit the data', '');
@@ -67,21 +52,13 @@ const BugPage: React.FC = () => { // token should come thourgh props...
   }, [bugTitle, token, editorContent, id, navigator]);
 
   useEffect(() => {
-    if(!id) return 
-
     (async () => {
       try {
           dispatch(showLoader());
 
-          if(!token) {
-            throw new Error('Permission denied!');
-          }
+          if(!id || !token) return;
 
           const bugData = await BugServices.getSingleBug(id, token);
-
-          if(!bugData) {
-            throw new Error('Could not find the bug');
-          }
 
           const { title, description } = bugData;
 
@@ -89,6 +66,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
           setEditorContent(description);
 
       } catch (error: any) {
+        console.log("🚀 ~ file: BugPage.tsx ~ line 69 ~ error", error)
         toastr.error(error.message, '');
       } finally {
         dispatch(hideLoader());
@@ -104,7 +82,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
           <div></div>
           <div>
             <BugTitle handleChangeTitle={handleChangeTitle} title={bugTitle}/>
-            {id && <BugId id={`${id}`}/>}
+            <BugId id={`${id}`}/>
             {
               <Button 
                 variant='contained' 
@@ -112,7 +90,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
                 className='saveButton' 
                 onClick={handleSave}
               >
-                {!id ? 'Save' : 'Update'}
+                Update
               </Button>
             }
           </div>
@@ -120,7 +98,7 @@ const BugPage: React.FC = () => { // token should come thourgh props...
 
         <div className='BugPage__content'>
           <div>
-            <Upload bugId={id || ''} />
+            {id && <Upload bugId={id} />}
           </div>
           <div>
             <Description 

@@ -27,7 +27,7 @@ const getSingleBug = async (id: string, token: string): Promise<IBug> => {
 
     const bugData = {
         ...bug,
-        description: JSON.parse(bug.description)
+        description: bug?.description ? JSON.parse(bug?.description) : null
     } as IBug
 
     return bugData as IBug;
