@@ -53,7 +53,7 @@ const Profile: React.FC = () => {
       await firebaseServices.deleteFileFromStorage(avatar.ref);
     }
 
-    const newAvatar: IFile = await firebaseServices.updateUserAvatar(files[0], userId, token);
+    const newAvatar: IFile = await firebaseServices.updateUserAvatar(files[0], userId);
     
     const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
     localStorage.setItem('ls_db_user_info', JSON.stringify({...lsUser, avatar: newAvatar}));
@@ -65,7 +65,8 @@ const Profile: React.FC = () => {
     try {
       setIsLoading(true);
 
-      await userServices.updateData({ name, email }, userId, token);
+      const fields = { name, email };
+      await userServices.updateData(fields, userId);
 
       const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
       JSON.stringify({...lsUser, name, email});

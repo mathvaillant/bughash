@@ -50,15 +50,15 @@ const deleteFilesFromDirStorage = async (refs: any): Promise<void | null> => {
     }
 };
 
-const updateUserAvatar = async (file: File, userId: string, token: string): Promise<IFile> => {
+const updateUserAvatar = async (file: File, userId: string): Promise<IFile> => {
     const basePath = `avatars/${userId}`;    
     const avatar = await imageUploader(file, basePath);
 
-    await userServices.updateData({ avatar }, userId, token);
+    await userServices.updateData({ avatar }, userId);
     return avatar;
 };
 
-const uploadBugFile = async (currentFiles: IFile[], newfile: File, bugId: string, token: string): Promise<IFile | null> => {
+const uploadBugFile = async (currentFiles: IFile[], newfile: File, bugId: string): Promise<IFile | null> => {
     try {
         // Upload file to firebase
         const basePath = `bugs/${bugId}`;
@@ -66,7 +66,12 @@ const uploadBugFile = async (currentFiles: IFile[], newfile: File, bugId: string
 
         // Save file info on MongoDB
         const filesUpdated = [...currentFiles, fileData];
-        await BugServices.updateBug({ _id: bugId, files: filesUpdated }, token);
+        await BugServices.updateBug({
+            bugId,
+            fields: { 
+                files: filesUpdated 
+            } 
+        });
 
         return fileData;
     } catch (error) {
@@ -75,12 +80,17 @@ const uploadBugFile = async (currentFiles: IFile[], newfile: File, bugId: string
     }
 }
 
-const removeBugFile = async (currentFiles: IFile[], fileRef: string, bugId: string, token: string): Promise<void> => {
+const removeBugFile = async (currentFiles: IFile[], fileRef: string, bugId: string): Promise<void> => {
     try {
         await deleteFileFromStorage(fileRef);
 
         const filesUpdated = currentFiles.filter(file => file.ref !== fileRef);
-        await BugServices.updateBug({ _id: bugId, files: filesUpdated }, token);
+         await BugServices.updateBug({
+            bugId,
+            fields: { 
+                files: filesUpdated 
+            } 
+        });
 
     } catch (error) {
         console.log("🚀 ~ file: firebaseServices.ts ~ line 51 ~ uploadFileToStorage ~ error", error);

@@ -10,7 +10,7 @@ const getBugs = asyncHandler(async (req, res) => {
 
         res.status(200).json({
             status: 'ok',
-            data: {bugs}
+            data: { bugs }
         })
     } catch (error) {
         res.status(500).json({

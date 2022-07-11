@@ -23,5 +23,6 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(...middleware))
 );
 
+
 export default store;
 export type Store = ReturnType<typeof reducers>

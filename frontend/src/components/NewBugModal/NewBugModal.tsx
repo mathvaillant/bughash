@@ -28,7 +28,11 @@ const NewBugModal: React.FC = (): JSX.Element | null => {
   const handleAddNew = async (): Promise<void> => {
     try {
       dispatch(showLoader());
-      const newBug = await BugServices.openNew({ title }, token);
+      const newBug = await BugServices.openNew({
+        fields: {
+          title
+        } 
+      });
     
       handleClose();
       setTitle('');

@@ -1,8 +1,16 @@
+import { OutputData } from "@editorjs/editorjs";
 import axios from 'axios';
-import { IBug } from "../../shared/types";
+import { IBug, IFile } from "../../shared/types";
 import firebaseServices from "./firebaseServices";
+import { getToken } from "./userServices";
 
 const BUG_API_URL = '/bugs';
+
+interface IBugFields {
+    title?: string
+    files?: IFile[]
+    description?: OutputData | undefined
+}
 
 const getBugs = async (token: string): Promise<IBug[]> => {
     const config = {
@@ -12,8 +20,13 @@ const getBugs = async (token: string): Promise<IBug[]> => {
     }
 
     const { data: { data: { bugs } } } = await axios.get(BUG_API_URL, config);
+    
+    const bugsFormatted = bugs.map((bug: any) => ({
+        ...bug,
+        description: JSON.parse(bug.description)
+    }));
 
-    return bugs as IBug[];
+    return bugsFormatted as IBug[];
 }
 
 const getSingleBug = async (id: string, token: string): Promise<IBug> => {
@@ -33,13 +46,19 @@ const getSingleBug = async (id: string, token: string): Promise<IBug> => {
     return bugData as IBug;
 }
 
-const updateBug = async (bugData: any, token: string): Promise<IBug> => {
+const updateBug = async ({ fields, bugId }: { fields: IBugFields, bugId: string }): Promise<IBug> => {
+    const token = getToken();
+    
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    const { data: { data: { bug } } } = await axios.patch(`${BUG_API_URL}/${bugData._id}`, bugData, config);
+
+    const fieldsToUpdate = {...fields};
+    console.log("🚀 ~ file: bugServices.ts ~ line 59 ~ updateBug ~ fieldsToUpdate", fieldsToUpdate);
+
+    const { data: { data: { bug } } } = await axios.patch(`${BUG_API_URL}/${bugId}`, fieldsToUpdate, config);
 
     return bug as IBug;
 } 
@@ -56,14 +75,15 @@ const deleteBug = async (id: string, fileRefs: string[], token: string): Promise
     await axios.delete(`${BUG_API_URL}/${id}`, config);
 }
 
-const openNew = async (bugData: any, token: string): Promise<any> => {
+const openNew = async ({ fields }: { fields: IBugFields }): Promise<IBug> => {
+    const token = getToken();
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     }
 
-    const { data: { data: { bug } } } = await axios.post(BUG_API_URL, bugData, config);
+    const { data: { data: { bug } } } = await axios.post(BUG_API_URL, fields, config);
 
     return bug;
 }

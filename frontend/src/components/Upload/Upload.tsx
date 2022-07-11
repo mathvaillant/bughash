@@ -49,7 +49,7 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
       toastr.error('You do not have permission to upload the file to this bug', '');
       return;
     }
-    await firebaseServices.removeBugFile(bugFiles, fileRef, bugId, token);
+    await firebaseServices.removeBugFile(bugFiles, fileRef, bugId);
     setBugFiles(bugFiles.filter(bugFile => bugFile.ref !== fileRef));
   }, [token, bugFiles, bugId]);
 
@@ -67,7 +67,7 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
       return;
     }
 
-    const fileData = await firebaseServices.uploadBugFile(bugFiles, file, bugId, token);
+    const fileData = await firebaseServices.uploadBugFile(bugFiles, file, bugId);
 
     if(fileData) {
       setBugFiles([...bugFiles, fileData]);
