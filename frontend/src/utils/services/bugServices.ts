@@ -10,6 +10,7 @@ interface IBugFields {
     title?: string
     files?: IFile[]
     description?: OutputData | undefined
+    status?: string
 }
 
 const getBugs = async (token: string): Promise<IBug[]> => {

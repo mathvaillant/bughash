@@ -24,7 +24,7 @@
         "react-hooks"
     ],
     "rules": {
-        "no-unused-vars": "error",
+        "no-unused-vars": "off",
         "no-use-before-define": "warn",
         "no-shadow": "warn",
         "max-len": ["warn", { "code": 200 }],

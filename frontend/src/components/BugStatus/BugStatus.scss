@@ -1,0 +1,35 @@
+.BugStatus {
+    button.BugStatus__selectButton {
+        border-radius: 22px;
+
+        &.open {
+            border-color: $purple !important;
+            color: $purple !important;
+            box-shadow: $lightBoxShadow;
+
+            &:hover {
+                background-color: rgba($purple, .1);
+            }
+        }
+
+        &.inprogress {
+            border-color: $green !important;
+            color: $green !important;
+            box-shadow: $lightBoxShadow;
+
+            &:hover {
+                background-color: rgba($green, .1);
+            }
+        }
+
+        &.closed {
+            border-color: $purple2 !important;
+            color: $purple2 !important;
+            box-shadow: $lightBoxShadow;
+
+            &:hover {
+                background-color: rgba($purple2, .1);
+            }
+        }
+    }
+}

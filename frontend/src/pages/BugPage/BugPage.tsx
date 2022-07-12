@@ -6,6 +6,7 @@ import BugTitle from "../../components/BugTitle/BugTitle";
 import Description from "../../components/Description/Description"
 import Upload from "../../components/Upload/Upload";
 import BugId from "../../components/BugId/BugId";
+import BugStatus from "../../components/BugStatus/BugStatus";
 
 const BugPage: React.FC = () => {
   const { id } = useParams();
@@ -14,10 +15,10 @@ const BugPage: React.FC = () => {
   return (
     <div className='BugPage'>
         <div className='BugPage__header'>
-          <div></div>
           <div>
             <BugTitle bugId={id} />
-            <BugId id={`${id}`}/>
+            <BugStatus bugId={id} />
+            <BugId bugId={id} />
           </div>
         </div>
 

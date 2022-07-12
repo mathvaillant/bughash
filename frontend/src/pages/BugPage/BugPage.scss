@@ -23,11 +23,7 @@
 
         @include large-mobile {
             display: block;
-        }
-
-        div:first-child {
-            flex: 2 1;
-        }
+        } 
 
         div:last-child {
             display: flex;

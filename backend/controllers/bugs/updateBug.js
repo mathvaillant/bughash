@@ -18,7 +18,7 @@ const updateBug = asyncHandler(async (req, res) => {
 
         res.status(200).json({
             status: 'ok',
-            data: updatedBug
+            data: { bug: updatedBug }
         });
     } catch (error) {   
         res.status(401).json({

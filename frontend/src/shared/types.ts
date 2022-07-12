@@ -23,7 +23,7 @@ export interface IBug {
     description: OutputData
     files: IFile[]
     title: string
-    status: string
+    status: 'open' | 'closed' | 'inprogress'
     _id?: string
     createdBy?: string
     createdAt?: string
@@ -42,3 +42,5 @@ export interface IFile {
     url: string
     ref: string
 }
+
+export type StatusTypes = 'open' | 'closed' | 'inprogress';
