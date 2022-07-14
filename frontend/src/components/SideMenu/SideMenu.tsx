@@ -7,10 +7,13 @@ import Open from '@mui/icons-material/KeyboardArrowRight';
 import Close from '@mui/icons-material/KeyboardArrowLeft';
 import ListIcon from '@mui/icons-material/List';
 import AvatarMenu from "../AvatarMenu/AvatarMenu";
+import { useSelector } from "react-redux";
+import { getAppTheme } from "../../utils/selectors/theme";
 
 const SideMenu: React.FC = () => {
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
+  const theme = useSelector(getAppTheme);
 
   const pathIcons: Record<string, ReactElement> = {
     'Dashboard': <HomeIcon fontSize="small" />,
@@ -24,7 +27,8 @@ const SideMenu: React.FC = () => {
   const getPathRedirectButton = (pathname: string): JSX.Element => {
     if(!expanded) {
       return <Tooltip placement={'right'} title={pathname}>
-        <IconButton 
+        <IconButton
+          className={theme} 
           onClick={(e) => navigateToPath(e, `/${pathname.toLowerCase()}`)}
         >
           {pathIcons[pathname]}
@@ -33,6 +37,7 @@ const SideMenu: React.FC = () => {
     }
     return (
       <Button 
+        className={theme}
         onClick={(e) => navigateToPath(e, `/${pathname.toLowerCase()}`)} 
         startIcon={pathIcons[pathname]}
       >
@@ -48,7 +53,7 @@ const SideMenu: React.FC = () => {
     > 
       <a className="logoName" onClick={() => navigate('/dashboard')}>{!expanded ? 'BH' : 'BugHash'}</a>
       
-      <IconButton className='Sidebar__expandButton' onClick={handleExpandSidebar}>
+      <IconButton className={`Sidebar__expandButton ${theme}`} onClick={handleExpandSidebar}>
       {
         !expanded ? <Open /> : <Close />
       }

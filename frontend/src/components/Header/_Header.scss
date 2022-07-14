@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     font-family: 'Secular One', sans-serif;
-    color: $white;
+    //color: $white;
     height: 45px;
     display: flex;
     align-items: center;
@@ -14,11 +14,7 @@
     }
 
     h2 {
-        color: $black;
-    }
-
-    .GoBack > svg {
-        fill: $black;
+        //color: $black;
     }
 
     .BugPage {
@@ -26,21 +22,31 @@
         display: flex;
         align-items: center;
         max-height: 2rem;
-        margin: 0rem 1rem 0rem auto;
-        background-color: $black;
         padding: 0.1rem 1rem 0.1rem 1rem;
-        color: $white;
+        color: $black;
         box-shadow: $defaultBoxShadow;
 
-        &:hover {
-            background-color: $black;
-            border: 1px solid $white;
-        }
-
         > svg {
-            fill: $white;
+            fill: $black;
             padding: 0.25rem;
             cursor: pointer;
+        }
+
+        &.dark {
+            color: $black;
+
+            &:hover {
+                color: $white;
+                border: 1px solid $white;
+
+                > svg {
+                    fill: $white;    
+                }
+            }
+
+            > svg {
+                fill: $black;
+            }
         }
     }
 }

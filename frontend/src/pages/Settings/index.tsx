@@ -19,7 +19,7 @@ const Settings = (): JSX.Element => {
     <div className='Settings'>
       <h1 className='Settings__header'>Settings</h1>
 
-      <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%'}}>
+      <Box sx={{ flexGrow: 1, display: 'flex', height: '100%'}}>
         <Tabs
           orientation={tabOrientation}
           variant="scrollable"

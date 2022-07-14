@@ -24,6 +24,7 @@
         "react-hooks"
     ],
     "rules": {
+        "no-empty-function": "off",
         "no-unused-vars": "off",
         "no-use-before-define": "warn",
         "no-shadow": "warn",

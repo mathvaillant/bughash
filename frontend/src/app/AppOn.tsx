@@ -11,12 +11,17 @@ const AppOn: React.FC = () => {
     return <Navigate to='/login'/> 
   }
 
-  return <>
-    <SideMenu />
-    <Header />
-    <NewBugModal />
-    <Outlet />
-  </>
+  return <div className="AppOn">
+    <div>
+      <SideMenu />
+    </div>
+    
+    <div>
+      <Header />
+      <NewBugModal />
+      <Outlet />
+    </div>
+  </div>
   
 }
 

@@ -101,7 +101,7 @@ const Profile: React.FC = () => {
 
       <div className="Profile__right">
         <Box sx={{ display: 'flex', alignItems: 'flex-end', maxWidth: '400px'}}>
-          <AlternateEmailIcon fontSize="small" sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+          <AlternateEmailIcon fontSize="small" sx={{ mr: 1, my: 0.5 }} />
           <TextField 
             fullWidth 
             id="input-with-sx" 
@@ -113,7 +113,7 @@ const Profile: React.FC = () => {
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'flex-end', maxWidth: '400px'}}>
-          <PersonIcon fontSize="small" sx={{ color: 'action.active', mr: 1, my: 0.5 }}/>
+          <PersonIcon fontSize="small" sx={{ mr: 1, my: 0.5 }}/>
           <TextField 
             fullWidth 
             id="input-with-sx" 
