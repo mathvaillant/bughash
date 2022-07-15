@@ -7,7 +7,9 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js -L",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently \"yarn run server\" \"yarn run client\""
+    "dev": "concurrently \"yarn run server\" \"yarn run client\"",
+    "db:seed": "node ./backend/data/dbSeeder.js --importData",
+    "db:erase": "node ./backend/data/dbSeeder.js --deleteData"
   },
   "repository": {
     "type": "git",
