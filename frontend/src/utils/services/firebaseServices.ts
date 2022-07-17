@@ -31,7 +31,6 @@ const deleteFileFromStorage = async (fileRef: any): Promise<void | null> => {
         const objectRef = ref(storage, fileRef);
         await deleteObject(objectRef);
     } catch (error) {
-        console.log("🚀 ~ file: firebaseServices.ts ~ line 34 ~ deleteFileFromStorage ~ error", error);
         return null;
     }
 };
@@ -45,7 +44,6 @@ const deleteFilesFromDirStorage = async (refs: any): Promise<void | null> => {
 
         await Promise.all(actions);
     } catch (error) {
-        console.log("🚀 ~ file: firebaseServices.ts ~ line 34 ~ deleteFileFromStorage ~ error", error);
         return null;
     }
 };
@@ -75,7 +73,6 @@ const uploadBugFile = async (currentFiles: IFile[], newfile: File, bugId: string
 
         return fileData;
     } catch (error) {
-        console.log("🚀 ~ file: firebaseServices.ts ~ line 51 ~ uploadFileToStorage ~ error", error);
         return null;
     }
 }

@@ -20,7 +20,7 @@ import { useNavigate } from "react-router";
 import { getBugFiles } from "../../utils/selectors/bug";
 
 interface BugItemProps {
-  _id: string | undefined
+  bugId: string | undefined
   title : string | null
 }
 
@@ -65,14 +65,14 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-const BugItemMenu: React.FC<BugItemProps> = ({ _id, title }): JSX.Element => {
+const BugItemMenu: React.FC<BugItemProps> = ({ bugId, title }): JSX.Element => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
   
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const token = useSelector(getAuthUserDataToken);
-  const bugFiles = useSelector(getBugFiles(_id || ''))
+  const bugFiles = useSelector(getBugFiles(bugId || ''))
 
   const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget);
@@ -82,7 +82,7 @@ const BugItemMenu: React.FC<BugItemProps> = ({ _id, title }): JSX.Element => {
     setAnchorEl(null);
   };
 
-  const handleEditBug = (): void => navigator(`/edit/${_id}`);
+  const handleEditBug = (): void => navigator(`/edit/${bugId}`);
 
   const handleDelete = (): void => {
     toastr.confirm(`Are you sure to delete ${title}? This action cannot be reverted!`, {
@@ -90,12 +90,12 @@ const BugItemMenu: React.FC<BugItemProps> = ({ _id, title }): JSX.Element => {
         try {
           dispatch(showLoader());
 
-          if(!_id || !token) {
+          if(!bugId || !token) {
             throw new Error('You do not have permissions to perform this action!');
           }
 
           const fileRefs = bugFiles.map(file => file.ref);
-          await BugServices.deleteBug(_id, fileRefs, token);
+          await BugServices.deleteBug(bugId, fileRefs, token);
 
           toastr.success('Done', '');
           dispatch(getBugsList(token));

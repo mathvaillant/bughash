@@ -8,10 +8,15 @@ $sidebarBgColor: #ececec;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: $white;
     justify-content: flex-start;
     align-items: center;
     transition: linear 100ms;
     box-shadow: $lightBoxShadow;
+
+    &.darkTheme {
+        background-color: black;
+    }
 
     @include large-mobile {
         position: fixed;
@@ -31,6 +36,7 @@ $sidebarBgColor: #ececec;
         border-radius: 10px;
         color: inherit;
         font-size: inherit;
+        background-color: $black;
         color: $white;
 
         @include large-mobile {
@@ -39,7 +45,7 @@ $sidebarBgColor: #ececec;
     }
 
     &.open {
-        width: 12vw;
+        width: 15vw;
     }
 
     &.closed {

@@ -7,26 +7,26 @@ import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { getAuthUserDataAvatar, getAuthUserDataName } from "../../utils/selectors/auth";
 
-export const BugItem = ({ _id, title, status, createdAt, createdBy, description, files }: IBug): JSX.Element => {
+export const BugItem = ({ bugId, title, status, createdAt, createdBy, description, files }: IBug): JSX.Element => {
   const navigator = useNavigate();
   const userAvatar = useSelector(getAuthUserDataAvatar);
   const userName  = useSelector(getAuthUserDataName);
   const blocks = description?.blocks;
 
-  const handleEditBug = (): void => navigator(`/edit/${_id}`);
+  const handleEditBug = (): void => navigator(`/edit/${bugId}`);
 
   return (
-    <div key={_id} className='BugList__inner__card'>
+    <div key={bugId} className='BugList__inner__card'>
       
-      <Tooltip placement='top' title={status}>
-        <span className={`card__status__badge ${status}`}></span>
+      <Tooltip placement='top' title={status.toUpperCase()}>
+        <span className={`card__status__badge ${status}`}></span> 
       </Tooltip>
 
       <CardHeader 
         title={title} 
         subheader={createdAt} 
         action={
-         <BugItemMenu _id={_id} title={title}/>
+         <BugItemMenu bugId={bugId} title={title}/>
         }
       />
 

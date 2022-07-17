@@ -10,7 +10,7 @@ const sampleBugs = JSON.parse(fs.readFileSync(`${__dirname}/bugs.json`, 'utf8'))
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-        console.log('MongoDB successfully connected'.green)
+        console.log('MongoDB successfully connected'.green);
     });
 
 // Import data to MongoDB

@@ -7,9 +7,11 @@ import Description from "../../components/Description/Description"
 import Upload from "../../components/Upload/Upload";
 import BugId from "../../components/BugId/BugId";
 import BugStatus from "../../components/BugStatus/BugStatus";
+import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 
 const BugPage: React.FC = () => {
   const { id } = useParams();
+  const { isMobile } = useDeviceDetect();
   if(!id) return null;
 
   return (
@@ -18,7 +20,7 @@ const BugPage: React.FC = () => {
           <div>
             <BugTitle bugId={id} />
             <BugStatus bugId={id} />
-            <BugId bugId={id} />
+            {!isMobile && <BugId bugId={id} />} 
           </div>
         </div>
 

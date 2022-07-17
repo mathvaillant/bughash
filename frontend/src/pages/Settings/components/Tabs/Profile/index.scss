@@ -2,12 +2,18 @@
     display: flex;
     gap: 3rem;
 
+    &.dark {
+        color: $white !important;
+    }
+
     @include large-mobile {
         flex-direction: column;
+        align-items: center;
     }
 
     .Profile__left {
         .Profile__left__inputWrapper {
+            max-width: fit-content;
             position: relative;
             border-radius: 50%;
             box-shadow: $lightBoxShadow;

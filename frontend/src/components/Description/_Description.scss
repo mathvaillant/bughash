@@ -3,6 +3,10 @@
     height: 100%;
     overflow: scroll;
 
+    &.dark {
+        background-color: dimgray;
+    }
+
     > div {
         margin-top: 1rem;
     }

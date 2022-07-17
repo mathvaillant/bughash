@@ -1,11 +1,21 @@
 .Settings {
-    margin: 0rem 5rem;
+    padding: 2rem 5rem;
+
+    &.dark {
+        background-color: $white;
+        width: 100%;
+        height: 100%;
+    }
 
     @include large-mobile {
-        margin: 10px;
+        text-align: center;
+        padding: 0px;;
+        // margin: 10px;
     }
 
     > .MuiBox-root {
+        height: unset;
+        background-color: $white;
         @include large-mobile {
             flex-direction: column !important;
         }

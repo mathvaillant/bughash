@@ -9,6 +9,10 @@
     cursor: pointer;
     transition: ease-in-out 80ms;
 
+    &.dark {
+        background-color: dimgray;
+    }
+
     .MuiCircularProgress-root {
         height: 4rem !important;
         width: 4rem !important; 

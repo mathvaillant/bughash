@@ -28,6 +28,18 @@ const bugSchema = mongoose.Schema({
         type: [bugFiles],
         required: false
     },
+    storyPoints: {
+        type: Number,
+        default: true,    
+    },
+    githubIssue: {
+        type: String,
+        required: false
+    },
+    timeWorked: {
+        type: Number,
+        default: 0,
+    }
 }, {
     timestamps: true
 })

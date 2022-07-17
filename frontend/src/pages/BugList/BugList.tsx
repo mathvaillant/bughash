@@ -27,7 +27,7 @@ const BugList: React.FC = () => {
                   title={title} 
                   status={status} 
                   createdAt={createdAt}
-                  _id={_id}
+                  bugId={_id}
                   description={description}
                   files={files}
                   createdBy={createdBy}

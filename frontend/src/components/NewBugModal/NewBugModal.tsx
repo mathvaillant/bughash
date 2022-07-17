@@ -36,7 +36,7 @@ const NewBugModal: React.FC = (): JSX.Element | null => {
     
       handleClose();
       setTitle('');
-      navigate(`/edit/${newBug._id}`);
+      navigate(`/edit/${newBug.bugId}`);
       
     } catch (error) {
       dispatch(hideLoader());

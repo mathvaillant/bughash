@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { getBugFiles } from "../../utils/selectors/bug";
 import firebaseServices from "../../utils/services/firebaseServices";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
+import { getAppTheme } from "../../utils/selectors/theme";
 
 interface UploadProps {
   bugId: string
@@ -27,6 +28,7 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const stateBugFiles = useSelector(getBugFiles(bugId));
   const token = useSelector(getAuthUserDataToken);
+  const appTheme = useSelector(getAppTheme);
 
   useEffect(() => {
     if(stateBugFiles.length && bugId) {
@@ -112,7 +114,14 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
   }
 
   return (
-    <div className={classNames('Upload', {zoomSection: zoomSection})} data-zoom-section='toggleClose' aria-label="Click to add file inserted">
+    <div 
+      className={classNames('Upload', {
+        zoomSection: zoomSection,
+        dark: appTheme === 'dark'
+      })} 
+      data-zoom-section='toggleClose' 
+      aria-label="Click to add file inserted"
+    >
 
       <ZoomSectionButton handleZoomSection={setZoomSection}/>
 

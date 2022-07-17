@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { getBugDescription } from "../../utils/selectors/bug";
 import BugServices from "../../utils/services/bugServices";
 import useDebounce from "../../utils/hooks/useDebounce";
+import { getAppTheme } from "../../utils/selectors/theme";
 
 const EDITOR_HOLDER_ID = 'editorjs';
 
@@ -18,6 +19,7 @@ const Description = ({ bugId }: { bugId: string }): JSX.Element => {
   const [editorContent, setEditorContent] = React.useState<OutputData | undefined>();
   const editorInstance = React.useRef<EditorJS | null>(null);
   const stateEditorContent = useSelector(getBugDescription(bugId));
+  const appTheme = useSelector(getAppTheme);
 
   const handleUpdateEditorContent = useCallback((content: OutputData): void => setEditorContent(content), []);
 
@@ -89,7 +91,10 @@ const Description = ({ bugId }: { bugId: string }): JSX.Element => {
 
   return (
     <div 
-      className={classNames('Description', {zoomSection: zoomSection})} 
+      className={classNames('Description', {
+        zoomSection: zoomSection,
+        dark: appTheme === 'dark'
+      })} 
       data-zoom-section='toggleClose' 
       data-test='Description-section'
     >

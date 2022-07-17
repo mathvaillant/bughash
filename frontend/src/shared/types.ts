@@ -24,6 +24,7 @@ export interface IBug {
     files: IFile[]
     title: string
     status: 'open' | 'closed' | 'inprogress'
+    bugId?: string
     _id?: string
     createdBy?: string
     createdAt?: string
@@ -34,6 +35,7 @@ export interface IUser {
     avatar: IFile 
     name: string
     token: string
+    userId: string
     _id: string
     role?: string
 }

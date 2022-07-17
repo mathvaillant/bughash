@@ -57,7 +57,6 @@ const updateBug = async ({ fields, bugId }: { fields: IBugFields, bugId: string 
     }
 
     const fieldsToUpdate = {...fields};
-    console.log("🚀 ~ file: bugServices.ts ~ line 59 ~ updateBug ~ fieldsToUpdate", fieldsToUpdate);
 
     const { data: { data: { bug } } } = await axios.patch(`${BUG_API_URL}/${bugId}`, fieldsToUpdate, config);
 

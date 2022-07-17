@@ -48,7 +48,7 @@ const SideMenu: React.FC = () => {
 
   return (
     <div 
-      className={classNames('SideMenu', {open: expanded, closed: !expanded})} 
+      className={classNames('SideMenu', {open: expanded, closed: !expanded, darkTheme: theme === 'dark'})} 
       data-sidebar-section='toggleClose'
     > 
       <a className="logoName" onClick={() => navigate('/dashboard')}>{!expanded ? 'BH' : 'BugHash'}</a>
