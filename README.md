@@ -1,4 +1,4 @@
-# BugHash App
+# BugHash App (UNDER DEVELOPMENT)
 
 This project was developed by [Matheus Vaillant](https://github.com/mathvaillant).
 
