@@ -65,6 +65,7 @@ $sidebarBgColor: #ececec;
         }
 
         &.dark {
+            color: $white;
             .MuiSvgIcon-root {
                 fill: $white;
             }

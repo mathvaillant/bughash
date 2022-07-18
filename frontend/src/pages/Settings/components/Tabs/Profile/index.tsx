@@ -24,13 +24,13 @@ const Profile: React.FC = () => {
 
   React.useEffect(() => {
     if(stateUserData) {
-      const { email: useremail, name: username, avatar: useravatar, token: usertoken, _id } = stateUserData;
+      const { email: useremail, name: username, avatar: useravatar, token: usertoken, userId: id } = stateUserData;
 
       setEmail(useremail);
       setName(username);
       setAvatar(useravatar);
       setToken(usertoken);
-      setUserId(_id);
+      setUserId(id);
     }
   }, [stateUserData]);
 
