@@ -18,7 +18,7 @@ export const getBlobFromFile = (file: File): IgetBlobFromFile => {
 }
 
 export const transformToMilliseconds = (time: any): number => {
-    const hours = parseInt(time.seconds) * 3600000;
+    const hours = parseInt(time.hours) * 3600000;
     const minutes = parseInt(time.minutes) * 60000;
     const seconds = parseInt(time.seconds) * 1000;
 

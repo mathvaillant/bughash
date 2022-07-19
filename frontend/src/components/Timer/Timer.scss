@@ -6,6 +6,14 @@
     border-radius: 15px;
     cursor: pointer;
     z-index: 9;
+    transition: all 100ms ease;
+
+    &.disabled {
+        pointer-events: none;
+        form {
+            background-color: dimgray;
+        }
+    }
 
     .Timer__task {
         position: absolute;

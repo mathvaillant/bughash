@@ -24,6 +24,7 @@ export interface IBug {
     files: IFile[]
     title: string
     status: 'open' | 'closed' | 'inprogress'
+    timeWorked?: ITimeWorked[]
     bugId?: string
     _id?: string
     createdBy?: string
@@ -48,7 +49,7 @@ export interface IFile {
 export type StatusTypes = 'open' | 'closed' | 'inprogress';
 
 export interface ITimeWorked {
-    workers: string[]
+    workers: any[]
     timeWorked: number
-    startedAt: number
+    startedAt: number | null
 }

@@ -16,10 +16,8 @@ const BugPage: React.FC = () => {
   return (
     <div className='BugPage'>
         <div className='BugPage__header'>
-          <div>
-            <BugTitle bugId={id} />
-            <BugStatus bugId={id} />
-          </div>
+          <BugTitle bugId={id} />
+          <BugStatus bugId={id} />
         </div>
 
         <div className='BugPage__content'>

@@ -8,6 +8,7 @@ import { bugsReducer } from "../reducers/bugReducers/bugsReducer";
 import { loaderReducer } from "../reducers/bugReducers/loaderReducer";
 import { modalReducer } from "../reducers/modalReducers/modalReducers";
 import { toggleThemeReducer } from "../reducers/themeReducer";
+import { timerReducer } from "../reducers/timerReducer";
 
 const reducers = combineReducers({
     auth: authReducer,
@@ -15,7 +16,8 @@ const reducers = combineReducers({
     bugs: bugsReducer,
     loader: loaderReducer,
     modals: modalReducer,
-    theme: toggleThemeReducer
+    theme: toggleThemeReducer,
+    timer: timerReducer
 });
 
 const middleware = [thunk];
