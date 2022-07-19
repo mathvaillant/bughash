@@ -46,3 +46,9 @@ export interface IFile {
 }
 
 export type StatusTypes = 'open' | 'closed' | 'inprogress';
+
+export interface ITimeWorked {
+    workers: string[]
+    timeWorked: number
+    startedAt: number
+}

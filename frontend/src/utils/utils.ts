@@ -16,3 +16,11 @@ export const getBlobFromFile = (file: File): IgetBlobFromFile => {
         previewUrl: URL.createObjectURL(fileToBlob),
     }
 }
+
+export const transformToMilliseconds = (time: any): number => {
+    const hours = parseInt(time.seconds) * 3600000;
+    const minutes = parseInt(time.minutes) * 60000;
+    const seconds = parseInt(time.seconds) * 1000;
+
+    return hours + minutes + seconds;
+}

@@ -6,7 +6,7 @@ interface ITimeout {
     clear: () => void;
 }
 
-const useTimeout = (callback: () => void, delay: number): ITimeout => {
+const useTimeout = (callback: () => void, delay: any): ITimeout => {
     const callbackRef = useRef(callback);
     const timeoutRef: React.MutableRefObject<any> = useRef(null);
 

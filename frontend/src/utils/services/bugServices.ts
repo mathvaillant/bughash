@@ -1,6 +1,6 @@
 import { OutputData } from "@editorjs/editorjs";
 import axios from 'axios';
-import { IBug, IFile } from "../../shared/types";
+import { IBug, IFile, ITimeWorked } from "../../shared/types";
 import firebaseServices from "./firebaseServices";
 import { getToken } from "./userServices";
 
@@ -11,6 +11,7 @@ interface IBugFields {
     files?: IFile[]
     description?: OutputData | undefined
     status?: string
+    timeWorked?: ITimeWorked
 }
 
 const getBugs = async (token: string): Promise<IBug[]> => {
