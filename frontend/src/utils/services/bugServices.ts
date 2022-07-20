@@ -12,6 +12,7 @@ interface IBugFields {
     description?: OutputData | undefined
     status?: string
     timeWorked?: ITimeWorked
+    startedWorkAt?: number
 }
 
 const getBugs = async (token: string): Promise<IBug[]> => {

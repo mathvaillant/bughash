@@ -12,7 +12,6 @@ const timeWorked = mongoose.Schema({
         ref: 'User'
     }],
     timeWorked: Number,
-    startedAt: Number,
 });
 
 const bugSchema = mongoose.Schema({
@@ -46,9 +45,15 @@ const bugSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    startedWorkAt: {
+        type: Number,
+        required: false,
+        default: null
+    },
     timeWorked: {
-        type: [timeWorked],
-        default: [],
+        type: timeWorked,
+        default: null,
+        required: false
     }
 }, {
     timestamps: true

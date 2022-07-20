@@ -1,3 +1,5 @@
+import { ITime } from "../components/Timer/utils";
+
 interface IgetBlobFromFile  {
     name: string
     size: number
@@ -17,10 +19,22 @@ export const getBlobFromFile = (file: File): IgetBlobFromFile => {
     }
 }
 
-export const transformToMilliseconds = (time: any): number => {
+export const transformToMilliseconds = (time: ITime): number => {
     const hours = parseInt(time.hours) * 3600000;
     const minutes = parseInt(time.minutes) * 60000;
     const seconds = parseInt(time.seconds) * 1000;
 
     return hours + minutes + seconds;
+}
+
+export const transformToFullTime = (ms: number): ITime => {
+    const seconds = (ms / 1000) % 60;
+    const minutes = (ms / (1000*60)) % 60;
+    const hours = (ms / (1000*60*60)) % 24;
+
+    return {
+        seconds: seconds < 10 ? `0${seconds.toFixed(0)}` : seconds.toFixed(0).toString(),
+        minutes: minutes < 10 ? `0${minutes.toFixed(0)}` : minutes.toFixed(0).toString(),
+        hours: hours < 10 ? `0${hours.toFixed(0)}` : hours.toFixed(0).toString(),
+    };
 }

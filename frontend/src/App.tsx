@@ -37,7 +37,7 @@ const App: React.FC = () => {
         main: '#000000',
       },
       secondary: {
-        main: '#3b49df',
+        main: '#FFFFFF',
       },
     },
     spacing: 8,
