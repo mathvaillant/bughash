@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import classNames from "classnames";
 import { EDITOR_JS_TOOLS } from "../../utils/constants.js";
@@ -36,7 +36,7 @@ const Description = ({ bugId }: { bugId: string }): JSX.Element => {
     if(editorContent) {
       handleSaveDescription();
     }
-  }, 750, [editorContent]);
+  }, 1000, [editorContent]);
 
   const handleClickAway = useCallback((e) => {
     const shouldUndoZoom = !e.target.closest("[data-zoom-section]");
@@ -78,10 +78,10 @@ const Description = ({ bugId }: { bugId: string }): JSX.Element => {
   }, [editorContent, destroyEditor, handleUpdateEditorContent]);
 
   useEffect(() => {
-    if(stateEditorContent && bugId) {
+    if(stateEditorContent) {
       setEditorContent(stateEditorContent);
     }
-  }, [stateEditorContent, bugId]);
+  }, [stateEditorContent]);
 
   useEffect(() => {
     if(!editorInstance.current) {
@@ -104,4 +104,4 @@ const Description = ({ bugId }: { bugId: string }): JSX.Element => {
   );
 }
 
-export default memo(Description);
+export default Description;

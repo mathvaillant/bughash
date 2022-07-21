@@ -13,6 +13,7 @@ import BugServices from "../../utils/services/bugServices";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { useNavigate } from "react-router-dom";
 import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
+import { getBugsList } from "../../actions/bugActions/bugActions";
 
 const NewBugModal: React.FC = (): JSX.Element | null => {
   const dispatch = useDispatch();
@@ -28,18 +29,22 @@ const NewBugModal: React.FC = (): JSX.Element | null => {
   const handleAddNew = async (): Promise<void> => {
     try {
       dispatch(showLoader());
+
       const newBug = await BugServices.openNew({
         fields: {
           title
         } 
       });
+
+      dispatch(getBugsList(token));
     
       handleClose();
       setTitle('');
-      navigate(`/edit/${newBug.bugId}`);
+      dispatch(hideLoader());
+      navigate(`/edit/${newBug._id}`);
       
     } catch (error) {
-      dispatch(hideLoader());
+      console.log("🚀 ~ file: NewBugModal.tsx ~ line 43 ~ handleAddNew ~ error", error);
     }
   }
 

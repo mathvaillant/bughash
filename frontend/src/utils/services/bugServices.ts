@@ -3,6 +3,7 @@ import axios from 'axios';
 import { IBug, IFile, ITimeWorked } from "../../shared/types";
 import firebaseServices from "./firebaseServices";
 import { getToken } from "./userServices";
+import { getBugsList } from "../../actions/bugActions/bugActions";
 
 const BUG_API_URL = '/bugs';
 
@@ -26,7 +27,7 @@ const getBugs = async (token: string): Promise<IBug[]> => {
     
     const bugsFormatted = bugs.map((bug: any) => ({
         ...bug,
-        description: JSON.parse(bug.description)
+        description: bug.description ? JSON.parse(bug.description) : null
     }));
 
     return bugsFormatted as IBug[];
@@ -61,7 +62,6 @@ const updateBug = async ({ fields, bugId }: { fields: IBugFields, bugId: string 
     const fieldsToUpdate = {...fields};
 
     const { data: { data: { bug } } } = await axios.patch(`${BUG_API_URL}/${bugId}`, fieldsToUpdate, config);
-
     return bug as IBug;
 } 
 

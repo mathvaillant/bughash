@@ -22,7 +22,8 @@ const bugSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        required: false
+        required: false,
+        default: null
     },
     title: {
         type: String,
