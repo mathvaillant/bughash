@@ -20,3 +20,7 @@ export const countTimer = (time: ITime): ITime => {
     
     return newTime;
 };
+
+export const getStartedAtFormatted = (startedAt: number, endedAt: number | null, timeWorked: number | null): string => {
+  return `${new Date(Number(endedAt)).toDateString()} - ${(Number(timeWorked) / 3600000).toFixed(2)}h`;
+};

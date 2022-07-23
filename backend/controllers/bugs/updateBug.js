@@ -1,14 +1,32 @@
+const _ = require('underscore');
 const asyncHandler = require('express-async-handler');
 const Bug = require('../../models/bugModel');
 
 // @desc    Update bug data
 // @route   PUT /bugs/:id
 // @access  Private
+
 const updateBug = asyncHandler(async (req, res) => {
     try {
         const bugUpdated = {
             ...req.body,
             description: JSON.stringify(req.body.description)
+        }
+
+        // TODO: Fix this. This is spagetti code. Ugly code.
+        if(req.body.timeWorked) {
+            const currentBug = await Bug.findById(req.params.id);
+            const fieldToUpdate = {timeWorked: _.uniq([req.body.timeWorked, ...currentBug.timeWorked], false, _.iteratee('startedAt'))};
+            const bugUpdated = await Bug.findByIdAndUpdate(req.params.id, fieldToUpdate,
+            { 
+                new: true, 
+                runValidators: true 
+            });
+
+            return res.status(200).json({
+                status: 'ok',
+                data: { bug: bugUpdated }
+            });
         }
 
         const updatedBug = await Bug.findByIdAndUpdate(req.params.id, bugUpdated, {

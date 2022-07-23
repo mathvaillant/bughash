@@ -11,7 +11,18 @@ const timeWorked = mongoose.Schema({
         required: true,
         ref: 'User'
     }],
-    timeWorked: Number,
+    startedAt: {
+        type: Number,
+        required: true
+    },
+    timeWorked: {
+        type: Number,
+        required: false
+    },
+    endedAt: {
+        type: Number,
+        required: false
+    }
 });
 
 const bugSchema = mongoose.Schema({
@@ -52,7 +63,7 @@ const bugSchema = mongoose.Schema({
         default: null
     },
     timeWorked: {
-        type: timeWorked,
+        type: [timeWorked],
         default: null,
         required: false
     }

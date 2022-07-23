@@ -8,133 +8,131 @@ import useTimeout from "../../utils/hooks/useTimeout";
 import LaunchIcon from '@mui/icons-material/Launch';
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getBugStartedWorkAt, getBugTitle } from "../../utils/selectors/bug";
-import { getAuthUserDataId } from "../../utils/selectors/auth";
+import { ITimeWorked } from "../../shared/types";
+import { getBugTimeWorked } from "../../utils/selectors/bug";
 import BugServices from "../../utils/services/bugServices";
-import { transformToFullTime, transformToMilliseconds } from "../../utils/utils";
-import { getStateTimer } from "../../utils/selectors/timer";
-import { setTimer } from "../../actions/TimerActions";
-import { countTimer } from "./utils";
+import { getAuthUserDataId } from "../../utils/selectors/auth";
+import { transformToFullTime } from "../../utils/utils";
+import { toastr } from "react-redux-toastr";
+import { getStartedAtFormatted } from "./utils";
 
 const Timer = (): JSX.Element => {
-  const { id: currentPageBugId } = useParams();
-  const navigator = useNavigate();
-  const dispatch = useDispatch();
-  const [showTask, setShowTask] = React.useState(false);
-  const [time, setTime] = React.useState({ seconds: '00', minutes: '00', hours: '00'});
-  
-  const stateTimer = useSelector(getStateTimer);
-  const startedWorkAt = useSelector(getBugStartedWorkAt(currentPageBugId || ''));
-  const { running, bugId: bugIdRunning, disabled } = stateTimer;
-  const bugTitle = useSelector(getBugTitle(bugIdRunning || ''));
+  const { id: bugId } = useParams();
+
+  const [show, setShow] = React.useState(false);
+  const [showAll, setShowAll] = React.useState(false);
+  const [currentTimerWork, setCurrentTimerWork] = React.useState<ITimeWorked | null>(null);
+  const [allTimeWorked, setAllTimeWorked] = React.useState<ITimeWorked[]>([]);
+  const [timeElapsed, setTimeElapsed] = React.useState({ seconds: '00', minutes: '00', hours: '00'});
+  const [timerRunning, setTimerRunning] = React.useState(false);
+
   const userId = useSelector(getAuthUserDataId);
+  const stateTimeWorked = useSelector(getBugTimeWorked(bugId));
+  
+  const handleShowAll = React.useCallback(() => setTimeout(() => setShowAll(true), 200), []);
+  const handleHideAll = React.useCallback(() => setTimeout(() => setShowAll(false), 200), []);
+  const resetTimer = React.useCallback(() => setTimeElapsed({ seconds: '00', minutes: '00', hours: '00'}), [])
 
-  const diffBugFromRunning = (currentPageBugId && bugIdRunning && currentPageBugId !== bugIdRunning);
+  const handleStart = React.useCallback(async (): Promise<void> => {
+    if(!bugId || !userId) return;
+  
+    setTimerRunning(true);
+    const newTimeWorked: ITimeWorked = { startedAt: Date.now(), workers: [userId]};
+    await BugServices.updateBug({
+      bugId,
+      fields: { timeWorked: newTimeWorked }
+    });
 
-  const handleShowTask = React.useCallback((): void => setShowTask(true), []);
-  const handleHideTask = React.useCallback((): void => setShowTask(false), []);
+    setCurrentTimerWork(newTimeWorked);
+    setAllTimeWorked([...allTimeWorked, newTimeWorked]); 
+  }, [allTimeWorked, bugId, userId]);
 
-  const updateTimer = React.useCallback((): void => setTime(countTimer(time)), [time]);
+  const handleStop = React.useCallback(async (): Promise<void> => {
+    if(!bugId || !userId || !currentTimerWork) return;
+
+    setTimerRunning(false);
+
+    toastr.confirm('Are you sure you want to stop working?! This Scheiße still does not works 😒', {
+      onOk: async () => {
+        const finishedTimeWorked: ITimeWorked = {
+          ...currentTimerWork,
+          timeWorked: Date.now() - currentTimerWork.startedAt,
+          endedAt: Date.now()
+        };
+        
+        await BugServices.updateBug({
+          bugId,
+          fields: { timeWorked: finishedTimeWorked }
+        })
+        
+        setAllTimeWorked([...allTimeWorked, finishedTimeWorked]);
+        resetTimer(); 
+      },
+      onCancel: () => {
+        setTimerRunning(true);
+      },
+      okText: 'OH YES',
+      cancelText: 'CANCEL'
+    });
+  }, [allTimeWorked, bugId, currentTimerWork, userId, resetTimer]);
 
   useTimeout(() => {
-    if(running && Number(startedWorkAt) < Date.now()) {
-      updateTimer();
+    const lastTimer = allTimeWorked.find(el => !el.endedAt);
+    if(timerRunning && lastTimer && lastTimer?.startedAt - Date.now()) {
+      const newTimeElapsed = Date.now() - lastTimer?.startedAt;
+      setTimeElapsed(transformToFullTime(newTimeElapsed));
     }
   }, [1000]);
 
-  const handlePlayTimer = React.useCallback(async (): Promise<void> => {
-    if(!currentPageBugId) return;
+  useEffect(() => {
+    if(stateTimeWorked) {
+      const currentRunning = stateTimeWorked.find(el => !el.endedAt) || null;
+      setAllTimeWorked(stateTimeWorked);
 
-    if(!startedWorkAt) {
-      await BugServices.updateBug({
-        bugId: currentPageBugId,
-        fields: {
-          startedWorkAt: Date.now(),
-        }
-      });
-    }
-    dispatch(setTimer({ bugId: bugIdRunning || currentPageBugId, running: true }));
-  }, [currentPageBugId, startedWorkAt, dispatch, bugIdRunning]);
-
-  const handleEndTimer = React.useCallback(async () => {
-    if(!(currentPageBugId && bugIdRunning)) return;
-
-    await BugServices.updateBug({
-      bugId: currentPageBugId,
-      fields: {
-        timeWorked: {
-          workers: [userId],
-          timeWorked: transformToMilliseconds(time)
-        },
+      if(currentRunning) {
+        setCurrentTimerWork(currentRunning);
+        setTimerRunning(true);
       }
-    });
-
-    dispatch(setTimer({reset: true}));
-    setTime({ seconds: '00', minutes: '00', hours: '00'});
-  }, [bugIdRunning, currentPageBugId, dispatch, time, userId])
-
-  const handlePauseTimer = React.useCallback(() => {
-    dispatch(setTimer({...stateTimer, running: false}));
-  }, [dispatch, stateTimer])
-
-  const handleRedirectToBug  = React.useCallback(() => navigator(`edit/${bugIdRunning}`), [bugIdRunning, navigator])
+    }
+  }, [stateTimeWorked]);
 
   useEffect(() => {
-    if(startedWorkAt && !diffBugFromRunning) {
-      const timerSinceLastStart = (Date.now() - startedWorkAt);
-      setTime(transformToFullTime(timerSinceLastStart));
-      dispatch(setTimer({...stateTimer, running: true }));
+    if(bugId) {
+      setImmediate(() => setShow(true));
     }
-  }, [startedWorkAt, diffBugFromRunning, dispatch]);
-
-  useEffect(() => {
-    if(currentPageBugId && disabled) {
-      dispatch(setTimer({...stateTimer, disabled: false }));
-    }
-    
-    if (!currentPageBugId && !disabled) {
-      dispatch(setTimer({...stateTimer, disabled: true }));
-    }
-
-    if(!currentPageBugId && !running) {
-      setTime({ seconds: '00', minutes: '00', hours: '00'});
-    }
-  }, [bugIdRunning, currentPageBugId, disabled, dispatch, running, stateTimer]);
+  }, [bugId]);
 
   return (
     <div 
-      className={classNames('Timer', { disabled: disabled })}
-      onMouseOver={handleShowTask}
-      onMouseLeave={handleHideTask}
+      className={classNames('Timer', { show })}
+      onMouseOver={handleShowAll}
+      onMouseLeave={handleHideAll}
     >
-        {(bugTitle) && (
-          <div className={classNames('Timer__task', { visible: showTask })}>
-            <span>{bugTitle}</span>
-            <IconButton size="small" onClick={handleRedirectToBug}>
-              <LaunchIcon fontSize="small" color="secondary"/>
-            </IconButton>
-          </div>
-        )}
+       {allTimeWorked.length > 1 && (
+         <div className={classNames('Timer__timeWorked', { visible: showAll })}>
+          {allTimeWorked.map(({ startedAt, endedAt, timeWorked }, index) => {
+            return  (
+              <div key={startedAt + index} className='Timer__timeWorked__item'>
+                <small>{getStartedAtFormatted(startedAt, endedAt || null, timeWorked || null)}</small>
+              </div>
+            )
+          })}
+        </div>
+      )}
 
         <form>
-            <input type="text" value={time.hours} />
+            <input type="text" value={timeElapsed.hours} />
             <span>:</span>
-            <input type="text" value={time.minutes} />
+            <input type="text" value={timeElapsed.minutes} />
             <span>:</span>
-            <input type="text" value={time.seconds} />
-          
-            {currentPageBugId && startedWorkAt && bugIdRunning && !running && (
-              <IconButton size="small" onClick={handleEndTimer}>
+            <input type="text" value={timeElapsed.seconds} />
+
+            {timerRunning ? (
+              <IconButton size="small" onClick={handleStop}>
                 <StopIcon fontSize="small"/>
               </IconButton>
-            )}
-
-            {running ? (
-              <IconButton size="small" onClick={handlePauseTimer}>
-                <PauseIcon fontSize="small"/>
-              </IconButton>
             ): (
-              <IconButton size="small" onClick={handlePlayTimer}>
+              <IconButton size="small" onClick={handleStart}>
                 <PlayArrowIcon fontSize="small"/>
               </IconButton>
             )}

@@ -3,6 +3,7 @@ const colors = require('colors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Bug = require('../models/bugModel');
+const User = require('../models/userModel');
 
 dotenv.config({ path: '.env' });
 
@@ -29,6 +30,7 @@ const importData = async () => {
 const deleteData = async () => {
     try {
         await Bug.deleteMany();
+        await User.deleteMany();
         console.log('Data successfully deleted from MongoDB'.black.bgYellow);
         process.exit(0);
     } catch (error) {

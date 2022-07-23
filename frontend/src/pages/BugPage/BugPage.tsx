@@ -28,6 +28,8 @@ const BugPage: React.FC = () => {
             <Description bugId={id}/>
           </div>
         </div>
+
+        <Timer />
     </div>
   )
 }
