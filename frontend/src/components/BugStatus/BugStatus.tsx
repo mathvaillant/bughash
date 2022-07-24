@@ -7,7 +7,7 @@ import { getBugStatus } from "../../utils/selectors/bug";
 import BugServices from "../../utils/services/bugServices";
 import { StatusTypes } from "../../shared/types";
 
-const BugStatus = ({ bugId } : { bugId: string }) => {
+const BugStatus = ({ bugId } : { bugId: string }): JSX.Element => {
   const statusLabels = {'open': 'Open', 'closed': 'Closed', 'inprogress': 'In Progress'};
   const [currentStatus, setCurrentStatus] = React.useState<StatusTypes>('open');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -21,16 +21,15 @@ const BugStatus = ({ bugId } : { bugId: string }) => {
     }
   }, [bugStatus]);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => setAnchorEl(null);
+  const handleClose = (): void => setAnchorEl(null);
 
-  const handleSelect = async (value: string) => {
-    const { status } = await BugServices.updateBug({ fields: { status: value }, bugId});
+  const handleSelect = async (value: string): Promise<void> => {
+    await BugServices.updateBug({ fields: { status: value }, bugId});
     handleClose();
-    setCurrentStatus(status);
   };
 
   return (

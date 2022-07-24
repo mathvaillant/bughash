@@ -63,7 +63,7 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
     }
 }
 
-export const setUserData = (userLoggedIn: IUser) => async (dispatch: Dispatch<ActionLogin>) => {
+export const setCurrentUserData = (userLoggedIn: IUser) => async (dispatch: Dispatch<ActionLogin>) => {
     dispatch({
         type: ActionType.SET_USER_DATA,
         payload: {

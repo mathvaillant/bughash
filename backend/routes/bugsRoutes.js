@@ -8,17 +8,16 @@ const updateBug = require('../controllers/bugs/updateBug');
 const deleteBug = require('../controllers/bugs/deleteBug');
 const { checkBugId } = require('../middleware/checkBugId');
 const { protect } = require('../middleware/authMiddleware');
-const { stringifyDescription } = require("../middleware/stringifyDescription");
 
 router.route('/')
     .all(protect)
     .get(getBugs)
-    .post(stringifyDescription, createBug);
+    .post(createBug);
 
 router.route('/:id')
     .all(protect, checkBugId)
     .get(getSingleBug)
-    .patch(stringifyDescription, updateBug)
+    .patch(updateBug)
     .delete(deleteBug);
 
 module.exports = router;

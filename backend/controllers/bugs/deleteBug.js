@@ -17,7 +17,7 @@ const deleteBug = asyncHandler(async (req, res) => {
 
         Pusher.trigger("bugs", "child_deleted", { bugs });
 
-        res.status(204).json({
+        return res.status(200).json({
             status: 'ok',
             message: 'Successfully deleted!'
         });

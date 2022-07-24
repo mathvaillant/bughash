@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const asyncHandler = require('express-async-handler');
 const Bug = require('../../models/bugModel');
+const Pusher = require('./../../utils/pusher');
 
 // @desc    Update bug data
 // @route   PUT /bugs/:id
@@ -10,35 +11,33 @@ const Bug = require('../../models/bugModel');
 
 const updateBug = asyncHandler(async (req, res) => {
     try {
-        const bugUpdated = {
-            ...req.body,
-            description: JSON.stringify(req.body.description)
-        }
+        let bugUpdated = null;
 
-        // TODO: Fix this when starting to implement real time functionality. This is spagetti code. Ugly code.
+        // TODO: This should be splitted. 
         if(req.body.timeWorked) {
             const currentBug = await Bug.findById(req.params.id);
-            const fieldToUpdate = {timeWorked: _.uniq([req.body.timeWorked, ...currentBug.timeWorked], false, _.iteratee('startedAt'))};
-            const bugUpdated = await Bug.findByIdAndUpdate(req.params.id, fieldToUpdate,
-            { 
+            const newTimeWorkedArr = {
+                timeWorked: _.uniq([req.body.timeWorked, ...currentBug.timeWorked], false, _.iteratee('startedAt'))
+            };
+
+            bugUpdated = await Bug.findByIdAndUpdate(req.params.id, newTimeWorkedArr, { 
                 new: true, 
                 runValidators: true 
             });
-
-            return res.status(200).json({
-                status: 'ok',
-                data: { bug: bugUpdated }
+        } else {
+            bugUpdated = await Bug.findByIdAndUpdate(req.params.id, req.body, {
+                new: true,
+                runValidators: true
             });
         }
 
-        const updatedBug = await Bug.findByIdAndUpdate(req.params.id, bugUpdated, {
-            new: true,
-            runValidators: true
-        });
+        const bugs = await Bug.find();
 
-        res.status(200).json({
+        Pusher.trigger("bugs", "child_updated", { bugs });
+
+        return res.status(204).json({
             status: 'ok',
-            data: { bug: updatedBug }
+            message: 'Bug updated successfully'
         });
     } catch (error) {   
         res.status(401).json({

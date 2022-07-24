@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Avatar, AvatarGroup, IconButton } from "@mui/material";
 import classNames from "classnames";
 import React, { useEffect } from 'react'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ITimeWorked } from "../../shared/types";
 import { getBugTimeWorked } from "../../utils/selectors/bug";
 import BugServices from "../../utils/services/bugServices";
-import { getAuthUserDataId } from "../../utils/selectors/auth";
+import { getAuthUserDataAvatar, getAuthUserDataId } from "../../utils/selectors/auth";
 import { transformToFullTime } from "../../utils/utils";
 import { toastr } from "react-redux-toastr";
 import { getStartedAtFormatted } from "./utils";
@@ -28,6 +28,7 @@ const Timer = (): JSX.Element => {
 
   const userId = useSelector(getAuthUserDataId);
   const stateTimeWorked = useSelector(getBugTimeWorked(bugId));
+  const userAvatar = useSelector(getAuthUserDataAvatar);
   
   const handleShowAll = React.useCallback(() => setTimeout(() => setShowAll(true), 200), []);
   const handleHideAll = React.useCallback(() => setTimeout(() => setShowAll(false), 200), []);
@@ -44,8 +45,7 @@ const Timer = (): JSX.Element => {
     });
 
     setCurrentTimerWork(newTimeWorked);
-    setAllTimeWorked([...allTimeWorked, newTimeWorked]); 
-  }, [allTimeWorked, bugId, userId]);
+  }, [bugId, userId]);
 
   const handleStop = React.useCallback(async (): Promise<void> => {
     if(!bugId || !userId || !currentTimerWork) return;
@@ -64,8 +64,7 @@ const Timer = (): JSX.Element => {
           bugId,
           fields: { timeWorked: finishedTimeWorked }
         })
-        
-        setAllTimeWorked([...allTimeWorked, finishedTimeWorked]);
+
         resetTimer(); 
       },
       onCancel: () => {
@@ -74,7 +73,7 @@ const Timer = (): JSX.Element => {
       okText: 'OH YES',
       cancelText: 'CANCEL'
     });
-  }, [allTimeWorked, bugId, currentTimerWork, userId, resetTimer]);
+  }, [bugId, currentTimerWork, userId, resetTimer]);
 
   useTimeout(() => {
     const lastTimer = allTimeWorked.find(el => !el.endedAt);
@@ -108,11 +107,20 @@ const Timer = (): JSX.Element => {
       onMouseOver={handleShowAll}
       onMouseLeave={handleHideAll}
     >
-       {allTimeWorked.length > 1 && (
+       {allTimeWorked.length > 0 && (
          <div className={classNames('Timer__timeWorked', { visible: showAll })}>
-          {allTimeWorked.map(({ startedAt, endedAt, timeWorked }, index) => {
-            return  (
+          {allTimeWorked.map(({ startedAt, endedAt, timeWorked, workers }, index) => {
+            return endedAt && (
               <div key={startedAt + index} className='Timer__timeWorked__item'>
+                {/* <AvatarGroup max={3}> TODO: for now there's only 1 user per timeWorked (current user) */}
+                  {workers.map(workerId => {
+                    return <Avatar 
+                      key={workerId} 
+                      src={userAvatar?.url} 
+                      sx={{ width: 25, height: 25, marginRight: '10px'}}
+                    /> 
+                  })}
+                {/* </AvatarGroup> */}
                 <small>{getStartedAtFormatted(startedAt, endedAt || null, timeWorked || null)}</small>
               </div>
             )
@@ -121,11 +129,11 @@ const Timer = (): JSX.Element => {
       )}
 
         <form>
-            <input type="text" value={timeElapsed.hours} />
+            <input readOnly type="text" value={timeElapsed.hours} />
             <span>:</span>
-            <input type="text" value={timeElapsed.minutes} />
+            <input readOnly type="text" value={timeElapsed.minutes} />
             <span>:</span>
-            <input type="text" value={timeElapsed.seconds} />
+            <input readOnly type="text" value={timeElapsed.seconds} />
 
             {timerRunning ? (
               <IconButton size="small" onClick={handleStop}>

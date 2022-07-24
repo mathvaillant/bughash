@@ -1,22 +1,25 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import EmptyState from "../../components/EmptyState/EmptyState";
+import { getBugList } from "../../utils/selectors/bug";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const CONTENT = null;
+  const bugList = useSelector(getBugList);
 
-  const handleNewDoc = (): void => navigate('/new');
+  if(!bugList || !bugList.length) {
+    return (
+      <div className={'BugList empty'}>
+        <EmptyState emptyStateFor="dashboard"/>
+      </div>      
+    ) 
+  }
 
   return (
     <>
       <div className='Dashboard'>
-        {!CONTENT && (
-          <EmptyState emptyStateFor="dashboard"/>
-        )}
-        {/* <Button type='button' className='' onClick={handleNewDoc} data-test={'new-bug'}>
-            <AddBox /> New
-        </Button> */}
+      {/* What type of data do I need to show? */}
       </div>
     </>
   )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { AddBox } from '@mui/icons-material';
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Tooltip } from "@mui/material";
@@ -6,14 +6,13 @@ import { Button, Tooltip } from "@mui/material";
 import { handleNewBugModal } from "../../actions/modalActions/modalActions";
 import ThemeMode from "../ThemeMode/ThemeMode";
 import { getAppTheme } from "../../utils/selectors/theme";
+import { IActionNewBugModal } from "../../actions/modalActions/actionTypes";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useSelector(getAppTheme);
 
-  const handleNewDoc = (): void => {
-    dispatch(handleNewBugModal({ open: true }));
-  };
+  const handleNewDoc = (): (dispatch: Dispatch<IActionNewBugModal>) => Promise<void> => dispatch(handleNewBugModal({ open: true }));
 
   return (
     <div className='Header'>

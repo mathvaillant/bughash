@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from "react-redux";
-import { setUserData } from "../../actions/authActions/authAction";
+import { setCurrentUserData } from "../../actions/authActions/authAction";
 import { getBugsList } from "../../actions/bugActions/bugActions";
 import { ThemeTypes, toggleTheme } from "../../actions/themeAction";
 import { IUser } from "../../shared/types";
@@ -18,7 +18,7 @@ const useAppDataInitializer = (): {
     if(!userData?.token) return;
 
     dispatch(toggleTheme(lsTheme));
-    dispatch(setUserData(userData));
+    dispatch(setCurrentUserData(userData));
     dispatch(getBugsList(userData.token));
   }, [dispatch]);
 

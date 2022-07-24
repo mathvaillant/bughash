@@ -49,7 +49,7 @@ export interface IAuthLoginSuccess {
     }
 }
 
-export interface ISetUserData {
+export interface IsetCurrentUserData {
     type: ActionType.SET_USER_DATA
     payload: {
         userData: IUser
@@ -70,5 +70,5 @@ export interface IAuthLogout {
 }
 
 export type ActionRegister = IAuthRegisterRequest | IAuthRegisterSuccess | IAuthRegisterFail;
-export type ActionLogin = IAuthLoginRequest | IAuthLoginSuccess | IAuthLoginFail | ISetUserData
+export type ActionLogin = IAuthLoginRequest | IAuthLoginSuccess | IAuthLoginFail | IsetCurrentUserData
 export type ActionLogout = IAuthLogout

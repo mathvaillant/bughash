@@ -32,7 +32,7 @@ const bugSchema = mongoose.Schema({
         ref: 'User'
     },
     description: {
-        type: String,
+        type: Object,
         required: false,
         default: null
     },

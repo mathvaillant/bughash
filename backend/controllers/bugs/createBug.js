@@ -11,7 +11,7 @@ const createBug = asyncHandler(async (req, res) => {
     try {
         const { title, status, description, files } = req.body;
 
-        await Bug.create({ 
+        const newBug = await Bug.create({ 
             title,
             status,
             description,
@@ -24,7 +24,8 @@ const createBug = asyncHandler(async (req, res) => {
         
         return res.status(201).json({
             status: 'ok',
-            message: 'Bug created successfully' 
+            message: 'Bug created successfully',
+            newBug
         });
     } catch (error) {
         res.status(401).json({

@@ -14,6 +14,7 @@ import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { useNavigate } from "react-router-dom";
 import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
 import { getBugsList } from "../../actions/bugActions/bugActions";
+import { toastr } from "react-redux-toastr";
 
 const NewBugModal: React.FC = (): JSX.Element | null => {
   const dispatch = useDispatch();
@@ -30,21 +31,24 @@ const NewBugModal: React.FC = (): JSX.Element | null => {
     try {
       dispatch(showLoader());
 
-      const newBug = await BugServices.openNew({
+      const { message, status, newBug } = await BugServices.openNew({
         fields: {
           title
         } 
       });
 
+      if(status !== 'ok' || !newBug) {
+        throw new Error(message);
+      }
+
       dispatch(getBugsList(token));
-    
       handleClose();
       setTitle('');
       dispatch(hideLoader());
       navigate(`/edit/${newBug._id}`);
       
-    } catch (error) {
-      console.log("🚀 ~ file: NewBugModal.tsx ~ line 43 ~ handleAddNew ~ error", error);
+    } catch (error: any) {
+      toastr.error(error, '');
     }
   }
 

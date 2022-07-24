@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { hideLoader, showLoader } from "../../actions/loaderActions/loaderActions";
 import { toastr } from "react-redux-toastr";
-import { getBugsList } from "../../actions/bugActions/bugActions";
 import BugServices from "../../utils/services/bugServices";
 
 import { styled, alpha } from '@mui/material/styles';
@@ -95,13 +94,16 @@ const BugItemMenu: React.FC<BugItemProps> = ({ bugId, title }): JSX.Element => {
           }
 
           const fileRefs = bugFiles.map(file => file.ref);
-          await BugServices.deleteBug(bugId, fileRefs, token);
+          const { message, status } = await BugServices.deleteBug(bugId, fileRefs, token);
 
-          toastr.success('Done', '');
-          dispatch(getBugsList(token));
+          if(status !== 'ok') {
+            throw new Error(message);
+          }
+
+          toastr.success(message, '');
 
         } catch (error: any) {
-          toastr.error('You do not have permissions to perform this action!', 'Please check if you are the original creator of this bug.');
+          toastr.error(error, '');
         } finally {
           dispatch(hideLoader());
         }
