@@ -17,11 +17,7 @@ interface IBugFields {
 }
 
 const getBugs = async (token: string): Promise<IBug[]> => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
+    const config = { headers: { Authorization: `Bearer ${token}` }}
 
     const { data: { data: { bugs } } } = await axios.get(BUG_API_URL, config);
     
@@ -34,11 +30,7 @@ const getBugs = async (token: string): Promise<IBug[]> => {
 }
 
 const getSingleBug = async (id: string, token: string): Promise<IBug> => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
+    const config = { headers: { Authorization: `Bearer ${token}` }}
 
     const { data: { data: { bug } } } = await axios.get(`${BUG_API_URL}/${id}`, config);
 
@@ -52,12 +44,7 @@ const getSingleBug = async (id: string, token: string): Promise<IBug> => {
 
 const updateBug = async ({ fields, bugId }: { fields: IBugFields, bugId: string }): Promise<IBug> => {
     const token = getToken();
-    
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
+    const config = { headers: { Authorization: `Bearer ${token}` }}
 
     const fieldsToUpdate = {...fields};
 
@@ -66,11 +53,7 @@ const updateBug = async ({ fields, bugId }: { fields: IBugFields, bugId: string 
 } 
 
 const deleteBug = async (id: string, fileRefs: string[], token: string): Promise<void> => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
+    const config = { headers: { Authorization: `Bearer ${token}` }}
 
     await firebaseServices.deleteFilesFromDirStorage(fileRefs);
 
@@ -79,13 +62,9 @@ const deleteBug = async (id: string, fileRefs: string[], token: string): Promise
 
 const openNew = async ({ fields }: { fields: IBugFields }): Promise<IBug> => {
     const token = getToken();
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    }
+    const config = { headers: { Authorization: `Bearer ${token}` }}
 
-    const { data: { data: { bug } } } = await axios.post(BUG_API_URL, fields, config);
+    const { data: { bug } } = await axios.post(BUG_API_URL, fields, config);
 
     return bug;
 }

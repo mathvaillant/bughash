@@ -1,24 +1,30 @@
 const asyncHandler = require('express-async-handler');
 const Bug = require('../../models/bugModel');
+const Pusher = require('./../../utils/pusher');
 
 // @desc    Create new bug
 // @route   POST /bugs
 // @access  Private 
+// @channel bugs 
+// @event   child_added
 const createBug = asyncHandler(async (req, res) => {
     try {
         const { title, status, description, files } = req.body;
 
-        const bug = await Bug.create({ 
+        await Bug.create({ 
             title,
             status,
-            description: JSON.stringify(description),
+            description,
             createdBy: req.user.id,
             files
         });
+
+        const bugs = await Bug.find();
+        Pusher.trigger("bugs", "child_added", { bugs });
         
-        res.status(201).json({
+        return res.status(201).json({
             status: 'ok',
-            data: { bug } 
+            message: 'Bug created successfully' 
         });
     } catch (error) {
         res.status(401).json({

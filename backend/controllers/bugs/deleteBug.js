@@ -1,14 +1,21 @@
 const asyncHandler = require('express-async-handler');
 const Bug = require('../../models/bugModel');
+const Pusher = require('./../../utils/pusher');
     
 // @desc    Delete bug
 // @route   DELETE /bugs/:id
 // @access  Private
+// @channel bugs 
+// @event   child_deleted
 const deleteBug = asyncHandler(async (req, res) => {
     try {
         const bugToDelete = await Bug.findById(req.params.id);
 
         await bugToDelete.remove();
+
+        const bugs = await Bug.find();
+
+        Pusher.trigger("bugs", "child_deleted", { bugs });
 
         res.status(204).json({
             status: 'ok',

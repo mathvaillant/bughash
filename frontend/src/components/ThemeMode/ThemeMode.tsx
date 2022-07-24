@@ -18,6 +18,7 @@ const ThemeMode = (): JSX.Element => {
       dispatch(toggleTheme('light'));
       localStorage.setItem('theme', 'light');
     }
+    window.location.reload();
   }
 
   return (

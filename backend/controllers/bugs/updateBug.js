@@ -5,6 +5,8 @@ const Bug = require('../../models/bugModel');
 // @desc    Update bug data
 // @route   PUT /bugs/:id
 // @access  Private
+// @channel bugs 
+// @event   child_updated
 
 const updateBug = asyncHandler(async (req, res) => {
     try {
@@ -13,7 +15,7 @@ const updateBug = asyncHandler(async (req, res) => {
             description: JSON.stringify(req.body.description)
         }
 
-        // TODO: Fix this. This is spagetti code. Ugly code.
+        // TODO: Fix this when starting to implement real time functionality. This is spagetti code. Ugly code.
         if(req.body.timeWorked) {
             const currentBug = await Bug.findById(req.params.id);
             const fieldToUpdate = {timeWorked: _.uniq([req.body.timeWorked, ...currentBug.timeWorked], false, _.iteratee('startedAt'))};

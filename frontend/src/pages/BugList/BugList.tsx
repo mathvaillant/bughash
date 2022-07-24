@@ -8,7 +8,7 @@ import BugItem from "./BugItem";
 const BugList: React.FC = () => {
   const bugList = useSelector(getBugList);
 
-  if(_.isEmpty(bugList)) {
+  if(!bugList || !bugList.length) {
     return (
       <div className={'BugList empty'}>
         <EmptyState emptyStateFor="bugList"/>
@@ -18,7 +18,7 @@ const BugList: React.FC = () => {
 
   return (
     <div className={'BugList'}>
-        {bugList && (
+        {(
           <div className="BugList__cards">
             {
               bugList.map(({ description, _id, title, status, createdAt, files, createdBy }, index) => {
@@ -40,4 +40,4 @@ const BugList: React.FC = () => {
   )
 }
 
-export default BugList;
+export default React.memo(BugList);

@@ -2,11 +2,12 @@ import React from 'react';
 import { Routes } from "react-router";
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/system";
-import { CssBaseline, Theme } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import ReduxToastr from 'react-redux-toastr'
+import { hideLoader, showLoader } from "./actions/loaderActions/loaderActions";
 import { getLoader } from "./utils/selectors/loader";
+import useAppDataInitializer from "./utils/hooks/useAppDataInitializer";
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -15,86 +16,30 @@ import BugList from "./pages/BugList/BugList";
 import AppOn from "./app/AppOn";
 import Loader from "./components/Loader/Loader";
 import Settings from "./pages/Settings";
+import useAppTheme from "./utils/hooks/useAppTheme";
 import './App.scss';
-import { hideLoader, showLoader } from "./actions/loaderActions/loaderActions";
-import { IUser } from "./shared/types";
-import { setUserData } from "./actions/authActions/authAction";
-import { getBugsList } from "./actions/bugActions/bugActions";
-import { getAppTheme } from "./utils/selectors/theme";
-import { ThemeTypes, toggleTheme } from "./actions/themeAction";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const loader = useSelector(getLoader);
-  const currentTheme = useSelector(getAppTheme);
-
-  const lightTheme = createTheme({
-    palette: {
-      background: {
-        default: "#FFFFFF",
-      },
-      primary: {
-        main: '#000000',
-      },
-      secondary: {
-        main: '#FFFFFF',
-      },
-    },
-    spacing: 8,
-    shape: {
-      borderRadius: 5,
-    },
-  });
-
-  const darkTheme = createTheme({
-    palette: {
-      background: {
-        default: "#121417",
-      },
-      primary: {
-        main: '#000000',
-      },
-      secondary: {
-        main: '#FFFFFF',
-      },
-    },
-    spacing: 8,
-    shape: {
-      borderRadius: 5,
-    },
-  });
-
-  const getMuiTheme = (appTheme: ThemeTypes): Theme => appTheme === 'dark' ? darkTheme : lightTheme;
+  const { MuiAppTheme, themeName } = useAppTheme();
+  const { appDataInitializer } = useAppDataInitializer();
 
   React.useEffect(() => {
     (async() => {
       try {
         dispatch(showLoader());
-
-        const lsTheme = localStorage.getItem('theme') as ThemeTypes || 'light';
-        const userInfoStored = localStorage.getItem('ls_db_user_info');
-        const userData: IUser | null = userInfoStored ? JSON.parse(userInfoStored) : null;
-
-        if(!userData?.token) return;
-
-        dispatch(toggleTheme(lsTheme));
-        dispatch(setUserData(userData));
-        dispatch(getBugsList(userData.token));
-
-        if(window.location.pathname === '/') {
-          window.location.replace('/dashboard');
-        }
-
+        appDataInitializer();
       } catch (error) {
-        console.log(error);
+        console.log("🚀 ~ file: App.tsx ~ line 46 ~ error", error);
       } finally {
-        dispatch(hideLoader());
+        dispatch(hideLoader()); 
       }
     })()
-  }, [currentTheme]);
+  }, [themeName]);
 
   return (
-    <ThemeProvider theme={getMuiTheme(currentTheme)}>
+    <ThemeProvider theme={MuiAppTheme}>
       <CssBaseline />
         <div>
           <div className='App'>
