@@ -1,10 +1,11 @@
 import { OutputData } from "@editorjs/editorjs";
 import axios from 'axios';
 import { IBug, IFile, ITimeWorked } from "../../shared/types";
+import { SERVER_URL } from "./serviceConstants";
 import firebaseServices from "./firebaseServices";
 import { getToken } from "./userServices";
 
-const BUG_API_URL = '/bugs';
+const BUG_API_URL = `${SERVER_URL}/bugs`;
 
 interface IBugFields {
     title?: string

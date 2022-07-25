@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { IFile, IUser } from "../../shared/types";
+import { SERVER_URL } from "./serviceConstants";
 
-const USER_BASE_URL = '/users';
+const USER_BASE_URL = `${SERVER_URL}/users`;
 
 interface IUserFields {
     name?: string;

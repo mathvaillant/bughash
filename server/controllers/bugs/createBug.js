@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Bug = require('../../models/bugModel');
-const Pusher = require('./../../utils/pusher');
+const Pusher = require('../../utils/pusher');
 
 // @desc    Create new bug
 // @route   POST /bugs

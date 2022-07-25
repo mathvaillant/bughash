@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const asyncHandler = require('express-async-handler');
 const Bug = require('../../models/bugModel');
-const Pusher = require('./../../utils/pusher');
+const Pusher = require('../../utils/pusher');
 
 // @desc    Update bug data
 // @route   PUT /bugs/:id
