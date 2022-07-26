@@ -41,7 +41,6 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={MuiAppTheme}>
       <CssBaseline />
-        <div>
           <div className='App'>
             <Router>
               <Routes>
@@ -69,7 +68,6 @@ const App: React.FC = () => {
             progressBar
           />
 
-        </div>
     </ThemeProvider>
   );
 }

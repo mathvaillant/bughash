@@ -20,7 +20,7 @@ const BugTitle = ({ bugId }: { bugId: string }): JSX.Element => {
         if(title !== stateTitle) {
             handleSaveTitle();
         }
-    }, 750, [title]);
+    }, 1000, [title]);
 
     const onChange = (e: ChangeEvent<HTMLInputElement>): void => setTitle(e.target.value);
 

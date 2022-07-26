@@ -146,6 +146,7 @@ const Upload: React.FC<UploadProps> = ({ bugId }) => {
         <div className={classNames('Upload__files', {})}>
 
             {bugFiles.map(({ url, ref: fileRef }, index) => {
+              console.log("🚀 ~ file: Upload.tsx ~ line 158 ~ {bugFiles.map ~ url", url);
               return (
                 <FileUploaded 
                   key={`${fileRef}-${index}`}

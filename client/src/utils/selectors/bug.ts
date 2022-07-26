@@ -14,5 +14,5 @@ export const getBugFiles = (id: string) => (state: ReduxState): IFile[] => {
     const bugList = getBugList(state);
     if(!bugList) return [];
     
-    return _.find(bugList, bug => bug.bugId === id)?.files || [];
+    return _.find(bugList, bug => bug._id === id)?.files || [];
 };

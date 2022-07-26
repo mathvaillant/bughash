@@ -1,5 +1,13 @@
 .AppOn {
-    div:first-child {
-        
+    display: flex;
+    width: 100%;
+    height: 100%;
+    
+    .AppOn__left {
+        width: 50px;
+    }
+
+    .AppOn__right {
+        width: calc(100% - 50px);
     }
 }

@@ -12,15 +12,20 @@ const AppOn: React.FC = () => {
 
   if(!userLoggedIn) return <Navigate to='/login'/>;
 
-  return <>
-    <SideMenu />
-    <QuickActions />
-    <>
-      <Header />
-      <NewBugModal />
-      <Outlet />
-    </>
-  </>
+  return (
+    <div className="AppOn">
+      <div className="AppOn__left">
+      <SideMenu />
+      <QuickActions />
+      </div>
+
+      <div className='AppOn__right'>
+        <Header />
+        <NewBugModal />
+        <Outlet />
+      </div>
+    </div>
+  )
   
 }
 

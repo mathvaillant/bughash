@@ -107,10 +107,10 @@ const Timer = (): JSX.Element => {
       onMouseOver={handleShowAll}
       onMouseLeave={handleHideAll}
     >
-       {allTimeWorked.length > 0 && (
+       {allTimeWorked.length > 0 && allTimeWorked.find(el => el.endedAt) && (
          <div className={classNames('Timer__timeWorked', { visible: showAll })}>
           {allTimeWorked.map(({ startedAt, endedAt, timeWorked, workers }, index) => {
-            return endedAt && (
+            return (
               <div key={startedAt + index} className='Timer__timeWorked__item'>
                 {/* <AvatarGroup max={3}> TODO: for now there's only 1 user per timeWorked (current user) */}
                   {workers.map(workerId => {
