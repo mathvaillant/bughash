@@ -5,9 +5,19 @@
     
     .AppOn__left {
         width: 50px;
+        transition: all .4s ease;
+
+        &.sidebarExpanded {
+            width: 300px;
+        }
     }
 
     .AppOn__right {
         width: calc(100% - 50px);
+        transition: all .3s ease;
+
+        &.sidebarExpanded {
+            width: calc(100% - 300px);
+        }
     }
 }

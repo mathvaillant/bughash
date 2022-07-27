@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback } from 'react';
+import React, { ReactElement } from 'react';
 import { Button, IconButton, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router";
 import classNames from "classnames";
@@ -7,25 +7,30 @@ import Open from '@mui/icons-material/KeyboardArrowRight';
 import Close from '@mui/icons-material/KeyboardArrowLeft';
 import ListIcon from '@mui/icons-material/List';
 import AvatarMenu from "../AvatarMenu/AvatarMenu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAppTheme } from "../../utils/selectors/theme";
+import { toggleSidebar } from "../../actions/sidebarActions";
+import { getSidebarExpandedState } from "../../utils/selectors/sidebar";
 
 const SideMenu: React.FC = () => {
-  const [expanded, setExpanded] = React.useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useSelector(getAppTheme);
+  const sidebarExpanded = useSelector(getSidebarExpandedState);
 
   const pathIcons: Record<string, ReactElement> = {
     'Dashboard': <HomeIcon fontSize="small" />,
     'List': <ListIcon fontSize="small" />,
   }
 
-  const handleExpandSidebar = (): void => setExpanded(!expanded);
+  const handleToggleSidebar = (): void => {
+    dispatch(toggleSidebar(!sidebarExpanded));
+  };
 
   const navigateToPath = (e: React.MouseEvent<HTMLElement>, path: string): void => navigate(path);
   
   const getPathRedirectButton = (pathname: string): JSX.Element => {
-    if(!expanded) {
+    if(!sidebarExpanded) {
       return <Tooltip placement={'right'} title={pathname}>
         <IconButton
           className={theme} 
@@ -48,14 +53,14 @@ const SideMenu: React.FC = () => {
 
   return (
     <div 
-      className={classNames('SideMenu', {open: expanded, closed: !expanded, darkTheme: theme === 'dark'})} 
+      className={classNames('SideMenu', {open: sidebarExpanded, closed: !sidebarExpanded, darkTheme: theme === 'dark'})} 
       data-sidebar-section='toggleClose'
     > 
-      <a className="logoName" onClick={() => navigate('/dashboard')}>{!expanded ? 'BH' : 'BugHash'}</a>
+      <a className="logoName" onClick={() => navigate('/dashboard')}>{!sidebarExpanded ? 'BH' : 'BugHash'}</a>
       
-      <IconButton className={`Sidebar__expandButton ${theme}`} onClick={handleExpandSidebar}>
+      <IconButton className={`Sidebar__expandButton ${theme}`} onClick={handleToggleSidebar}>
       {
-        !expanded ? <Open /> : <Close />
+        !sidebarExpanded ? <Open /> : <Close />
       }
       </IconButton>
 

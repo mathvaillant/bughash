@@ -9,6 +9,7 @@ import { loaderReducer } from "../reducers/bugReducers/loaderReducer";
 import { modalReducer } from "../reducers/modalReducers/modalReducers";
 import { toggleThemeReducer } from "../reducers/themeReducer";
 import { timerReducer } from "../reducers/timerReducer";
+import { toggleSidebarReducer } from "../reducers/sidebarReducer";
 
 const reducers = combineReducers({
     auth: authReducer,
@@ -17,7 +18,8 @@ const reducers = combineReducers({
     loader: loaderReducer,
     modals: modalReducer,
     theme: toggleThemeReducer,
-    timer: timerReducer
+    timer: timerReducer,
+    sidebarExpanded: toggleSidebarReducer
 });
 
 const middleware = [thunk];

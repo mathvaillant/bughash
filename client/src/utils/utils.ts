@@ -33,8 +33,8 @@ export const transformToFullTime = (ms: number): ITime => {
     const hours = (ms / (1000*60*60)) % 24;
 
     return {
-        seconds: seconds < 10 ? `0${seconds.toFixed(0)}` : seconds.toFixed(0).toString(),
-        minutes: minutes < 10 ? `0${minutes.toFixed(0)}` : minutes.toFixed(0).toString(),
-        hours: hours < 10 ? `0${hours.toFixed(0)}` : hours.toFixed(0).toString(),
+        seconds: Number(seconds.toFixed(0)) < 10 ? `0${seconds.toFixed(0)}` : seconds.toFixed(0).toString(),
+        minutes: Number(minutes.toFixed(0)) < 10 ? `0${minutes.toFixed(0)}` : minutes.toFixed(0).toString(),
+        hours: Number(hours.toFixed(0)) < 10 ? `0${hours.toFixed(0)}` : hours.toFixed(0).toString(),
     };
 }
