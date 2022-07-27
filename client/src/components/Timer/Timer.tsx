@@ -1,13 +1,11 @@
-import { Avatar, AvatarGroup, IconButton } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import classNames from "classnames";
 import React, { useEffect } from 'react'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
-import PauseIcon from '@mui/icons-material/Pause';
 import useTimeout from "../../utils/hooks/useTimeout";
-import LaunchIcon from '@mui/icons-material/Launch';
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { ITimeWorked } from "../../shared/types";
 import { getBugTimeWorked } from "../../utils/selectors/bug";
 import BugServices from "../../utils/services/bugServices";
