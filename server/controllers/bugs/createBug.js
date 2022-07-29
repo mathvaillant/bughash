@@ -19,8 +19,7 @@ const createBug = asyncHandler(async (req, res) => {
             files
         });
 
-        const bugs = await Bug.find();
-        Pusher.trigger("bugs", "child_added", { bugs });
+        Pusher.trigger("bugs", "child_added");
         
         return res.status(201).json({
             status: 'ok',

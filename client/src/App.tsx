@@ -36,7 +36,7 @@ const App: React.FC = () => {
         dispatch(hideLoader()); 
       }
     })()
-  }, [themeName]);
+  }, [themeName, appDataInitializer, dispatch]);
 
   return (
     <ThemeProvider theme={MuiAppTheme}>

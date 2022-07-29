@@ -1,6 +1,6 @@
 export const serverUrlOptions = {
     development: 'http://localhost:5000',
-    production: 'http://localhost:5000',
+    production: 'https://bughash.herokuapp.com',
     test: 'http://localhost:5000',
 };
 

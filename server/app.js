@@ -6,6 +6,9 @@ const dotenv = require('dotenv').config();
 const colors = require('colors')
 const { errorHandler } = require('./middleware/errorMiddleware');
 
+const connectDB = require('./config/db');
+connectDB();
+
 const app = express();
 
 if(process.env.NODE_ENV === 'development') {
@@ -22,4 +25,5 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.use(errorHandler);
 
-module.exports = app;
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server started on PORT:${port}`));

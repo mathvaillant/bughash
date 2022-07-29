@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { IUser } from "../../shared/types";
+import { SERVER_URL } from "./serviceConstants";
 
-const USERS_API_URL = '/users';
+const USERS_API_URL = `${SERVER_URL}/users`;
 
 // Register user
 const register = async (email: string, password: string, name: string): Promise<IUser> => {

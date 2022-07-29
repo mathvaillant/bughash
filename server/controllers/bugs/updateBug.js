@@ -13,7 +13,7 @@ const updateBug = asyncHandler(async (req, res) => {
     try {
         let bugUpdated = null;
 
-        // TODO: This should be splitted. 
+        // TODO: This should be splitted. Right now this is a freaking spagetti code. 
         if(req.body.timeWorked) {
             const currentBug = await Bug.findById(req.params.id);
             const newTimeWorkedArr = {
@@ -31,9 +31,7 @@ const updateBug = asyncHandler(async (req, res) => {
             });
         }
 
-        const bugs = await Bug.find();
-
-        Pusher.trigger("bugs", "child_updated", { bugs });
+        Pusher.trigger("bugs", "child_updated");
 
         return res.status(204).json({
             status: 'ok',

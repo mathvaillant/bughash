@@ -1,31 +1,28 @@
 import React from 'react'
 import Pusher from "pusher-js"
-import { useDispatch } from "react-redux";
-import { IBug } from "../../../shared/types";
-import { updateBugsListState } from "../../../actions/bugActions/bugActions";
-import _ from "underscore";
+import { useDispatch, useSelector } from "react-redux";
+import { getBugsList } from "../../../actions/bugActions/bugActions";
+import { getAuthUserDataToken } from "../../selectors/auth";
 
 const useBugsPubSub = (): void => {
   const dispatch = useDispatch();
+  const token = useSelector(getAuthUserDataToken);
 
   const pusherInstance = React.useMemo(() => {
-    return new Pusher('674b641b12ad7499b603', {
+    return new Pusher(process.env.REACT_APP_PUSHER_APP_KEY || '', {
       cluster: 'us3'
     });
   }, []);
 
   const Bugs = React.useMemo(() => pusherInstance.subscribe('bugs'), [pusherInstance]);
-  
-  const handleUpdateBugs = React.useCallback((bugs: IBug[]): void => {
-    const bugsArr = _.flatten(Object.values(bugs));
-    dispatch(updateBugsListState(bugsArr));
-  }, []);
 
   React.useEffect(() => {
-    Bugs.bind('child_added', (bugs: IBug[]) => handleUpdateBugs(bugs));
-    Bugs.bind('child_updated', (bugs: IBug[]) => handleUpdateBugs(bugs));
-    Bugs.bind('child_deleted', (bugs: IBug[]) => handleUpdateBugs(bugs));
-  }, [Bugs, handleUpdateBugs]);
+    if(Bugs && token) {
+      Bugs.bind('child_added', () => dispatch(getBugsList(token)));
+      Bugs.bind('child_updated', () => dispatch(getBugsList(token)));
+      Bugs.bind('child_deleted', () => dispatch(getBugsList(token)));
+    }
+  }, [Bugs, token, dispatch]);
 }
 
 export default useBugsPubSub;
