@@ -13,7 +13,7 @@ const deleteBug = asyncHandler(async (req, res) => {
 
         await bugToDelete.remove();
 
-        Pusher.trigger("bugs", "child_deleted");
+        Pusher.trigger("bugs", "child_deleted", { bug: null });
 
         return res.status(200).json({
             status: 'ok',

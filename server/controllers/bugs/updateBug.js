@@ -31,7 +31,7 @@ const updateBug = asyncHandler(async (req, res) => {
             });
         }
 
-        Pusher.trigger("bugs", "child_updated");
+        Pusher.trigger("bugs", "child_updated", { bug: null });
 
         return res.status(204).json({
             status: 'ok',
