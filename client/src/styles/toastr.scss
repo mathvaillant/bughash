@@ -1,0 +1,23 @@
+$toastrConfirmBg: #14a72f;
+$toastrErrorBg: #e51b10;
+$toastrProgressWhite: white;
+
+.toastr.animated.rrt-success {
+    background-color: $toastrConfirmBg;
+    
+    > div > .rrt-progress-container {
+        .rrt-progressbar {
+            background-color: $toastrProgressWhite;
+        }
+    }
+}
+
+.toastr.animated.rrt-error {
+    background-color: $toastrErrorBg;
+    
+    > div > .rrt-progress-container {
+        .rrt-progressbar {
+            background-color: $toastrProgressWhite;
+        }
+    }
+}

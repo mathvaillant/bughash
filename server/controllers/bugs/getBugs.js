@@ -9,9 +9,13 @@ const getBugs = asyncHandler(async (req, res) => {
     try {
         const bugs = await Bug.find(); 
 
+        const onlyUserBugs = bugs.filter(bug => bug.createdBy.toString() === req.user.id);
+
         res.status(200).json({
             status: 'ok',
-            data: { bugs }
+            data: {
+                bugs: onlyUserBugs 
+            }
         });
     } catch (error) {
         res.status(500).json({

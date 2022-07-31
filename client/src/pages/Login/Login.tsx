@@ -9,6 +9,7 @@ import { toastr } from "react-redux-toastr";
 import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
 import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 import { login } from "../../actions/authActions/authAction";
+import { getBugsList } from "../../actions/bugActions/bugActions";
 
 const Login: React.FC = () => {
   const navigator = useNavigate();
@@ -31,9 +32,10 @@ const Login: React.FC = () => {
     }
     
     if(token) {
+      dispatch(getBugsList(token));
       navigator('/dashboard');
     }
-  }, [error, token, navigator])
+  }, [error, token, navigator, dispatch]);
 
   const onChangeEmail = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void => setEmail(value);
 

@@ -9,6 +9,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import { useDispatch } from "react-redux";
 import { handleNewBugModal } from "../../actions/modalActions/modalActions";
+import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 
 const actions = [
   { icon: <BugReportIcon />, name: 'Add New Bug', key: 'newbug'},
@@ -17,14 +18,17 @@ const actions = [
   { icon: <ShareIcon />, name: 'Share' }, */
 ];
 
-const QuickActions = (): JSX.Element => {
+const QuickActions = (): JSX.Element | null => {
   const dispatch = useDispatch();
+  const { isMobile } = useDeviceDetect();
 
   const handleFireAction = (key: string): void => {
     if(key === 'newbug') {
       dispatch(handleNewBugModal({ open: true }))
     }
   };  
+  
+  if(isMobile) return null;
 
   return (
     <SpeedDial

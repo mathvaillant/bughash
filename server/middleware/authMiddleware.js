@@ -16,6 +16,11 @@ const protect = asyncHandler(async (req, res, next) => {
             // Get user from the token and append to the request
             req.user = await User.findById(decoded.id).select('-password') // does not return the hashedPassword from the decoded token
 
+            if(!req.user) {
+                throw new Error('User does not exist!');
+            }
+            
+            req.test = 'batata'
             next();
         } catch (error) {
             res.status(401);

@@ -131,6 +131,7 @@ const BugItemMenu: React.FC<BugItemProps> = ({ bugId, title }): JSX.Element => {
           <EditIcon fontSize={'small'} />
           Edit
         </MenuItem>
+        {/* 
         <MenuItem onClick={handleClose} disableRipple>
           <FileCopyIcon fontSize={'small'} />
           Duplicate
@@ -140,6 +141,7 @@ const BugItemMenu: React.FC<BugItemProps> = ({ bugId, title }): JSX.Element => {
           <ArchiveIcon fontSize={'small'} />
           Archive
         </MenuItem>
+        */}
         <MenuItem onClick={handleDelete} disableRipple>
           <DeleteIcon fontSize={'small'} />
           Delete

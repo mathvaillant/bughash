@@ -13,9 +13,11 @@ import { getAuthUserDataAvatar, getAuthUserDataId } from "../../utils/selectors/
 import { transformToFullTime } from "../../utils/utils";
 import { toastr } from "react-redux-toastr";
 import { getStartedAtFormatted } from "./utils";
+import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 
-const Timer = (): JSX.Element => {
+const Timer = (): JSX.Element | null => {
   const { id: bugId } = useParams();
+  const { isMobile } = useDeviceDetect();
 
   const [show, setShow] = React.useState(false);
   const [showAll, setShowAll] = React.useState(false);
@@ -98,6 +100,8 @@ const Timer = (): JSX.Element => {
       setImmediate(() => setShow(true));
     }
   }, [bugId]);
+
+  if(isMobile) return null;
 
   return (
     <div 

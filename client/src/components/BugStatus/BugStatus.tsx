@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 import { getBugStatus } from "../../utils/selectors/bug";
 import BugServices from "../../utils/services/bugServices";
 import { StatusTypes } from "../../shared/types";
+import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
 
-const BugStatus = ({ bugId } : { bugId: string }): JSX.Element => {
+const BugStatus = ({ bugId } : { bugId: string }): JSX.Element | null => {
   const statusLabels = {'open': 'Open', 'closed': 'Closed', 'inprogress': 'In Progress'};
   const [currentStatus, setCurrentStatus] = React.useState<StatusTypes>('open');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { isMobile } = useDeviceDetect();
   
   const open = Boolean(anchorEl);
   const bugStatus = useSelector(getBugStatus(bugId));
@@ -31,6 +33,8 @@ const BugStatus = ({ bugId } : { bugId: string }): JSX.Element => {
     await BugServices.updateBug({ fields: { status: value }, bugId});
     handleClose();
   };
+
+  if(isMobile) return null;
 
   return (
     <div className="BugStatus">

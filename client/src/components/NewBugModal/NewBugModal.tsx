@@ -23,12 +23,17 @@ const NewBugModal: React.FC = (): JSX.Element | null => {
   const modalState = useSelector(getModalState('newbug'));
   const token = useSelector(getAuthUserDataToken);
 
-  if(!modalState || !token) return null;
+  const handleClose = React.useCallback(() => {
+    dispatch(handleNewBugModal({ open: false }))
+  }, [dispatch])
 
-  const handleClose = (): (dispatch: React.Dispatch<IActionNewBugModal>) => Promise<void> => dispatch(handleNewBugModal({ open: false }));
-
-  const handleAddNew = async (): Promise<void> => {
+  const handleAddNew = React.useCallback(async (): Promise<void> => {
     try {
+      if(title.trim() === '') {
+        toastr.error('Missing title', 'Please provide a title for the new bug');
+        return;
+      }
+
       dispatch(showLoader());
 
       const { message, status, newBug } = await BugServices.openNew({
@@ -41,7 +46,7 @@ const NewBugModal: React.FC = (): JSX.Element | null => {
         throw new Error(message);
       }
 
-      dispatch(getBugsList(token));
+      if(token) dispatch(getBugsList(token));
       handleClose();
       setTitle('');
       dispatch(hideLoader());
@@ -50,7 +55,21 @@ const NewBugModal: React.FC = (): JSX.Element | null => {
     } catch (error: any) {
       toastr.error(error, '');
     }
-  }
+  }, [dispatch, handleClose, navigate, title, token])
+
+  const handleKeyPressEvent = React.useCallback((e: KeyboardEvent) => {
+    if(e.key === 'Enter') {
+      handleAddNew();
+    }
+  }, [handleAddNew]);
+
+  React.useEffect(() => {
+    if(!modalState?.open) return;
+    document.addEventListener('keypress', handleKeyPressEvent);  
+    return () => {
+      document.removeEventListener('keypress', handleKeyPressEvent);
+    }
+  }, [handleKeyPressEvent, modalState]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => setTitle(e.target.value);
 

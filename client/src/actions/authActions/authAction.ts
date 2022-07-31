@@ -64,6 +64,11 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
 }
 
 export const setCurrentUserData = (userLoggedIn: IUser) => async (dispatch: Dispatch<ActionLogin>) => {
+    const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string) || {};
+    const lsUserUpdated = {...lsUser, ...userLoggedIn};
+
+    localStorage.setItem('ls_db_user_info', JSON.stringify(lsUserUpdated));
+
     dispatch({
         type: ActionType.SET_USER_DATA,
         payload: {

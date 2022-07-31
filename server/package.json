@@ -4,7 +4,7 @@
   "description": "This project was developed by [Matheus Vaillant](https://github.com/mathvaillant).",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "db:seed": "node ./data/dbController.js --importData",
     "db:erase": "node ./data/dbController.js --deleteData"
   },

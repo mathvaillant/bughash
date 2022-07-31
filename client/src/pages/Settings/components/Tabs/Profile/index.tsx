@@ -15,7 +15,6 @@ import { IFile } from "../../../../../shared/types";
 const Profile: React.FC = () => {
   const [email, setEmail] = React.useState<string | null>(null);
   const [name, setName] = React.useState<string | null>(null);
-  const [token, setToken] = React.useState<string | null>(null);
   const [userId, setUserId] = React.useState<string | null>(null);
   const [avatar, setAvatar] = React.useState<IFile | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -24,17 +23,14 @@ const Profile: React.FC = () => {
 
   React.useEffect(() => {
     if(stateUserData) {
-      const { email: useremail, name: username, avatar: useravatar, token: usertoken, userId: id } = stateUserData;
+      const { email: useremail, name: username, avatar: useravatar, userId: id } = stateUserData;
 
       setEmail(useremail);
       setName(username);
       setAvatar(useravatar);
-      setToken(usertoken);
       setUserId(id);
     }
   }, [stateUserData]);
-
-  if(!email || !name || !userId || !token) return null;
 
   const handleChangeEmail = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => setEmail(value);
   const handleChangeName = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => setName(value);
@@ -53,12 +49,14 @@ const Profile: React.FC = () => {
       await firebaseServices.deleteFileFromStorage(avatar.ref);
     }
 
-    const newAvatar: IFile = await firebaseServices.updateUserAvatar(files[0], userId);
-    
-    const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
-    localStorage.setItem('ls_db_user_info', JSON.stringify({...lsUser, avatar: newAvatar}));
+    if(userId) {
+      const newAvatar: IFile = await firebaseServices.updateUserAvatar(files[0], userId);
 
-    setAvatar(newAvatar);
+      const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
+      localStorage.setItem('ls_db_user_info', JSON.stringify({...lsUser, avatar: newAvatar}));
+
+      setAvatar(newAvatar);
+    }
   };
 
   const handleSave = async (): Promise<void> => {
@@ -66,10 +64,10 @@ const Profile: React.FC = () => {
       setIsLoading(true);
 
       const fields = { name, email };
-      await userServices.updateData(fields, userId);
-
-      const lsUser = JSON.parse(localStorage.getItem('ls_db_user_info') as string);
-      JSON.stringify({...lsUser, name, email});
+      
+      if(userId) {
+        await userServices.updateData(fields, userId);
+      }
 
       toastr.success('Updated', 'Successfully updated');
 

@@ -7,8 +7,10 @@ import QuickActions from "../components/QuickActions/QuickActions";
 import useBugsPubSub from "../utils/hooks/pubsub/useBugsPubSub";
 import { getSidebarExpandedState } from "../utils/selectors/sidebar";
 import { useSelector } from "react-redux";
+import useUsersPubSub from "../utils/hooks/pubsub/useUsersPubSub";
 
 const AppOn: React.FC = () => {
+  useUsersPubSub();
   useBugsPubSub();
   const userLoggedIn = Boolean(JSON.parse(localStorage.getItem('ls_db_user_info') as string)?.token);
   const sidebarExpanded = useSelector(getSidebarExpandedState); 

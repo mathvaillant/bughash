@@ -13,13 +13,13 @@ const useAppDataInitializer = (): {
   const appDataInitializer = React.useCallback(() => {
     const lsTheme = localStorage.getItem('theme') as ThemeTypes || 'light';
     const userInfoStored = localStorage.getItem('ls_db_user_info');
-    const userData: IUser | null = userInfoStored ? JSON.parse(userInfoStored) : null;
-
-    if(!userData?.token) return;
+    const lsUserData: IUser | null = userInfoStored ? JSON.parse(userInfoStored) : null;
+    
+    if(!lsUserData?.token) return;
 
     dispatch(toggleTheme(lsTheme));
-    dispatch(setCurrentUserData(userData));
-    dispatch(getBugsList(userData.token));
+    dispatch(setCurrentUserData(lsUserData));
+    dispatch(getBugsList(lsUserData.token));
   }, [dispatch]);
 
   return {

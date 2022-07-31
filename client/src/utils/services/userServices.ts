@@ -5,9 +5,9 @@ import { SERVER_URL } from "./serviceConstants";
 const USER_BASE_URL = `${SERVER_URL}/users`;
 
 interface IUserFields {
-    name?: string;
-    email?: string;
-    avatar?: IFile;
+    name?: string | null;
+    email?: string | null;
+    avatar?: { url: string, ref: string};
 }
 
 export const getToken = (): string | null => {
@@ -27,9 +27,7 @@ const updateData = async (fields: IUserFields, userId: string): Promise<IUser> =
         }
     }
 
-    const { data } = await axios.patch(`${USER_BASE_URL}/${userId}`, fields, config);
-
-    return data as IUser;
+    return axios.put(`${USER_BASE_URL}/${userId}`, fields, config);
 }
 
 export const userServices = {

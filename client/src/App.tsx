@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/system";
 import { CssBaseline } from "@mui/material";
-import ReduxToastr from 'react-redux-toastr'
+import ReduxToastr, { toastr } from 'react-redux-toastr'
 import { hideLoader, showLoader } from "./actions/loaderActions/loaderActions";
 import { getLoader } from "./utils/selectors/loader";
 import useAppDataInitializer from "./utils/hooks/useAppDataInitializer";
@@ -31,7 +31,7 @@ const App: React.FC = () => {
         dispatch(showLoader());
         appDataInitializer();
       } catch (error) {
-        console.log("🚀 ~ file: App.tsx ~ line 46 ~ error", error);
+        toastr.error('Something went wrong', '');
       } finally {
         dispatch(hideLoader()); 
       }

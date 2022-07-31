@@ -29,7 +29,7 @@ const createBug = asyncHandler(async (req, res) => {
     } catch (error) {
         res.status(401).json({
             status: 'fail',
-            message: 'Could not create the bug'
+            message: error
         })
     }
 })
