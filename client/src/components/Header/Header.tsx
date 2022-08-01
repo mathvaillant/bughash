@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Tooltip } from "@mui/material";
 
 import { handleNewBugModal } from "../../actions/modalActions/modalActions";
-import ThemeMode from "../ThemeMode/ThemeMode";
 import { getAppTheme } from "../../utils/selectors/theme";
 import { IActionNewBugModal } from "../../actions/modalActions/actionTypes";
 
@@ -17,12 +16,10 @@ const Header: React.FC = () => {
   return (
     <div className='Header'>
       <Tooltip title={'Open a new bug'} placement={'bottom'}>
-        <Button className={`BugPage ${theme}`} type='button' onClick={handleNewDoc} data-test={'new-bug'}>
-          <AddBox /> New
+        <Button className={`AddNew ${theme}`} type='button' onClick={handleNewDoc} data-test={'new-bug'}>
+          <AddBox /> Add New Bug
         </Button>
       </Tooltip>
-      
-      <ThemeMode />
     </div>
   )
 }

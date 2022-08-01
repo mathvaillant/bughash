@@ -21,33 +21,9 @@ const ThemeMode = (): JSX.Element => {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        width: 'max-content',
-        alignItems: 'center',
-        justifyContent: 'center',
-        bgcolor: currentTheme === 'light' ? 'background.default' : '',
-        color: currentTheme === 'light' ? 'text.primary' : '',
-        borderRadius: 1,
-        p: 0,
-        ml: 'auto'
-      }}
-    >
-      <Typography 
-        style={{ 
-          textTransform: 'capitalize', 
-          marginRight: '5px',
-          color: currentTheme === 'light' ? 'black' : 'white',
-        }} 
-        variant="body1"
-      >
-        {currentTheme} mode
-      </Typography>
-      <IconButton size="small" onClick={handleToggleThemeMode} color="inherit">
-        {' '} {currentTheme === 'dark' ? <Brightness7Icon sx={{ color: 'white' }}/> : <Brightness4Icon sx={{ color: 'black' }} />}
-      </IconButton>
-    </Box>
+    <IconButton size="small" onClick={handleToggleThemeMode} color="inherit">
+      {' '} {currentTheme === 'dark' ? <Brightness7Icon sx={{ color: 'white' }}/> : <Brightness4Icon sx={{ color: 'black' }} />}
+    </IconButton>
   )
 }
 

@@ -1,21 +1,16 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import BugReportIcon from '@mui/icons-material/BugReport';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
 import { useDispatch } from "react-redux";
 import { handleNewBugModal } from "../../actions/modalActions/modalActions";
 import useDeviceDetect from "../../utils/hooks/useDeviceDetect";
+import ThemeMode from "../ThemeMode/ThemeMode";
 
 const actions = [
   { icon: <BugReportIcon />, name: 'Add New Bug', key: 'newbug'},
-  /* { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' }, */
+  { icon: <ThemeMode />, name: 'Toggle App Theme', key: 'appTheme'},
 ];
 
 const QuickActions = (): JSX.Element | null => {
@@ -32,16 +27,16 @@ const QuickActions = (): JSX.Element | null => {
 
   return (
     <SpeedDial
-    ariaLabel="SpeedDial basic example"
-    sx={{ position: 'fixed', bottom: '10px', right: '16px' }}
-    icon={<SpeedDialIcon />}
+      ariaLabel="SpeedDial basic example"
+      sx={{ position: 'fixed', bottom: '10px', right: '16px' }}
+      icon={<SpeedDialIcon />}
     >
     {actions.map((action) => (
         <SpeedDialAction
-        onClick={() => handleFireAction(action.key)}
-        key={action.name}
-        icon={action.icon}
-        tooltipTitle={action.name}
+          onClick={() => handleFireAction(action.key)}
+          key={action.name}
+          icon={action.icon}
+          tooltipTitle={action.name}
         />
     ))}
     </SpeedDial>

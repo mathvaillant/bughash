@@ -3,6 +3,16 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding: 0rem 4rem;
+    gap: 6rem;
+
+    .WelcomeSection {
+        align-self: flex-start;
+    }
+
+    .MainDataSection {
+        align-self: flex-start;
+    }
 }
