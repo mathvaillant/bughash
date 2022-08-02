@@ -1,42 +1,27 @@
-import React, { PureComponent } from 'react'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React from 'react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-  {
-    status: 'Open',
-    bugs: 2,
-  },
-  {
-    status: 'Closed',
-    bugs: 6,
-  },
-  {
-    status: 'In Progress',
-    bugs: 3,
-  },
-];
-
-const BreakDownByStatus = (): JSX.Element => {
+const BreakDownByStatus = ({ data } : { data: any }): JSX.Element => {
   return (
     <div className="BreakDownByStatus">
       <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-          width={500}
+        <BarChart
+          width={300}
           height={300}
           data={data}
           margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
           }}
-      >
+        >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="status" />
-          <YAxis dataKey='bugs' />
+          <XAxis dataKey="_id" />
+          <YAxis dataKey='amount' />
           <Tooltip />
-          <Bar dataKey="bugs" fill="#000000" />
-      </BarChart>
+          <Bar dataKey="amount" fill="#000000" />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   )
