@@ -1,3 +1,4 @@
+import _ from "underscore";
 import { ITime } from "../components/Timer/utils";
 
 interface IgetBlobFromFile  {
@@ -5,6 +6,12 @@ interface IgetBlobFromFile  {
     size: number
     type: string
     previewUrl: string
+}
+
+interface IBreakDownByTimeWorked {
+    bugTitle: string
+    bugId: string
+    timeWorked: number
 }
 
 export const getBlobFromFile = (file: File): IgetBlobFromFile => {

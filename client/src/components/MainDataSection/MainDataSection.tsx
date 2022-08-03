@@ -1,6 +1,7 @@
 import React from 'react'
 import statsServices from "../../utils/services/statsServices";
-import BreakDownByBug from "./components/BreakDownByBug/BreakDownByBug";
+import Loader from "../Loader/Loader";
+import BreakDownByBug from "./components/BreakDownByTimeWorked/BreakDownByTimeWorked";
 import BreakDownByStatus from './components/BreakDownByStatus/BreakDownByStatus'
 
 const MainDataSection = (): JSX.Element => {
@@ -17,8 +18,14 @@ const MainDataSection = (): JSX.Element => {
 
   return (
     <div className="MainDataSection">
-      <BreakDownByStatus data={breakDownByStatus} />
-      <BreakDownByBug data={breakDownTimeWorked} />
+      {breakDownByStatus && breakDownTimeWorked ? (
+        <>
+          <BreakDownByStatus data={breakDownByStatus} />
+          <BreakDownByBug data={breakDownTimeWorked} />
+        </>
+      ) : (
+        <Loader show />
+      )}
     </div>
   )
 }

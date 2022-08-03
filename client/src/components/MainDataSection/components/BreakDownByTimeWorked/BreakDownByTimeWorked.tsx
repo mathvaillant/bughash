@@ -3,9 +3,9 @@ import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } f
 import BugReportIcon from '@mui/icons-material/BugReport';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { OpenInNew } from "@mui/icons-material";
-import _ from "underscore";
+import { useNavigate } from "react-router-dom";
 
-const COLORS = ['#000000', '#203856', '#006B38FF', '#E94B3CFF'];
+const COLORS = ['#388ae5', '#203856', '#006B38FF', '#E94B3CFF'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = (
@@ -23,17 +23,18 @@ const renderCustomizedLabel = (
   );
 };
 
-const BreakDownByBug = ({ data } : { data: any }): JSX.Element => {
-  /* const dataFormatted = data.reduce((acc, item) => {
-    if(!_.flatten(item.timeWorked).length) return acc;
+interface IBreakDownByTimeWorked {
+  bugTitle: string
+  bugId: string
+  timeWorked: number
+}
 
-    return
-  }, []); */
-  
+const BreakDownByTimeWorked: React.FC<{data: IBreakDownByTimeWorked[]}> = ({ data }): JSX.Element => {
+  const navigate = useNavigate();
 
   return (
-    <div className="BreakDownByBug">
-      <ResponsiveContainer width="100%" height="100%" className={'BreakDownByBug__pie'}>
+    <div className="BreakDownByTimeWorked">
+      <ResponsiveContainer width="100%" height="100%" className={'BreakDownByTimeWorked__pie'}>
         <PieChart width={400} height={400}>
           <Pie
             data={data}
@@ -45,7 +46,7 @@ const BreakDownByBug = ({ data } : { data: any }): JSX.Element => {
             fill="#8884d8"
             dataKey="timeWorked"
           >
-            {data.map((entry, index) => (
+            {data.map((entry: any, index: number) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
@@ -58,7 +59,7 @@ const BreakDownByBug = ({ data } : { data: any }): JSX.Element => {
           maxWidth: 360, 
           bgcolor: 'background.paper',
         }}>
-        {data.map(({ bugTitle }, index) => {
+        {data.map(({ bugTitle, bugId } : { bugTitle: string, bugId: string }, index: number) => {
           const labelId = `checkbox-list-label-${bugTitle}`;
 
           return (
@@ -68,7 +69,7 @@ const BreakDownByBug = ({ data } : { data: any }): JSX.Element => {
               disableGutters
             >
               <ListItemButton 
-                role={undefined} /* onClick={handleToggle(value)} */ 
+                role={undefined} onClick={() => navigate(`/edit/${bugId}`)}
                 dense
               >
                 <ListItemIcon>
@@ -85,6 +86,6 @@ const BreakDownByBug = ({ data } : { data: any }): JSX.Element => {
   );
 }
 
-export default BreakDownByBug;
+export default BreakDownByTimeWorked;
 
     

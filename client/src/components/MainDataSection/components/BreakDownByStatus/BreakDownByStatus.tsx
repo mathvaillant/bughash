@@ -1,7 +1,12 @@
 import React from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const BreakDownByStatus = ({ data } : { data: any }): JSX.Element => {
+interface IBreakDownByStatus {
+  status: string
+  amount: number
+}
+
+const BreakDownByStatus: React.FC<{data: IBreakDownByStatus[]}> = ({ data }): JSX.Element => {
   return (
     <div className="BreakDownByStatus">
       <ResponsiveContainer width="100%" height="100%">
@@ -17,7 +22,7 @@ const BreakDownByStatus = ({ data } : { data: any }): JSX.Element => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="_id" />
+          <XAxis dataKey="status" />
           <YAxis dataKey='amount' />
           <Tooltip />
           <Bar dataKey="amount" fill="#000000" />

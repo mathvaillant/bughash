@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch } from 'react';
+import React, { ChangeEvent } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -8,7 +8,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useSelector, useDispatch } from "react-redux";
 import { getModalState } from "../../utils/selectors/modals";
 import { handleNewBugModal } from "../../actions/modalActions/modalActions";
-import { IActionNewBugModal } from '../../actions/modalActions/actionTypes'
 import BugServices from "../../utils/services/bugServices";
 import { getAuthUserDataToken } from "../../utils/selectors/auth";
 import { useNavigate } from "react-router-dom";
