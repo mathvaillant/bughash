@@ -1,4 +1,6 @@
-# BugHash App (UNDER DEVELOPMENT)
+# BugHash App (UNDER DEVELOPMENT ⚠️⚠️ You might face some bugs. I'm still working on the app)
+
+Link to the app: [BugHash app](https://bughash-app.web.app/)
 
 This project was developed by [Matheus Vaillant](https://github.com/mathvaillant).
 
