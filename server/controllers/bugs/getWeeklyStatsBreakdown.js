@@ -5,20 +5,30 @@ const { mapBreakDownByStatus, mapBreakDownByTimeWorked } = require("../../utils/
 const getWeeklyStatsBreakdown = asyncHandler(async (req, res) => {
     try {
         const status = await Bugs.aggregate([
+            {
+                $match: {
+                    createdBy: req.user._id
+                }
+            },
             {   
                 $group: {
                     _id: { $toUpper: '$status' },
                     amount: { $sum: 1 },
                 }
-            }
+            },
         ]);
 
         const timeWorked = await Bugs.aggregate([
             {
+                $match: {
+                    createdBy: req.user._id
+                }
+            },
+            {
                 $group: {
                     _id: '$title',
                     timeWorked: { $push: '$timeWorked' },
-                    bugId: { $push: '$_id' }
+                    bugId: { $push: '$_id' },
                 }
             }
         ]);

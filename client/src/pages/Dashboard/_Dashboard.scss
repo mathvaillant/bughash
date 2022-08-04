@@ -8,11 +8,22 @@
     padding: 0rem 4rem;
     gap: 6rem;
 
+    @include large-mobile {
+        padding: 0rem 1rem;
+        gap: 2rem;
+        overflow: scroll;
+    }
+
     .WelcomeSection {
         align-self: flex-start;
     }
 
     .MainDataSection {
         align-self: flex-start;
+
+        @include large-mobile {
+            flex-direction: column;
+            gap: 4rem;
+        }
     }
 }

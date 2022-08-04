@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,kBAAkB,CAAC;EACf,IAAI,EAAE,CAAC;EACP,SAAS,EAAE,GAAG;CACjB",
+    "sources": [
+        "BreakDownByStatus.scss"
+    ],
+    "names": [],
+    "file": "BreakDownByStatus.css"
+}

@@ -1,0 +1,16 @@
+.toastr.animated.rrt-success {
+  background-color: #14a72f;
+}
+
+.toastr.animated.rrt-success > div > .rrt-progress-container .rrt-progressbar {
+  background-color: white;
+}
+
+.toastr.animated.rrt-error {
+  background-color: #e51b10;
+}
+
+.toastr.animated.rrt-error > div > .rrt-progress-container .rrt-progressbar {
+  background-color: white;
+}
+/*# sourceMappingURL=toastr.css.map */

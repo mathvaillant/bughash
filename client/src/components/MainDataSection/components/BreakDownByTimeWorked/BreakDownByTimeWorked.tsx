@@ -4,6 +4,7 @@ import BugReportIcon from '@mui/icons-material/BugReport';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { OpenInNew } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import EmptyState from "../../../EmptyState/EmptyState";
 
 const COLORS = ['#388ae5', '#203856', '#006B38FF', '#E94B3CFF'];
 

@@ -5,7 +5,7 @@ const pusher = require("../../utils/pusher");
 // @desc    Update user data
 // @route   PUT /users/:id
 // @access  Private
-const updateUser = asyncHandler( async (req, res) => {
+const updateUserInfo = asyncHandler( async (req, res) => {
     try {
         const userUpdated = await User.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
@@ -26,4 +26,4 @@ const updateUser = asyncHandler( async (req, res) => {
     }
 }) 
 
-module.exports = updateUser;
+module.exports = updateUserInfo;
